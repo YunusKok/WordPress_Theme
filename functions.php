@@ -43,6 +43,10 @@ if ( ! function_exists( 'thessnest_setup' ) ) :
 		// Enable post thumbnails on posts and the property CPT.
 		add_theme_support( 'post-thumbnails' );
 
+		// Enqueue editor styles to fix core block UI differences (e.g. button blocks)
+		add_theme_support( 'editor-styles' );
+		add_editor_style( 'editor-style.css' );
+
 		// Enable excerpts for pages (used for subtitles on the frontend).
 		add_post_type_support( 'page', 'excerpt' );
 
