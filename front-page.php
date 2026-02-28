@@ -8,7 +8,6 @@
  *   3. Featured Properties grid (premium cards)
  *   4. How It Works (3-step elevated cards)
  *   5. CTA Banner with ambient orb
- *   6. Floating AI Chatbot FAB
  *
  * @package ThessNest
  */
@@ -286,14 +285,5 @@ if ( have_posts() ) {
 
 </main>
 
-<!-- ================================================================
-     FLOATING AI CHATBOT — Liquid Glass FAB
-     ================================================================ -->
-<button class="ai-chatbot-fab" id="ai-chatbot-fab" aria-label="<?php esc_attr_e( 'Chat with AI assistant', 'thessnest' ); ?>">
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-		<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-		<path d="M8 10h.01M12 10h.01M16 10h.01"/>
-	</svg>
-</button>
 
 <?php get_footer(); ?>
