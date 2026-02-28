@@ -1,42 +1,203 @@
-# ThessNest - Kurulum ve Kullanım Rehberi
+# ThessNest — Kurulum ve Kullanım Rehberi (Complete Setup Guide)
 
-Temamıza eklediğimiz premium özellikleri (Gelişmiş Filtreleme, Favoriler, Kullanıcı Paneli, İletişim Formu) WordPress tarafında tam olarak aktif edip kullanabilmeniz için yapmanız gereken **tek seferlik** ufak adımlar şunlardır:
+Temayı sunucunuza yükleyip aktifleştirdikten sonra aşağıdaki **tek seferlik** adımları sırasıyla tamamlayarak platformu tamamen çalışır hale getirebilirsiniz.
+
+---
+
+## ⚡ 0. Ön Gereksinimler (Prerequisites)
+- WordPress 6.0 veya üstü
+- PHP 7.4 veya üstü
+- MySQL 5.7+ / MariaDB 10.3+
+- HTTPS aktif (SSL sertifikası gerekli)
+
+---
 
 ## 1. Kalıcı Bağlantıları (Permalinks) Yenileme
-Yeni eklediğimiz AJAX uç noktalarının ve emlak (Property) yapısının düzgün çalışması için bağlantıları bir kez güncelleyerek WordPress'in yeni kurallarımızı tanımasını sağlamalısınız.
-1. WordPress Admin Paneline giriş yapın.
-2. Sol menüden **Settings (Ayarlar) > Permalinks (Kalıcı Bağlantılar)** sekmesine tıklayın.
-3. Hiçbir ayarı değiştirmeden sadece en alttaki **Save Changes (Değişiklikleri Kaydet)** butonuna basın.
+Tema aktifleştirildiğinde Custom Post Type'lar (Properties, Messages, Bookings) otomatik kaydedilir. Ancak WordPress'in URL kurallarını tanıması için bağlantıları bir kez güncellemelisiniz.
 
-## 2. Frontend Kullanıcı Panelini (Dashboard) Oluşturma
-Eklediğimiz `template-dashboard.php` şablonunu kullanarak kullanıcıların favorilerini görebileceği bir sayfa oluşturmalısınız.
-1. Sol menüden **Pages (Sayfalar) > Add New (Yeni Ekle)** deyin.
-2. Sayfa başlığına örneğin "Dashboard", "Kullanıcı Paneli" veya "Profilim" yazın. (Başlık size kalmış)
-3. Sağ taraftaki **Page Attributes (Sayfa Özellikleri)** veya **Template** kutucuğundan **Frontend Dashboard** şablonunu seçin.
-4. Sayfayı **Publish (Yayınla)** diyerek kaydedin.
-5. *Not: Header'daki "Sign In / Dashboard" butonu `/dashboard/` linkine yönlendirmeye ayarlıdır. Eğer oluşturduğunuz sayfanın kalıcı bağlantısı (slug) farklı ise, `header.php` içerisindeki `/dashboard/` linkini kendi sayfa linkinize göre güncellemeniz veya sayfa uzantınızı mutlaka `dashboard` yapmanız gerekir.*
+1. **Settings (Ayarlar) > Permalinks (Kalıcı Bağlantılar)** sekmesine gidin.
+2. **Post name (Yazı adı)** seçeneğini seçin (İşte örneği: `https://site.com/sample-post/`).
+3. Hiçbir şeyi değiştirmeden **Save Changes (Değişiklikleri Kaydet)** butonuna basın.
 
-## 2.1 İlan Ekleme (Add Listing) Sayfasını Oluşturma
-Gelişmiş Frontend Submission (İlan Ekleme) altyapısı için de bir sayfaya ihtiyacımız var.
-1. Yeni bir sayfa ekleyin (**Pages > Add New**).
-2. Başlığı örneğin "Add Listing" veya "İlan Ekle" yapın.
-3. Sağ taraftaki "Template" ayarlarından **Add Listing** şablonunu seçip yayınlayın.
-4. Tıpkı Dashboard gibi Header butonları `/add-listing/` uzantısına yönlendirecek şekilde ayarlanmıştır. Sayfa URL'sinin `add-listing` olduğundan emin olun.
+> ⚠️ Bu adımı yapmazsanız `/properties/`, `/dashboard/`, `/add-listing/` gibi sayfalar **404 hatası** verir.
 
-## 3. Yeni Rolleri (Landlord / Tenant) Yönetme
-Sisteme "Ev Sahibi" (Landlord) ve "Kiracı" (Tenant) rolleri eklendi.
-- Yeni bir kullanıcı eklerken veya mevcut bir kullanıcıyı düzenlerken **Users (Kullanıcılar) > Add New** ekranından rol olarak bu iki yeni rolden birini seçebilirsiniz.
-- *Test etmek için kendinize ait yönetici hesabınız haricinde bir adet "Tenant" rolünde test hesabı açıp siteye giriş yapabilir, haritadan ilan sayfasına gidip kalbe (Add to Favorites) tıklayarak Dashboard'unuzda ilanların listelendiğini doğrulayabilirsiniz.*
+---
 
-## 4. İletişim Formunu (Mail) Test Etme
-Emlak detay sayfasındaki İletişim Formunun (`single-property.php`) sorunsuz çalışması için WordPress'inizin e-posta gönderebiliyor olması gerekir.
-- Form doldurulduğunda, e-posta doğrudan o ilanı ekleyen (Author / Yazar) kullanıcının e-posta adresine gönderilir.
-- Formun çalışıp çalışmadığını test etmek için **gerçek bir SMTP** eklentisi (örneğin: *WP Mail SMTP*) kurmanız şiddetle tavsiye edilir. Aksi takdirde localhost veya paylaşımlı sunucularda PHP `mail()` fonksiyonu spama düşebilir veya hiç gitmeyebilir.
+## 2. Statik Ana Sayfa Ayarı (Homepage Configuration) ★ KRİTİK
+WordPress varsayılan olarak blog yazılarını ana sayfada gösterir. ThessNest'in özel `front-page.php` şablonunun çalışması için bunu değiştirmelisiniz.
 
-## 5. İnceleme ve Değerlendirme (Yorum) Sistemini Aktifleştirme
-Sisteme **5 Yıldızlı İnceleme Platformu** entegre edildi. WordPress'in standart Yorum (Comments) özelliğini kullanarak eklentisiz bir puanlama sistemi oluşturduk. Test etmek için:
-1. İlanlara (Property) yorum yapıldığında onay sürecinden geçmesini veya anında yayınlanmasını ayarlamak için WordPress panelinden **Settings (Ayarlar) > Discussion (Tartışma)** menüsüne gidin. İsterseniz "Yorum yazarının daha önce onaylanmış bir yorumu olmalı" veya "Yönetici her zaman onaylamalı" seçeneklerini ayarlayabilirsiniz.
-2. Özel olarak herhangi bir emlak sayfasının (örneğin ID'si 15 olan bir emlak) altında oluşturduğumuz yıldızlı **Yorum Bırak (Leave a Review)** formunu kullanabilirsiniz.
-3. Yorum bırakıldığında/onaylandığında, sistem ilanın puan ortalamasını otomatik hesaplayıp sayfa üstüne ve listeleme sayfasındaki kartına küçük bir `⭐ 4.8` rozeti olarak ekleyecektir.
+1. **Pages (Sayfalar) > Add New (Yeni Ekle)** ile yeni bir sayfa oluşturun.
+2. Sayfa başlığını **"Home"** veya **"Ana Sayfa"** yapın. İçerik kısmını boş bırakabilirsiniz (çünkü front-page.php kendi içeriğini üretir).
+3. Sayfayı **Yayınla (Publish)** deyin.
+4. **Settings (Ayarlar) > Reading (Okuma)** sekmesine gidin.
+5. **"Your homepage displays"** kısmında **"A static page"** seçeneğini işaretleyin.
+6. **Homepage** açılır menüsünden az önce oluşturduğunuz **"Home"** sayfasını seçin.
+7. **Save Changes** butonuna basın.
 
-Tüm işlemler bu kadar! Bu 5 adımı tamamladıktan sonra temanızdaki AJAX filtreleme, favoriye ekleme, mail gönderme, özel profil ve 5-yıldızlı puanlama sistemi sorunsuz bir şekilde Listdo/Houzez kalitesinde çalışacaktır.
+> ✅ Bu adımdan sonra sitenizin ana sayfasında Hero, Featured Properties, How It Works ve CTA bölümleri görünecektir.
+
+---
+
+## 3. Navigasyon Menüsü Oluşturma (Creating the Menu)
+Header'daki navigasyon çubuğunun çalışması için bir menü oluşturup atamalısınız.
+
+1. **Appearance (Görünüm) > Menus (Menüler)** sekmesine gidin.
+2. **"Create a new menu"** bağlantısına tıklayın. Menü adını **"Main Menu"** yapın.
+3. Sol taraftaki panellerden sayfalar, özel bağlantılar veya kategoriler ekleyin. Önerilen yapı:
+   - **Home** → Ana sayfa
+   - **About Us** → Hakkımızda sayfası (bkz. Adım 4)
+   - **Our Solutions** → `Özel bağlantı` olarak `/properties/` ekleyin
+   - **Contact** → İletişim sayfası (bkz. Adım 4)
+4. Alttaki **"Menu Settings"** kısmında **"Primary Menu"** kutucuğunu işaretleyin.
+5. **Save Menu** butonuna basın.
+6. İsterseniz aynı şekilde bir **"Footer Menu"** de oluşturup **Footer** konumuna atayabilirsiniz.
+
+---
+
+## 4. Gerekli Sayfaları Oluşturma (Creating Pages)
+
+Aşağıdaki sayfaları **Pages > Add New** ile oluşturmanız gerekmektedir:
+
+### 4.1 Dashboard (Kullanıcı Paneli)
+1. Başlık: **"Dashboard"** (Slug mutlaka `dashboard` olmalı)
+2. Sağ taraftaki **Template** ayarından → **Frontend Dashboard** şablonunu seçin.
+3. Yayınlayın.
+
+### 4.2 Add Listing (İlan Ekleme)
+1. Başlık: **"Add Listing"** (Slug mutlaka `add-listing` olmalı)
+2. **Template** → **Add Listing** şablonunu seçin.
+3. Yayınlayın.
+
+### 4.3 About Us (Hakkımızda)
+1. Başlık: **"About Us"**
+2. **Template** → **About Page** şablonunu seçin.
+3. İçerik kısmına platform hakkında bilgileri yazın.
+4. Yayınlayın.
+
+### 4.4 Contact (İletişim) — (Opsiyonel)
+1. Standart bir sayfa oluşturup Contact Form 7 veya WPForms eklentisiyle form ekleyebilirsiniz.
+
+> ⚠️ **Dashboard ve Add Listing sayfalarının slug'ları (URL uzantısı) sırasıyla `dashboard` ve `add-listing` olmalıdır.** Header'daki butonlar bu adreslere yönlendirir.
+
+---
+
+## 5. Hero Arka Plan Görselini Yükleme (Hero Image)
+Ana sayfadaki büyük Selanik fotoğrafını değiştirmek veya yüklemek için:
+
+1. **Appearance (Görünüm) > Customize (Özelleştir)** sekmesine gidin.
+2. Sol panelde **Homepage Settings > Hero Section** bölümüne tıklayın.
+3. **"Hero Background Image"** alanına yüksek çözünürlüklü (minimum 1920×1080) bir Selanik fotoğrafı yükleyin.
+4. Hero başlığını ve alt başlığını da bu panelden düzenleyebilirsiniz.
+5. Üstteki **Publish (Yayınla)** butonuna basın.
+
+> 💡 Tema `assets/images/` klasöründe varsayılan bir görsel (`Thessaloniki_Resized.jpg`) içerir. Ancak bu görselin sunucunuzda mevcut olduğundan emin olun.
+
+---
+
+## 6. Tema Ayarları — Customizer (İletişim ve Sosyal Medya)
+Footer ve diğer bölümlerde kullanılan iletişim bilgilerini güncelleyin:
+
+1. **Appearance > Customize** sekmesine gidin.
+2. **ThessNest Ayarları** bölümüne tıklayın.
+3. Aşağıdaki alanları doldurun:
+   - **Telefon Numarası** (Örn: +30 231 000 0000)
+   - **E-Posta Adresi** (Örn: hello@thessnest.com)
+   - **Instagram Bağlantısı** (Örn: https://instagram.com/thessnest)
+   - **WhatsApp Bağlantısı** (Örn: https://wa.me/30231000000)
+   - **Footer Telif Metni** (Örn: © 2026 ThessNest. All rights reserved.)
+4. **Publish** butonuna basın.
+
+---
+
+## 7. Mahalleler, Özellikler ve Hedef Grup Ekleme (Taxonomies)
+Arama filtreleri ve ilanların düzgün çalışması için taxonomy terimlerini önceden oluşturmalısınız:
+
+### 7.1 Neighborhoods (Mahalleler)
+1. **Properties > Neighborhoods** sekmesine gidin.
+2. Selanik'in mahallelerini ekleyin: Ladadika, Kalamaria, Ano Poli, Toumba, Pylaia, Triangle, vb.
+
+### 7.2 Amenities (Özellikler)
+1. **Properties > Amenities** sekmesine gidin.
+2. Eklenmesi önerilen özellikler: Fast Wi-Fi, Washing Machine, Balcony, Air Conditioning, Dedicated Workspace, Furnished, Elevator, Parking, Dishwasher, vb.
+
+### 7.3 Target Groups (Hedef Gruplar)
+1. **Properties > Target Groups** sekmesine gidin.
+2. Ekleyin: Student, Digital Nomad, Expat
+
+> ✅ Bu terimlerin oluşturulmadan ilan eklenemez (dropdown'lar boş görünür).
+
+---
+
+## 8. Kullanıcı Rolleri (User Roles — Landlord / Tenant)
+Tema iki özel kullanıcı rolü tanımlar:
+- **Landlord (Ev Sahibi):** İlan ekleyebilir, KYC belgesi yükleyebilir.
+- **Tenant (Kiracı):** Favorilere ekleyebilir, rezervasyon yapabilir, mesaj gönderebilir.
+
+Bu roller tema aktifleştirildiğinde otomatik yaratılır.
+
+- **Users > Add New** ekranından yeni bir kullanıcı eklerken rol olarak **Landlord** veya **Tenant** seçebilirsiniz.
+- Test için bir adet Landlord ve bir adet Tenant hesabı oluşturup tüm özellikleri denemeniz önerilir.
+
+---
+
+## 9. E-Posta Gönderimi (SMTP Kurulumu) ★ ÖNEMLİ
+İletişim formu, rezervasyon bildirimi ve KYC onay e-postalarının çalışması için WordPress'inizin e-posta gönderebiliyor olması gerekir.
+
+- Paylaşımlı hosting'lerde PHP `mail()` fonksiyonu genellikle spama düşer veya hiç çalışmaz.
+- **WP Mail SMTP** eklentisini kurup bir SMTP servisi (Gmail, SendGrid, Mailgun vb.) ile yapılandırın.
+- Kurulum sonrası **WP Mail SMTP > Tools > Email Test** bölümünden test gönderin.
+
+---
+
+## 10. İnceleme Sistemi (Reviews & Ratings)
+5 yıldızlı puanlama sistemi aktiftir. WordPress'in yorum altyapısını kullanır.
+
+1. **Settings > Discussion (Tartışma)** sekmesine gidin.
+2. İlan yorumlarının otomatik mi yoksa onay gerektirerek mi yayınlanacağını ayarlayın.
+3. Test olarak bir emlak sayfasının altından yorum bırakıp yıldız verin.
+
+---
+
+## 11. Test Verisi Ekleme (Adding Sample Properties)
+Sitenin canlı görünmesi için birkaç test ilanı eklemelisiniz:
+
+1. **Properties > Add New** sekmesine gidin.
+2. Başlık, açıklama, fotoğraflar (Featured Image + Gallery) ekleyin.
+3. Sağ taraftaki kutulardan **Neighborhood**, **Amenities**, **Target Group** seçin.
+4. Alt kısımdaki **Property Details** meta kutusundan kira fiyatı, fatura bedeli vs. girin.
+5. **Property Location (Map)** meta kutusundan haritada konumu işaretleyin.
+6. Yayınlayın.
+
+> Ana sayfada "Featured Properties" bölümünde ilanların görünmesi için en az 1 ilan yayınlanmış olmalıdır.
+
+---
+
+## 12. Önerilen Eklentiler (Recommended Plugins)
+| Eklenti | Amaç | Öncelik |
+|---------|-------|---------|
+| **WP Mail SMTP** | E-posta gönderimini sağlamak | ★★★ Kritik |
+| **Loco Translate** | Tema metinlerini panelden çevirmek/düzenlemek | ★★★ Kritik |
+| **Rank Math SEO** (veya Yoast) | Arama motoru optimizasyonu | ★★☆ Yüksek |
+| **WP Super Cache** (veya LiteSpeed Cache) | Sayfa hızı / performans | ★★☆ Yüksek |
+| **Contact Form 7** (veya WPForms) | İletişim sayfası formu | ★☆☆ Orta |
+| **Classic Editor** | Gutenberg yerine klasik editör (opsiyonel) | ★☆☆ Opsiyonel |
+
+---
+
+## ✅ Kurulum Sonrası Kontrol Listesi (Post-Setup Checklist)
+
+- [ ] Permalinks güncellendi (Adım 1)
+- [ ] Statik ana sayfa ayarlandı (Adım 2)
+- [ ] Navigasyon menüsü oluşturuldu ve atandı (Adım 3)
+- [ ] Dashboard sayfası oluşturuldu (`/dashboard/`) (Adım 4.1)
+- [ ] Add Listing sayfası oluşturuldu (`/add-listing/`) (Adım 4.2)
+- [ ] About Us sayfası oluşturuldu (Adım 4.3)
+- [ ] Hero görseli yüklendi (Adım 5)
+- [ ] Customizer ayarları güncellendi (Adım 6)
+- [ ] Mahalleler eklendi (Adım 7.1)
+- [ ] Özellikler (Amenities) eklendi (Adım 7.2)
+- [ ] Hedef Gruplar eklendi (Adım 7.3)
+- [ ] Test kullanıcıları oluşturuldu (Adım 8)
+- [ ] SMTP eklentisi kuruldu ve test edildi (Adım 9)
+- [ ] En az 1 test ilanı yayınlandı (Adım 11)
+- [ ] Önerilen eklentiler kuruldu (Adım 12)
