@@ -234,7 +234,15 @@ function thessnest_get_meta( $key, $post_id = null ) {
 function thessnest_get_gallery( $post_id = null ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
 	$gallery = get_post_meta( $post_id, '_thessnest_gallery', true );
-	return is_array( $gallery ) ? $gallery : array();
+
+	// Handle both formats: array (from admin) and comma-separated string (from frontend AJAX)
+	if ( is_array( $gallery ) ) {
+		return array_filter( array_map( 'intval', $gallery ) );
+	}
+	if ( is_string( $gallery ) && ! empty( $gallery ) ) {
+		return array_filter( array_map( 'intval', explode( ',', $gallery ) ) );
+	}
+	return array();
 }
 
 

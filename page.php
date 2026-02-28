@@ -2,7 +2,8 @@
 /**
  * ThessNest — Page Template
  *
- * Renders standard WordPress pages.
+ * Renders standard WordPress pages using the theme's native
+ * iOS Liquid Glass design system (CSS Custom Properties).
  *
  * @package ThessNest
  */
@@ -13,42 +14,40 @@ get_header();
 ?>
 
 <main id="main-content" role="main">
-    <?php while ( have_posts() ) : the_post(); ?>
-    
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <!-- Background Elements (similar to theme style) -->
-        <div class="absolute inset-x-0 top-0 h-[800px] bg-gradient-to-br from-primary/5 via-transparent to-primary/10 -z-10"></div>
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-accent/5 via-transparent to-transparent -z-10 blur-3xl rounded-bl-full"></div>
+	<?php while ( have_posts() ) : the_post(); ?>
 
-        <div class="container mx-auto px-4 max-w-7xl relative z-10">
-            <div class="max-w-3xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-text mb-6">
-                    <?php the_title(); ?>
-                </h1>
-                <?php if ( has_excerpt() ) : ?>
-                <p class="text-lg md:text-xl text-text-light mb-10 leading-relaxed max-w-2xl mx-auto">
-                    <?php echo esc_html( get_the_excerpt() ); ?>
-                </p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+	<!-- Page Hero -->
+	<section style="background:var(--color-surface); padding:var(--space-16) var(--space-4); border-bottom:1px solid var(--color-border); text-align:center;">
+		<div class="container">
+			<h1 style="font-size:var(--font-size-3xl); font-weight:800; color:var(--color-primary); margin-bottom:var(--space-3);">
+				<?php the_title(); ?>
+			</h1>
+			<?php if ( has_excerpt() ) : ?>
+			<p style="font-size:var(--font-size-lg); color:var(--color-text-muted); max-width:600px; margin:0 auto; line-height:1.7;">
+				<?php echo esc_html( get_the_excerpt() ); ?>
+			</p>
+			<?php endif; ?>
+		</div>
+	</section>
 
-    <!-- Main Content Area -->
-    <section class="py-12 bg-background">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="glass-panel p-8 md:p-12 rounded-3xl">
-                <article id="post-<?php the_ID(); ?>" <?php post_class( 'prose prose-lg max-w-none text-text' ); ?>>
-                    <div class="entry-content">
-                        <?php the_content(); ?>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
+	<!-- Main Content Area -->
+	<section style="padding:var(--space-12) var(--space-4); background:var(--color-background);">
+		<div class="container" style="max-width:800px;">
+			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> style="background:var(--color-surface); padding:var(--space-8) var(--space-6); border-radius:var(--radius-2xl); box-shadow:var(--shadow-card); border:1px solid var(--color-border);">
+				<div class="entry-content">
+					<?php
+					the_content();
+					wp_link_pages( array(
+						'before' => '<div class="page-links" style="margin-top:var(--space-6); padding-top:var(--space-4); border-top:1px solid var(--color-border);">' . esc_html__( 'Pages:', 'thessnest' ),
+						'after'  => '</div>',
+					) );
+					?>
+				</div>
+			</article>
+		</div>
+	</section>
 
-    <?php endwhile; ?>
+	<?php endwhile; ?>
 </main>
 
 <?php get_footer(); ?>
