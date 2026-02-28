@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-function thessnest_filter_properties() {
+function thessnest_ajax_filter_properties() {
 	check_ajax_referer( 'thessnest-nonce', 'security' );
 
 	$args = array(
@@ -125,5 +125,5 @@ function thessnest_filter_properties() {
 		'count'   => $query->found_posts,
 	) );
 }
-add_action( 'wp_ajax_thessnest_filter_properties', 'thessnest_filter_properties' );
-add_action( 'wp_ajax_nopriv_thessnest_filter_properties', 'thessnest_filter_properties' );
+add_action( 'wp_ajax_thessnest_filter_properties', 'thessnest_ajax_filter_properties' );
+add_action( 'wp_ajax_nopriv_thessnest_filter_properties', 'thessnest_ajax_filter_properties' );
