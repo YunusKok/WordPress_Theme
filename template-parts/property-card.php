@@ -18,10 +18,22 @@ $property_id   = get_the_ID();
 $rent          = thessnest_get_meta( 'rent', $property_id );
 $utilities     = thessnest_get_meta( 'utilities', $property_id );
 $wifi_speed    = thessnest_get_meta( 'wifi_speed', $property_id );
-$is_verified   = get_post_meta( $property_id, '_thessnest_verified', true ) === '1';
+
+// Check if the property author (landlord) is KYC verified
+$author_id     = get_post_field( 'post_author', $property_id );
+$is_verified   = get_user_meta( $author_id, '_kyc_status', true ) === 'approved';
+
 $gallery_ids   = thessnest_get_gallery( $property_id );
 $neighborhood  = thessnest_get_first_term( 'neighborhood', $property_id );
 $permalink     = get_the_permalink();
+
+$is_saved = false;
+if ( is_user_logged_in() ) {
+	$user_favorites = get_user_meta( get_current_user_id(), 'thessnest_favorites', true );
+	if ( is_array( $user_favorites ) && in_array( $property_id, $user_favorites ) ) {
+		$is_saved = true;
+	}
+}
 
 // Unsplash placeholder images for cards without galleries.
 $placeholder_images = array(
@@ -82,7 +94,7 @@ $placeholder_images = array(
 		</div>
 
 		<!-- Frosted Glass Save Button -->
-		<button class="card-save-btn" aria-label="<?php esc_attr_e( 'Save property', 'thessnest' ); ?>" data-property-id="<?php echo esc_attr( $property_id ); ?>">
+		<button class="card-save-btn <?php echo $is_saved ? 'saved' : ''; ?>" aria-label="<?php esc_attr_e( 'Save property', 'thessnest' ); ?>" data-property-id="<?php echo esc_attr( $property_id ); ?>">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 				<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
 			</svg>
@@ -101,6 +113,18 @@ $placeholder_images = array(
 						<polyline points="22 4 12 14.01 9 11.01"/>
 					</svg>
 					<?php esc_html_e( 'Verified', 'thessnest' ); ?>
+				</span>
+			<?php endif; ?>
+
+			<?php
+			$average_rating = get_post_meta( $property_id, '_thessnest_average_rating', true );
+			if ( $average_rating ) :
+			?>
+				<span class="badge badge-rating" style="background:var(--color-surface); color:var(--color-primary); border:1px solid var(--color-border);">
+					<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:2px;">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+					</svg>
+					<?php echo esc_html( $average_rating ); ?>
 				</span>
 			<?php endif; ?>
 

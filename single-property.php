@@ -22,7 +22,11 @@ get_header();
 		$rent        = thessnest_get_meta( 'rent', $property_id );
 		$utilities   = thessnest_get_meta( 'utilities', $property_id );
 		$wifi_speed  = thessnest_get_meta( 'wifi_speed', $property_id );
-		$is_verified = get_post_meta( $property_id, '_thessnest_verified', true ) === '1';
+
+		// Check if the property author (landlord) is KYC verified
+		$author_id   = get_post_field( 'post_author', $property_id );
+		$is_verified = get_user_meta( $author_id, '_kyc_status', true ) === 'approved';
+
 		$gallery_ids = thessnest_get_gallery( $property_id );
 		$neighborhood = thessnest_get_first_term( 'neighborhood', $property_id );
 	?>
@@ -58,8 +62,21 @@ get_header();
 				<?php endif; ?>
 			</div>
 
-			<h1 style="font-size:var(--font-size-3xl);margin-bottom:var(--space-2);color:var(--color-primary);">
+			<h1 style="font-size:var(--font-size-3xl);margin-bottom:var(--space-2);color:var(--color-primary);display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;">
 				<?php the_title(); ?>
+				<?php
+				$average_rating = get_post_meta( $property_id, '_thessnest_average_rating', true );
+				$review_count   = get_post_meta( $property_id, '_thessnest_review_count', true );
+				if ( $average_rating ) :
+				?>
+					<span class="badge badge-rating" style="background:var(--color-surface); color:var(--color-primary); border:1px solid var(--color-border); font-size:var(--font-size-base); padding:var(--space-1) var(--space-3);">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:2px;">
+							<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+						</svg>
+						<?php echo esc_html( $average_rating ); ?> 
+						<span style="color:var(--color-text-muted); font-weight:normal; font-size:var(--font-size-sm); margin-left:2px;">(<?php echo esc_html( $review_count ); ?>)</span>
+					</span>
+				<?php endif; ?>
 			</h1>
 
 			<?php if ( $neighborhood ) : ?>
@@ -142,9 +159,60 @@ get_header();
 							</div>
 						<?php endif; ?>
 
-						<a href="#" class="btn btn-primary" style="width:100%;margin-top:var(--space-4);padding:var(--space-4);text-align:center;border-radius:var(--radius-lg);font-size:var(--font-size-lg);">
-							<?php esc_html_e( 'Request Booking', 'thessnest' ); ?>
-						</a>
+						<div id="booking-section" class="property-booking-box" data-price-per-night="<?php echo esc_attr( $rent ? $rent : 0 ); ?>" style="margin-top:var(--space-6); background:var(--glass-bg); padding:var(--space-6); border-radius:var(--radius-xl); border:1px solid var(--color-border); box-shadow:var(--shadow-sm);">
+							<h3 style="font-size:var(--font-size-lg);margin-bottom:var(--space-4);color:var(--color-primary);">
+								<?php esc_html_e( 'Request to Book', 'thessnest' ); ?>
+							</h3>
+							
+							<?php if ( is_user_logged_in() && get_current_user_id() == $property->post_author ) : ?>
+								<p style="color:var(--color-text-muted); text-align:center; padding:var(--space-4); background:var(--color-surface); border-radius:var(--radius-md);">
+									<?php esc_html_e( 'This is your property. You cannot book it.', 'thessnest' ); ?>
+								</p>
+							<?php else : ?>
+								<form id="property-booking-form" class="booking-form">
+									<input type="hidden" name="action" value="thessnest_submit_booking">
+									<input type="hidden" name="property_id" id="booking_property_id" value="<?php echo esc_attr( $property_id ); ?>">
+									<?php wp_nonce_field( 'thessnest-inquiry-nonce', 'security' ); ?>
+									
+									<div style="display:flex; gap:var(--space-2); margin-bottom:var(--space-3);">
+										<div style="flex:1;">
+											<label style="display:block; font-size:var(--font-size-sm); color:var(--color-text-muted); margin-bottom:var(--space-1); font-weight:500;"><?php esc_html_e('Check-in', 'thessnest'); ?></label>
+											<input type="text" id="booking_checkin" name="checkin" placeholder="YYYY-MM-DD" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-background); color:var(--color-text); cursor:pointer;">
+										</div>
+										<div style="flex:1;">
+											<label style="display:block; font-size:var(--font-size-sm); color:var(--color-text-muted); margin-bottom:var(--space-1); font-weight:500;"><?php esc_html_e('Check-out', 'thessnest'); ?></label>
+											<input type="text" id="booking_checkout" name="checkout" placeholder="YYYY-MM-DD" required disabled style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-background); color:var(--color-text); cursor:pointer;">
+										</div>
+									</div>
+									
+									<div style="margin-bottom:var(--space-3);">
+										<label style="display:block; font-size:var(--font-size-sm); color:var(--color-text-muted); margin-bottom:var(--space-1); font-weight:500;"><?php esc_html_e('Guests', 'thessnest'); ?></label>
+										<input type="number" name="guests" min="1" max="10" value="1" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-background); color:var(--color-text);">
+									</div>
+
+									<div style="margin-bottom:var(--space-4);">
+										<textarea name="message" placeholder="<?php esc_attr_e( 'Message to landlord (Optional)...', 'thessnest' ); ?>" rows="2" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-background); color:var(--color-text); resize:vertical;"></textarea>
+									</div>
+									
+									<!-- Dynamic Price Calculation UI -->
+									<div id="booking-price-calc" style="display:none; padding-bottom:var(--space-4); margin-bottom:var(--space-4); border-bottom:1px solid var(--color-border);">
+										<div style="display:flex; justify-content:space-between; margin-bottom:var(--space-2); color:var(--color-text);">
+											<span id="calc-nights-text">0 nights x 0</span>
+											<span id="calc-nights-total">0</span>
+										</div>
+										<div style="display:flex; justify-content:space-between; font-weight:bold; font-size:var(--font-size-lg); color:var(--color-primary);">
+											<span><?php esc_html_e('Total', 'thessnest'); ?></span>
+											<span id="calc-grand-total">0</span>
+										</div>
+									</div>
+
+									<button type="submit" id="booking-submit-btn" class="btn btn-primary" style="width:100%; justify-content:center; padding:var(--space-3); font-size:var(--font-size-base);">
+										<?php esc_html_e( 'Request to Book', 'thessnest' ); ?>
+									</button>
+									<div id="booking-form-response" style="margin-top:var(--space-3); font-size:var(--font-size-sm); display:none; padding:var(--space-3); border-radius:var(--radius-md);"></div>
+								</form>
+							<?php endif; ?>
+						</div>
 					</div>
 				<?php endif; ?>
 
@@ -170,6 +238,14 @@ get_header();
 			</div>
 
 		</div>
+
+		<!-- Reviews & Ratings Section -->
+		<?php
+		if ( comments_open() || get_comments_number() ) :
+			comments_template();
+		endif;
+		?>
+
 	</div>
 
 	<?php endwhile; ?>

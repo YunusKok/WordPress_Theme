@@ -65,6 +65,7 @@ function thessnest_register_property_cpt() {
 			'excerpt',
 			'custom-fields',
 			'revisions',
+			'comments',
 		),
 	);
 
@@ -72,6 +73,68 @@ function thessnest_register_property_cpt() {
 }
 add_action( 'init', 'thessnest_register_property_cpt' );
 
+
+/* ==========================================================================
+   1.5 CUSTOM POST TYPE — Internal Messages
+   ========================================================================== */
+
+/**
+ * Register the "thessnest_message" Custom Post Type for internal user inbox.
+ *
+ * - Not publicly queryable, no archive, no REST.
+ * - Used strictly for backend message storage.
+ */
+function thessnest_register_message_cpt() {
+	$args = array(
+		'label'               => __( 'Messages', 'thessnest' ),
+		'public'              => false, // Completely private
+		'publicly_queryable'  => false,
+		'show_ui'             => true, // Allow admin to see them
+		'show_in_menu'        => true,
+		'query_var'           => false,
+		'rewrite'             => false,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => 6,
+		'menu_icon'           => 'dashicons-email-alt',
+		'supports'            => array( 'title', 'editor', 'author', 'custom-fields' ), // title=subject, editor=message auth=sender
+	);
+
+	register_post_type( 'thessnest_message', $args );
+}
+add_action( 'init', 'thessnest_register_message_cpt' );
+
+/* ==========================================================================
+   1.6 CUSTOM POST TYPE — Bookings/Reservations
+   ========================================================================== */
+
+/**
+ * Register the "thessnest_booking" Custom Post Type for the booking engine.
+ *
+ * - Not publicly queryable, no archive.
+ * - Stores reservation data (check-in, check-out, status, total price).
+ */
+function thessnest_register_booking_cpt() {
+	$args = array(
+		'label'               => __( 'Bookings', 'thessnest' ),
+		'public'              => false, // Completely private
+		'publicly_queryable'  => false,
+		'show_ui'             => true, // Admin visibility
+		'show_in_menu'        => true,
+		'query_var'           => false,
+		'rewrite'             => false,
+		'capability_type'     => 'post',
+		'has_archive'         => false,
+		'hierarchical'        => false,
+		'menu_position'       => 7,
+		'menu_icon'           => 'dashicons-calendar-alt',
+		'supports'            => array( 'title', 'author', 'custom-fields' ), // title=PropertyName - Dates
+	);
+
+	register_post_type( 'thessnest_booking', $args );
+}
+add_action( 'init', 'thessnest_register_booking_cpt' );
 
 /* ==========================================================================
    2. CUSTOM TAXONOMIES

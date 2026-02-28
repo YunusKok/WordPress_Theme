@@ -81,7 +81,7 @@ global $wp_query;
 
 			<h3><?php esc_html_e( 'Filters', 'thessnest' ); ?></h3>
 
-			<form method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
+			<form id="property-filter-form" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 				<input type="hidden" name="post_type" value="property">
 
 				<!-- Neighborhood -->
@@ -257,12 +257,14 @@ global $wp_query;
 		if ( typeof L === 'undefined' ) return;
 
 		// Default to Thessaloniki coordinates
-		var map = L.map('properties-map').setView([40.6401, 22.9444], 13);
+		window.thessnestMap = L.map('properties-map').setView([40.6401, 22.9444], 13);
 
 		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 			maxZoom: 19,
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-		}).addTo(map);
+		}).addTo(window.thessnestMap);
+
+		window.thessnestMapMarkers = L.layerGroup().addTo(window.thessnestMap);
 
 		// Properties data
 		var propertiesData = [];
@@ -300,38 +302,43 @@ global $wp_query;
 		}
 		?>
 
-		var bounds = L.latLngBounds();
-		var hasValidPoints = false;
+		window.renderMarkers = function(data) {
+			window.thessnestMapMarkers.clearLayers();
+			var bounds = L.latLngBounds();
+			var hasValidPoints = false;
 
-		propertiesData.forEach(function(prop) {
-			if ( prop.lat && prop.lng ) {
-				hasValidPoints = true;
-				var customIcon = L.divIcon({
-					className: 'custom-map-marker',
-					html: '<div style="background:var(--color-primary);color:#fff;padding:4px 8px;border-radius:12px;font-weight:bold;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.2);white-space:nowrap;border:1px solid #fff;">' + prop.price + '</div>',
-					iconSize: [null, null],
-					iconAnchor: [20, 20],
-					popupAnchor: [0, -20]
-				});
+			data.forEach(function(prop) {
+				if ( prop.lat && prop.lng ) {
+					hasValidPoints = true;
+					var customIcon = L.divIcon({
+						className: 'custom-map-marker',
+						html: '<div style="background:var(--color-primary);color:#fff;padding:4px 8px;border-radius:12px;font-weight:bold;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.2);white-space:nowrap;border:1px solid #fff;">' + prop.price + '</div>',
+						iconSize: [null, null],
+						iconAnchor: [20, 20],
+						popupAnchor: [0, -20]
+					});
 
-				var marker = L.marker([prop.lat, prop.lng], {icon: customIcon}).addTo(map);
-				bounds.extend([prop.lat, prop.lng]);
+					var marker = L.marker([prop.lat, prop.lng], {icon: customIcon}).addTo(window.thessnestMapMarkers);
+					bounds.extend([prop.lat, prop.lng]);
 
-				var popupHtml = '<div class="map-popup-card">' +
-					(prop.img ? '<img src="' + prop.img + '" alt="' + prop.title + '">' : '') +
-					'<div class="map-popup-content">' +
-						'<h4><a href="' + prop.url + '">' + prop.title + '</a></h4>' +
-						'<div class="price">' + prop.price + ' / month</div>' +
-					'</div>' +
-				'</div>';
+					var popupHtml = '<div class="map-popup-card">' +
+						(prop.img ? '<img src="' + prop.img + '" alt="' + prop.title + '">' : '') +
+						'<div class="map-popup-content">' +
+							'<h4><a href="' + prop.url + '">' + prop.title + '</a></h4>' +
+							'<div class="price">' + prop.price + ' / month</div>' +
+						'</div>' +
+					'</div>';
 
-				marker.bindPopup(popupHtml);
+					marker.bindPopup(popupHtml);
+				}
+			});
+
+			if ( hasValidPoints ) {
+				window.thessnestMap.fitBounds(bounds, { padding: [50, 50] });
 			}
-		});
+		};
 
-		if ( hasValidPoints ) {
-			map.fitBounds(bounds, { padding: [50, 50] });
-		}
+		window.renderMarkers(propertiesData);
 	});
 	</script>
 

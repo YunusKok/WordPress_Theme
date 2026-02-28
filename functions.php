@@ -91,6 +91,18 @@ require_once THESSNEST_DIR . '/inc/core-functionality.php';
 require_once THESSNEST_DIR . '/inc/admin-map-meta.php';
 require_once THESSNEST_DIR . '/inc/admin-front-page.php';
 require_once THESSNEST_DIR . '/inc/seo-tags.php';
+require_once THESSNEST_DIR . '/inc/ajax-favorites.php';
+require_once THESSNEST_DIR . '/inc/ajax-inquiry.php';
+require_once THESSNEST_DIR . '/inc/user-roles.php';
+require_once THESSNEST_DIR . '/inc/ajax-filter.php';
+require_once THESSNEST_DIR . '/inc/ajax-add-listing.php';
+require_once THESSNEST_DIR . '/inc/reviews-ratings.php';
+require_once THESSNEST_DIR . '/inc/ajax-dashboard.php';
+require_once THESSNEST_DIR . '/inc/ajax-messaging.php';
+require_once THESSNEST_DIR . '/inc/ajax-booking.php';
+require_once THESSNEST_DIR . '/inc/ajax-kyc.php';
+
+
 
 
 /* ==========================================================================
@@ -131,6 +143,14 @@ function thessnest_enqueue_assets() {
 		filemtime( get_stylesheet_directory() . '/style.css' ) // Auto cache-busting
 	);
 
+	/* === Flatpickr CSS (CDN)  === */
+	wp_enqueue_style(
+		'flatpickr',
+		'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
+		array(),
+		'4.6.13'
+	);
+
 	/* === Swiper.js JS (CDN) === */
 	wp_enqueue_script(
 		'swiper',
@@ -140,14 +160,29 @@ function thessnest_enqueue_assets() {
 		true  // Load in footer
 	);
 
+	/* === Flatpickr JS (CDN) === */
+	wp_enqueue_script(
+		'flatpickr',
+		'https://cdn.jsdelivr.net/npm/flatpickr',
+		array(),
+		'4.6.13',
+		true
+	);
+
 	/* === Theme JavaScript === */
 	wp_enqueue_script(
 		'thessnest-js',
 		THESSNEST_URI . '/js/thessnest.js',
-		array( 'swiper' ),
+		array( 'swiper', 'flatpickr' ),
 		THESSNEST_VERSION,
 		true  // Load in footer
 	);
+
+	wp_localize_script( 'thessnest-js', 'thessnestAjax', array(
+		'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'thessnest-nonce' ),
+		'loggedIn' => is_user_logged_in() ? '1' : '0'
+	) );
 
 	/* === Leaflet CSS & JS for Property Archives (Map) === */
 	if ( is_post_type_archive( 'property' ) || is_tax( 'neighborhood' ) || is_tax( 'amenity' ) || is_tax( 'target_group' ) ) {
