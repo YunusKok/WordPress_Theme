@@ -238,3 +238,93 @@ function thessnest_manage_booking() {
 	}
 }
 add_action( 'wp_ajax_thessnest_manage_booking', 'thessnest_manage_booking' );
+
+/**
+ * Endpoint: Extend Booking
+ */
+function thessnest_extend_booking() {
+	check_ajax_referer( 'thessnest_dashboard_nonce', 'security' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => __( 'Authentication required.', 'thessnest' ) ) );
+	}
+
+	$booking_id   = isset( $_POST['booking_id'] ) ? intval( $_POST['booking_id'] ) : 0;
+	$new_checkout = isset( $_POST['new_checkout'] ) ? sanitize_text_field( $_POST['new_checkout'] ) : '';
+	$user_id      = get_current_user_id();
+
+	if ( ! $booking_id || ! $new_checkout ) {
+		wp_send_json_error( array( 'message' => __( 'Missing parameters.', 'thessnest' ) ) );
+	}
+	
+	// Validate date format YYYY-MM-DD
+	$d = DateTime::createFromFormat('Y-m-d', $new_checkout);
+	if ( ! $d || $d->format('Y-m-d') !== $new_checkout ) {
+		wp_send_json_error( array( 'message' => __( 'Invalid date format. Use YYYY-MM-DD.', 'thessnest' ) ) );
+	}
+
+	$booking = get_post( $booking_id );
+	if ( ! $booking || $booking->post_type !== 'thessnest_booking' || $booking->post_author != $user_id ) {
+		wp_send_json_error( array( 'message' => __( 'Invalid booking or unauthorized.', 'thessnest' ) ) );
+	}
+
+	$property_id = get_post_meta( $booking_id, '_booking_property_id', true );
+	$checkin     = get_post_meta( $booking_id, '_booking_checkin', true );
+	$old_checkout= get_post_meta( $booking_id, '_booking_checkout', true );
+
+	if ( $new_checkout <= $old_checkout ) {
+		wp_send_json_error( array( 'message' => __( 'New checkout date must be after the current checkout date.', 'thessnest' ) ) );
+	}
+
+	// Check overlap
+	global $wpdb;
+	$overlap = $wpdb->get_var( $wpdb->prepare( "
+		SELECT p.ID FROM {$wpdb->posts} p
+		INNER JOIN {$wpdb->postmeta} pm_prop ON p.ID = pm_prop.post_id AND pm_prop.meta_key = '_booking_property_id'
+		INNER JOIN {$wpdb->postmeta} pm_status ON p.ID = pm_status.post_id AND pm_status.meta_key = '_booking_status'
+		INNER JOIN {$wpdb->postmeta} pm_cin ON p.ID = pm_cin.post_id AND pm_cin.meta_key = '_booking_checkin'
+		INNER JOIN {$wpdb->postmeta} pm_cout ON p.ID = pm_cout.post_id AND pm_cout.meta_key = '_booking_checkout'
+		WHERE p.post_type = 'thessnest_booking'
+		AND p.ID != %d
+		AND pm_prop.meta_value = %d
+		AND pm_status.meta_value IN ('confirmed', 'pending')
+		AND (pm_cin.meta_value < %s AND pm_cout.meta_value > %s)
+		LIMIT 1
+	", $booking_id, $property_id, $new_checkout, $old_checkout ) );
+
+	if ( $overlap ) {
+		wp_send_json_error( array( 'message' => __( 'The requested extension dates are not available.', 'thessnest' ) ) );
+	}
+
+	// Update booking
+	update_post_meta( $booking_id, '_booking_checkout', $new_checkout );
+	
+	// Recalculate price
+	$date1 = new DateTime( $checkin );
+	$date2 = new DateTime( $new_checkout );
+	$nights = $date1->diff( $date2 )->days;
+	$price_per_night = floatval( get_post_meta( $property_id, '_thessnest_rent', true ) );
+	update_post_meta( $booking_id, '_booking_total_price', $nights * $price_per_night );
+
+	// Send notification to landlord
+	$landlord_id = get_post_meta( $booking_id, '_booking_landlord_id', true );
+	$msg_subject = sprintf( __( 'Booking Extended: %s', 'thessnest' ), get_the_title( $property_id ) );
+	$msg_body    = sprintf( __( 'The tenant has extended their stay until %s.', 'thessnest' ), $new_checkout );
+	
+	$msg_id = wp_insert_post( array(
+		'post_title'   => wp_strip_all_tags( $msg_subject ),
+		'post_content' => wp_kses_post( $msg_body ),
+		'post_status'  => 'publish',
+		'post_author'  => $user_id,
+		'post_type'    => 'thessnest_message',
+	) );
+	
+	if ( ! is_wp_error( $msg_id ) ) {
+		update_post_meta( $msg_id, '_recipient_id', $landlord_id );
+		update_post_meta( $msg_id, '_property_id', $property_id );
+		update_post_meta( $msg_id, '_is_read', 0 );
+	}
+
+	wp_send_json_success( array( 'message' => __( 'Stay extended successfully.', 'thessnest' ) ) );
+}
+add_action( 'wp_ajax_thessnest_extend_booking', 'thessnest_extend_booking' );

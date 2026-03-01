@@ -101,6 +101,7 @@ require_once THESSNEST_DIR . '/inc/ajax-dashboard.php';
 require_once THESSNEST_DIR . '/inc/ajax-messaging.php';
 require_once THESSNEST_DIR . '/inc/ajax-booking.php';
 require_once THESSNEST_DIR . '/inc/ajax-kyc.php';
+require_once THESSNEST_DIR . '/inc/accommodation-proof.php';
 
 
 
@@ -201,9 +202,31 @@ function thessnest_preconnect_hints() {
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>' . "\n";
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 	echo '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' . "\n";
+	
+	// Preload main font
+	echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">' . "\n";
 }
 add_action( 'wp_head', 'thessnest_preconnect_hints', 1 );
 
+
+/* ==========================================================================
+   4.5. SEO MULTILINGUAL HREFLANG
+   ========================================================================== */
+function thessnest_add_hreflang_tags() {
+	// If WPML or Polylang is active, they handle this. We provide a basic fallback.
+	if ( function_exists('pll_the_languages') || function_exists('icl_get_languages') ) {
+		return;
+	}
+	
+	$locale = get_locale(); // e.g. en_US, tr_TR, el
+	$lang = substr($locale, 0, 2); // e.g. en, tr, el
+	
+	$url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	
+	echo '<link rel="alternate" hreflang="' . esc_attr($lang) . '" href="' . esc_url($url) . '" />' . "\n";
+	echo '<link rel="alternate" hreflang="x-default" href="' . esc_url($url) . '" />' . "\n";
+}
+add_action( 'wp_head', 'thessnest_add_hreflang_tags', 1 );
 
 /* ==========================================================================
    5. HELPER FUNCTIONS — Secure Output & Data Retrieval
@@ -358,6 +381,126 @@ function thessnest_rewrite_flush() {
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'thessnest_rewrite_flush' );
+
+
+/* ==========================================================================
+   9b. ADMIN NOTICE — Detect Old Theme Pages on Activation
+   ========================================================================== */
+
+/**
+ * On theme activation, scan for pages that may have been created by a
+ * previous theme or page builder and flag them for review.
+ */
+function thessnest_flag_old_pages() {
+	// ThessNest-specific slugs (pages we expect to exist).
+	$thessnest_slugs = array( 'home', 'ana-sayfa', 'dashboard', 'add-listing', 'about-us' );
+
+	// ThessNest page templates.
+	$thessnest_templates = array(
+		'template-dashboard.php',
+		'template-add-listing.php',
+		'template-about.php',
+		'front-page.php',
+	);
+
+	$all_pages = get_pages( array( 'post_status' => 'publish' ) );
+	$suspicious = array();
+
+	foreach ( $all_pages as $page ) {
+		$template = get_page_template_slug( $page->ID );
+
+		// Skip pages that use a ThessNest template.
+		if ( in_array( $template, $thessnest_templates, true ) ) {
+			continue;
+		}
+
+		// Skip pages with known ThessNest slugs (user just created them).
+		if ( in_array( $page->post_name, $thessnest_slugs, true ) ) {
+			continue;
+		}
+
+		// Flag pages that contain page-builder shortcodes or metadata.
+		$content     = $page->post_content;
+		$has_builder = (
+			has_shortcode( $content, 'elementor-template' ) ||
+			strpos( $content, 'wp:generateblocks' ) !== false ||
+			strpos( $content, 'et_pb_' ) !== false ||
+			get_post_meta( $page->ID, '_elementor_edit_mode', true ) ||
+			get_post_meta( $page->ID, '_wpb_shortcodes_custom_css', true )
+		);
+
+		if ( $has_builder ) {
+			$suspicious[] = $page;
+		}
+	}
+
+	if ( ! empty( $suspicious ) ) {
+		update_option( 'thessnest_old_pages_detected', array_map( function( $p ) {
+			return array( 'id' => $p->ID, 'title' => $p->post_title, 'slug' => $p->post_name );
+		}, $suspicious ) );
+	}
+}
+add_action( 'after_switch_theme', 'thessnest_flag_old_pages' );
+
+/**
+ * Show an admin notice if old/incompatible pages were detected.
+ * Dismissible — once dismissed, it won't show again.
+ */
+function thessnest_old_pages_admin_notice() {
+	// Don't show if already dismissed.
+	if ( get_option( 'thessnest_old_pages_notice_dismissed' ) ) {
+		return;
+	}
+
+	$old_pages = get_option( 'thessnest_old_pages_detected', array() );
+
+	if ( empty( $old_pages ) ) {
+		return;
+	}
+
+	$pages_url = admin_url( 'edit.php?post_type=page' );
+	?>
+	<div class="notice notice-warning is-dismissible thessnest-old-pages-notice">
+		<h3 style="margin-top:12px;">🏠 ThessNest — <?php esc_html_e( 'Eski Tema Sayfaları Tespit Edildi', 'thessnest' ); ?></h3>
+		<p>
+			<?php esc_html_e( 'Önceki temanızdan kalan aşağıdaki sayfalar ThessNest ile uyumsuz olabilir. Bu sayfalar page builder (Elementor, WPBakery vb.) içeriği barındırıyor ve bozuk görünebilir.', 'thessnest' ); ?>
+		</p>
+		<ul style="list-style:disc;margin-left:20px;">
+			<?php foreach ( $old_pages as $p ) : ?>
+				<li>
+					<strong><?php echo esc_html( $p['title'] ); ?></strong>
+					<code>/<?php echo esc_html( $p['slug'] ); ?>/</code>
+					— <a href="<?php echo esc_url( get_edit_post_link( $p['id'] ) ); ?>"><?php esc_html_e( 'Düzenle', 'thessnest' ); ?></a>
+					| <a href="<?php echo esc_url( get_delete_post_link( $p['id'] ) ); ?>" style="color:#d63638;"><?php esc_html_e( 'Çöpe Taşı', 'thessnest' ); ?></a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+		<p>
+			<a href="<?php echo esc_url( $pages_url ); ?>" class="button button-primary"><?php esc_html_e( 'Tüm Sayfaları Görüntüle', 'thessnest' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=thessnest_dismiss_old_pages' ), 'thessnest_dismiss_notice' ) ); ?>" class="button" style="margin-left:8px;"><?php esc_html_e( 'Bu Uyarıyı Kapat', 'thessnest' ); ?></a>
+		</p>
+		<p style="color:#666;font-size:12px;">
+			<?php esc_html_e( 'İpucu: ThessNest ile kullanacağınız sayfaları Kurulum Rehberine (setup_instructions.md) göre sıfırdan oluşturun.', 'thessnest' ); ?>
+		</p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'thessnest_old_pages_admin_notice' );
+
+/**
+ * Handle the dismiss action for the old-pages notice.
+ */
+function thessnest_dismiss_old_pages_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Yetkisiz işlem.', 'thessnest' ) );
+	}
+	check_admin_referer( 'thessnest_dismiss_notice' );
+	update_option( 'thessnest_old_pages_notice_dismissed', true );
+	delete_option( 'thessnest_old_pages_detected' );
+	wp_safe_redirect( admin_url() );
+	exit;
+}
+add_action( 'admin_post_thessnest_dismiss_old_pages', 'thessnest_dismiss_old_pages_notice' );
 
 
 /* ==========================================================================

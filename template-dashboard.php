@@ -472,6 +472,14 @@ get_header();
 												<?php esc_html_e( 'Cancel Trip', 'thessnest' ); ?>
 											</button>
 										<?php endif; ?>
+										<?php if ( $status === 'confirmed' ) : ?>
+											<a href="<?php echo esc_url( add_query_arg( 'download_proof', get_the_ID(), home_url('/') ) ); ?>" target="_blank" class="btn btn-outline" style="display:block; margin-top:var(--space-2); margin-left:auto; font-size:12px; text-decoration:none; padding: 4px 8px; text-align:center;">
+												📄 <?php esc_html_e( 'Accommodation Proof', 'thessnest' ); ?>
+											</a>
+											<button class="btn-extend-stay" data-id="<?php the_ID(); ?>" style="display:block; margin-top:var(--space-2); margin-left:auto; font-size:12px; background:none; border:none; cursor:pointer; color:var(--color-primary); text-decoration:underline;">
+												<?php esc_html_e( 'Extend Stay', 'thessnest' ); ?>
+											</button>
+										<?php endif; ?>
 									</div>
 								</div>
 							<?php endwhile; ?>
@@ -549,5 +557,35 @@ get_header();
 
 	</div>
 </main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	var extendBtns = document.querySelectorAll('.btn-extend-stay');
+	extendBtns.forEach(function(btn) {
+		btn.addEventListener('click', function(e) {
+			e.preventDefault();
+			var newDate = prompt("<?php esc_html_e( 'Enter new checkout date (YYYY-MM-DD):', 'thessnest' ); ?>");
+			if (newDate) {
+				var formData = new FormData();
+				formData.append('action', 'thessnest_extend_booking');
+				formData.append('booking_id', this.dataset.id);
+				formData.append('new_checkout', newDate);
+				formData.append('security', '<?php echo esc_js( wp_create_nonce('thessnest_dashboard_nonce') ); ?>');
+
+				fetch(thessnestAjax.ajaxurl, {
+					method: 'POST',
+					body: formData
+				})
+				.then(response => response.json())
+				.then(data => {
+					alert(data.data.message);
+					if (data.success) {
+						location.reload();
+					}
+				});
+			}
+		});
+	});
+});
+</script>
 
 <?php get_footer(); ?>

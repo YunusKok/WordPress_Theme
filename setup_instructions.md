@@ -75,9 +75,25 @@ Aşağıdaki sayfaları **Pages > Add New** ile oluşturmanız gerekmektedir:
 4. Yayınlayın.
 
 ### 4.4 Contact (İletişim) — (Opsiyonel)
-1. Standart bir sayfa oluşturup Contact Form 7 veya WPForms eklentisiyle form ekleyebilirsiniz.
+1. **Pages > Add New** ile yeni bir sayfa oluşturun. Başlık: **"Contact"**
+2. **Contact Form 7** veya **WPForms** eklentisini kurun (bkz. Adım 12).
+3. Eklenti size bir shortcode verecek (örn: `[contact-form-7 id="123"]`). Bu shortcode'u sayfa içeriğine yapıştırın.
+4. Sayfayı yayınlayın.
 
 > ⚠️ **Dashboard ve Add Listing sayfalarının slug'ları (URL uzantısı) sırasıyla `dashboard` ve `add-listing` olmalıdır.** Header'daki butonlar bu adreslere yönlendirir.
+
+---
+
+## ⚠️ 4.5 Eski Tema Sayfalarını Temizleme (Önceki Temadan Geçiş)
+Eğer daha önce başka bir tema (Starter Templates, Astra, OceanWP vb.) kullanıyorduysanız, o temanın oluşturduğu sayfalar WordPress veritabanında kalmaya devam eder. ThessNest aktifleştiğinde bu eski sayfalar **bozuk görünebilir** çünkü eski temanın veya page builder'ın (Elementor, WPBakery vb.) CSS/layout kodları artık yüklenmez.
+
+**Yapmanız gerekenler:**
+1. **Pages (Sayfalar)** listesine gidin.
+2. ThessNest için yukarıda oluşturduğunuz sayfalar **dışındaki** eski sayfaları tespit edin (özellikle Contact, Home, About gibi eski tema sayfaları).
+3. Eski sayfaları **çöp kutusuna taşıyın** veya taslak (draft) yapın.
+4. Adım 3'teki menüyüzden **eski sayfa linklerini kaldırıp**, yeni oluşturduğunuz ThessNest sayfalarını ekleyin.
+
+> 💡 **Kural:** ThessNest ile kullanacağınız her sayfa, yukarıdaki adımlarda (4.1–4.4) anlatıldığı şekilde **sıfırdan** oluşturulmalıdır. Eski temadan kalan sayfaları menüye eklemeyin.
 
 ---
 
@@ -186,8 +202,8 @@ Sitenin canlı görünmesi için birkaç test ilanı eklemelisiniz:
 
 ## ✅ Kurulum Sonrası Kontrol Listesi (Post-Setup Checklist)
 
-- [ ] Permalinks güncellendi (Adım 1)
-- [ ] Statik ana sayfa ayarlandı (Adım 2)
+- [x] Permalinks güncellendi (Adım 1)
+- [x] Statik ana sayfa ayarlandı (Adım 2)
 - [ ] Navigasyon menüsü oluşturuldu ve atandı (Adım 3)
 - [ ] Dashboard sayfası oluşturuldu (`/dashboard/`) (Adım 4.1)
 - [ ] Add Listing sayfası oluşturuldu (`/add-listing/`) (Adım 4.2)

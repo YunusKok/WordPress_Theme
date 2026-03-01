@@ -134,21 +134,54 @@ global $wp_query;
 					</select>
 				</div>
 
+				<!-- Instant Book -->
+				<div class="filter-group">
+					<label class="filter-label" style="display:flex; align-items:center; gap:var(--space-2); cursor:pointer;">
+						<input type="checkbox" name="instant_book" value="1" <?php echo isset( $_GET['instant_book'] ) ? 'checked' : ''; ?>>
+						<span>⚡ <?php esc_html_e( 'Instant Book Only', 'thessnest' ); ?></span>
+					</label>
+				</div>
+
+				<!-- Appliances (Specific Amenities) -->
+				<div class="filter-group">
+					<span class="filter-label"><?php esc_html_e( 'Appliances', 'thessnest' ); ?></span>
+					<div class="filter-checkbox-group">
+						<?php
+						$amenities = get_terms( array(
+							'taxonomy'   => 'amenity',
+							'hide_empty' => false,
+						) );
+
+						$selected_amenities = isset( $_GET['amenity'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_GET['amenity'] ) ) : array();
+						$appliance_slugs = array( 'washing-machine', 'oven', 'dishwasher' );
+						$regular_amenities = array();
+
+						if ( ! is_wp_error( $amenities ) ) :
+							foreach ( $amenities as $am ) :
+								if ( in_array( $am->slug, $appliance_slugs, true ) ) {
+									$checked = in_array( $am->slug, $selected_amenities, true ) ? 'checked' : '';
+									?>
+									<label>
+										<input type="checkbox" name="amenity[]" value="<?php echo esc_attr( $am->slug ); ?>" <?php echo esc_attr( $checked ); ?>>
+										<?php echo esc_html( $am->name ); ?>
+									</label>
+									<?php
+								} else {
+									$regular_amenities[] = $am; // save the rest for later
+								}
+							endforeach;
+						endif;
+						?>
+					</div>
+				</div>
+
 				<!-- Amenities (Checkboxes) -->
 				<div class="filter-group">
 					<span class="filter-label"><?php esc_html_e( 'Amenities', 'thessnest' ); ?></span>
 					<div class="filter-checkbox-group">
 						<?php
-						$amenities = get_terms( array(
-							'taxonomy'   => 'amenity',
-							'hide_empty' => true,
-						) );
-
-						// Get currently selected amenities from URL.
-						$selected_amenities = isset( $_GET['amenity'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_GET['amenity'] ) ) : array();
-
-						if ( ! is_wp_error( $amenities ) ) :
-							foreach ( $amenities as $am ) :
+						if ( ! empty( $regular_amenities ) ) :
+							foreach ( $regular_amenities as $am ) :
 								$checked = in_array( $am->slug, $selected_amenities, true ) ? 'checked' : '';
 								?>
 								<label>

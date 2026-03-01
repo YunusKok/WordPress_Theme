@@ -70,7 +70,45 @@ get_header();
 						<input type="number" id="listing_utilities" name="listing_utilities" min="0" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
 					</div>
 
-					<!-- Neighborhood -->
+					<!-- Deposit -->
+					<div class="form-group">
+						<label for="listing_deposit" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+							<?php esc_html_e( 'Security Deposit (€)', 'thessnest' ); ?>
+						</label>
+						<input type="number" id="listing_deposit" name="listing_deposit" min="0" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
+					</div>
+
+					<!-- Wi-Fi Speed -->
+					<div class="form-group">
+						<label for="listing_wifi_speed" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+							<?php esc_html_e( 'Wi-Fi Speed (Mbps)', 'thessnest' ); ?>
+						</label>
+						<input type="number" id="listing_wifi_speed" name="listing_wifi_speed" min="0" placeholder="e.g. 50" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
+					</div>
+
+				<!-- Max Tenants (for Split Payment) -->
+				<div class="form-group">
+					<label for="listing_max_tenants" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+						<?php esc_html_e( 'Max Tenants', 'thessnest' ); ?>
+					</label>
+					<input type="number" id="listing_max_tenants" name="listing_max_tenants" min="1" max="10" value="1" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
+				</div>
+
+				<!-- Instant Book Toggle -->
+				<div class="form-group">
+					<label style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+						<?php esc_html_e( 'Booking Type', 'thessnest' ); ?>
+					</label>
+					<label style="display:flex; align-items:center; gap:var(--space-2); cursor:pointer; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface);">
+						<input type="checkbox" name="listing_instant_book" value="1">
+						<span style="font-size:var(--font-size-sm);">⚡ <?php esc_html_e( 'Enable Instant Book', 'thessnest' ); ?></span>
+					</label>
+					<p style="font-size:12px;color:var(--color-text-muted);margin-top:var(--space-1);">
+						<?php esc_html_e( 'If unchecked, tenants will send a booking request that you approve manually.', 'thessnest' ); ?>
+					</p>
+				</div>
+
+				<!-- Neighborhood -->
 					<div class="form-group">
 						<label for="listing_neighborhood" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
 							<?php esc_html_e( 'Neighborhood *', 'thessnest' ); ?>

@@ -106,8 +106,11 @@ $placeholder_images = array(
 
 		<!-- Frosted Trust Badges -->
 		<div class="card-badges">
-			<?php if ( $is_verified ) : ?>
-				<span class="badge badge-verified">
+			<?php if ( $is_verified ) : 
+				$kyc_date = get_user_meta( $author_id, '_kyc_approved_date', true );
+				$tooltip  = $kyc_date ? sprintf( __( 'Verified on %s by ThessNest', 'thessnest' ), date_i18n( get_option('date_format'), strtotime( $kyc_date ) ) ) : __( 'Physically verified by ThessNest team', 'thessnest' );
+			?>
+				<span class="badge badge-verified" data-tooltip="<?php echo esc_attr( $tooltip ); ?>">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
 						<polyline points="22 4 12 14.01 9 11.01"/>

@@ -22,6 +22,9 @@ function thessnest_submit_listing() {
 	$description = isset( $_POST['listing_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['listing_description'] ) ) : '';
 	$rent        = isset( $_POST['listing_rent'] ) ? intval( $_POST['listing_rent'] ) : 0;
 	$utilities   = isset( $_POST['listing_utilities'] ) ? intval( $_POST['listing_utilities'] ) : 0;
+	$deposit     = isset( $_POST['listing_deposit'] ) ? intval( $_POST['listing_deposit'] ) : 0;
+	$wifi_speed  = isset( $_POST['listing_wifi_speed'] ) ? intval( $_POST['listing_wifi_speed'] ) : 0;
+	$max_tenants = isset( $_POST['listing_max_tenants'] ) ? max( 1, intval( $_POST['listing_max_tenants'] ) ) : 1;
 	
 	if ( empty( $title ) || empty( $description ) || $rent <= 0 ) {
 		wp_send_json_error( array( 'message' => __( 'Title, Description, and Rent are required fields.', 'thessnest' ) ) );
@@ -45,6 +48,13 @@ function thessnest_submit_listing() {
 	// 3. Save Meta Data
 	update_post_meta( $post_id, '_thessnest_rent', $rent );
 	update_post_meta( $post_id, '_thessnest_utilities', $utilities );
+	update_post_meta( $post_id, '_thessnest_deposit', $deposit );
+	if ( $wifi_speed > 0 ) {
+		update_post_meta( $post_id, '_thessnest_wifi_speed', $wifi_speed );
+	}
+	update_post_meta( $post_id, '_thessnest_max_tenants', $max_tenants );
+	$instant_book = isset( $_POST['listing_instant_book'] ) ? '1' : '0';
+	update_post_meta( $post_id, '_thessnest_instant_book', $instant_book );
 
 	// 4. Assign Taxonomies
 	$neighborhood_id = isset( $_POST['listing_neighborhood'] ) ? intval( $_POST['listing_neighborhood'] ) : 0;

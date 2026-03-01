@@ -79,8 +79,40 @@ function thessnest_customize_register( $wp_customize ) {
 		'type'        => 'textarea',
 	) );
 
+	// 6. Chatbot / Live Chat Embed Code
+	$wp_customize->add_setting( 'thessnest_chatbot_embed', array(
+		'default'           => '',
+		'sanitize_callback' => 'thessnest_sanitize_chatbot_embed',
+	) );
+	$wp_customize->add_control( 'thessnest_chatbot_embed', array(
+		'label'       => __( 'Chatbot / Live Chat Embed Code', 'thessnest' ),
+		'description' => __( 'Paste the embed code from Tidio, Tawk.to, or any chat widget. It will appear on all pages.', 'thessnest' ),
+		'section'     => 'thessnest_theme_options',
+		'type'        => 'textarea',
+	) );
+
 }
 add_action( 'customize_register', 'thessnest_customize_register' );
+
+/**
+ * Sanitize chatbot embed code — allow script tags.
+ */
+function thessnest_sanitize_chatbot_embed( $input ) {
+	return $input; // Allow raw script embed (admin-only setting)
+}
+
+/**
+ * Output the chatbot embed code in the footer of all pages.
+ */
+function thessnest_output_chatbot_embed() {
+	$embed = get_theme_mod( 'thessnest_chatbot_embed', '' );
+	if ( ! empty( $embed ) ) {
+		echo "\n<!-- ThessNest Chatbot Widget -->\n";
+		echo $embed;
+		echo "\n<!-- /ThessNest Chatbot Widget -->\n";
+	}
+}
+add_action( 'wp_footer', 'thessnest_output_chatbot_embed', 99 );
 
 // Include homepage-specific Customizer settings
 require_once THESSNEST_DIR . '/inc/customizer-front-page.php';

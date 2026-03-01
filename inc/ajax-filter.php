@@ -53,6 +53,15 @@ function thessnest_ajax_filter_properties() {
 		$args['tax_query'] = $tax_query;
 	}
 
+	// Instant Book
+	if ( ! empty( $_POST['instant_book'] ) ) {
+		$meta_query[] = array(
+			'key'     => '_thessnest_instant_book',
+			'value'   => '1',
+			'compare' => '='
+		);
+	}
+
 	// Price
 	$price_min = ! empty( $_POST['price_min'] ) ? intval( $_POST['price_min'] ) : 0;
 	$price_max = ! empty( $_POST['price_max'] ) ? intval( $_POST['price_max'] ) : 0;

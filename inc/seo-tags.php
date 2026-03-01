@@ -52,6 +52,70 @@ function thessnest_native_seo_tags() {
 		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 		echo '<link rel="canonical" href="' . esc_url( $current_url ) . '">' . "\n";
 	}
+
+	// JSON-LD Schema Markup for Single Properties
+	if ( is_singular( 'property' ) ) {
+		global $post;
+		$prop_id    = $post->ID;
+		$rent       = get_post_meta( $prop_id, '_thessnest_rent', true );
+		$avg_rating = get_post_meta( $prop_id, '_thessnest_average_rating', true );
+		$rev_count  = get_post_meta( $prop_id, '_thessnest_review_count', true );
+		$lat        = get_post_meta( $prop_id, '_thessnest_latitude', true );
+		$lng        = get_post_meta( $prop_id, '_thessnest_longitude', true );
+		$nb         = wp_get_post_terms( $prop_id, 'neighborhood', array( 'fields' => 'names' ) );
+		$neighborhood_name = ( ! is_wp_error( $nb ) && ! empty( $nb ) ) ? $nb[0] : 'Thessaloniki';
+		$img_url    = get_the_post_thumbnail_url( $prop_id, 'large' );
+
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@type'    => 'Accommodation',
+			'name'     => get_the_title( $prop_id ),
+			'description' => wp_strip_all_tags( get_the_excerpt( $prop_id ) ?: wp_trim_words( $post->post_content, 30 ) ),
+			'url'      => get_the_permalink( $prop_id ),
+		);
+
+		if ( $img_url ) {
+			$schema['image'] = $img_url;
+		}
+
+		if ( $lat && $lng ) {
+			$schema['geo'] = array(
+				'@type'     => 'GeoCoordinates',
+				'latitude'  => (float) $lat,
+				'longitude' => (float) $lng,
+			);
+		}
+
+		$schema['address'] = array(
+			'@type'           => 'PostalAddress',
+			'addressLocality' => 'Thessaloniki',
+			'addressRegion'   => $neighborhood_name,
+			'addressCountry'  => 'GR',
+		);
+
+		if ( $rent ) {
+			$schema['offers'] = array(
+				'@type'         => 'Offer',
+				'price'         => (float) $rent,
+				'priceCurrency' => 'EUR',
+				'availability'  => 'https://schema.org/InStock',
+				'priceValidUntil' => date( 'Y-12-31' ),
+			);
+		}
+
+		if ( $avg_rating && $rev_count ) {
+			$schema['aggregateRating'] = array(
+				'@type'       => 'AggregateRating',
+				'ratingValue' => (float) $avg_rating,
+				'reviewCount' => (int) $rev_count,
+				'bestRating'  => 5,
+				'worstRating' => 1,
+			);
+		}
+
+		echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ) . '</script>' . "\n";
+	}
+
 	echo "<!-- /ThessNest Native SEO -->\n";
 }
 add_action( 'wp_head', 'thessnest_native_seo_tags', 2 ); // Priority 2 to load early in head
