@@ -312,7 +312,7 @@ get_header();
 							<?php esc_html_e( 'Location', 'thessnest' ); ?>
 						</h3>
 						<div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
-							<a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo esc_attr( $prop_lat ); ?>,<?php echo esc_attr( $prop_lng ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:var(--space-2);">
+							<a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo esc_attr( $prop_lat ); ?>,<?php echo esc_attr( $prop_lng ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:var(--space-2);">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
 								<?php esc_html_e( 'Navigate with Google Maps', 'thessnest' ); ?>
 							</a>

@@ -25,10 +25,11 @@ Tags: directory, housing, rental, student, digital-nomad, mobile-first, glassmor
   --color-background:    #FFFFFF;
   --color-surface:       #F5F6F8;
   --color-success:       #3A8A5C;
+  --color-error:         #D94F4F;
 
   /* ─── Extended Palette ─── */
-  --color-text:          #2D3748;
-  --color-text-muted:    #718096;
+  --color-text:          #2D2D2D;
+  --color-text-muted:    #6B7280;
   --color-border:        #E2E8F0;
   --color-overlay:       rgba(27, 42, 74, 0.75);
   --color-accent-hover:  #D47E2E;
@@ -853,7 +854,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (min-width: 1024px) {
-  .property-grid { grid-template-columns: repeat(3, 1fr); }
+  .property-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 .property-card {
@@ -2190,4 +2191,143 @@ select {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+}
+
+
+/* ==========================================================================
+   24. TRUST BAR — Partner Logo Strip
+   ========================================================================== */
+
+.trust-bar {
+  padding: var(--space-10) var(--space-4);
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trust-bar-label {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: var(--space-6);
+}
+
+.trust-bar-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+  opacity: 0.45;
+  filter: grayscale(1);
+  transition: all var(--transition-slow);
+}
+
+.trust-bar-logos:hover {
+  opacity: 0.8;
+  filter: grayscale(0);
+}
+
+.trust-bar-logos img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+
+/* ==========================================================================
+   25. WHY TRUST US — Split Photo + Features
+   ========================================================================== */
+
+.wtu-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .wtu-layout { grid-template-columns: 1fr 1fr; }
+}
+
+.wtu-image img {
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  box-shadow: var(--shadow-lg);
+}
+
+.wtu-content .section-title {
+  text-align: left;
+  margin-bottom: var(--space-8);
+}
+
+.wtu-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.wtu-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.wtu-features li svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wtu-features li strong {
+  display: block;
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+.wtu-features li p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   26. AI CHATBOT — Floating Action Button
+   ========================================================================== */
+
+.chatbot-fab {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 900;
+}
+
+.chatbot-fab-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-accent) 0%, #D47E2E 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(232, 145, 58, 0.45);
+  transition: all var(--transition-spring);
+}
+
+.chatbot-fab-btn:hover {
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 10px 32px rgba(232, 145, 58, 0.55);
+}
+
+.chatbot-fab-btn svg {
+  width: 26px;
+  height: 26px;
 }

@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
 $property_id   = get_the_ID();
 $rent          = thessnest_get_meta( 'rent', $property_id );
 $utilities     = thessnest_get_meta( 'utilities', $property_id );
+$deposit       = thessnest_get_meta( 'deposit', $property_id );
 $wifi_speed    = thessnest_get_meta( 'wifi_speed', $property_id );
 
 // Check if the property author (landlord) is KYC verified
@@ -132,7 +133,7 @@ $placeholder_images = array(
 			<?php endif; ?>
 
 			<?php if ( $wifi_speed ) : ?>
-				<span class="badge badge-wifi">
+				<span class="badge badge-wifi" data-tooltip="<?php printf( esc_attr__( 'Internet speed: %s Mbps', 'thessnest' ), esc_attr( $wifi_speed ) ); ?>">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M5 12.55a11 11 0 0 1 14.08 0"/>
 						<path d="M1.42 9a16 16 0 0 1 21.16 0"/>
@@ -169,9 +170,14 @@ $placeholder_images = array(
 				<span class="price-period">/<?php esc_html_e( 'mo', 'thessnest' ); ?></span>
 			<?php endif; ?>
 
-			<?php if ( $utilities ) : ?>
+			<?php if ( $utilities || $deposit ) : ?>
 				<span class="price-breakdown">
-					+ <?php echo esc_html( thessnest_format_price( $utilities ) ); ?> <?php esc_html_e( 'utils', 'thessnest' ); ?>
+					<?php if ( $utilities ) : ?>
+						+ <?php echo esc_html( thessnest_format_price( $utilities ) ); ?> <?php esc_html_e( 'utils', 'thessnest' ); ?>
+					<?php endif; ?>
+					<?php if ( $deposit ) : ?>
+						&middot; <?php echo esc_html( thessnest_format_price( $deposit ) ); ?> <?php esc_html_e( 'dep.', 'thessnest' ); ?>
+					<?php endif; ?>
 				</span>
 			<?php endif; ?>
 		</div>

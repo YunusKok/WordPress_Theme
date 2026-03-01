@@ -99,6 +99,22 @@ if ( have_posts() ) {
 
 
 	<!-- ================================================================
+	     TRUST BAR — Partner Logos
+	     ================================================================ -->
+	<section class="trust-bar" aria-label="<?php esc_attr_e( 'Trusted partners', 'thessnest' ); ?>">
+		<div class="container">
+			<p class="trust-bar-label"><?php esc_html_e( 'Trusted by students from', 'thessnest' ); ?></p>
+			<div class="trust-bar-logos">
+				<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/partners/esn-logo.svg' ) ); ?>" alt="ESN" width="120" height="40" loading="lazy">
+				<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/partners/auth-logo.svg' ) ); ?>" alt="Aristotle University" width="120" height="40" loading="lazy">
+				<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/partners/uom-logo.svg' ) ); ?>" alt="University of Macedonia" width="120" height="40" loading="lazy">
+				<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/partners/ihu-logo.svg' ) ); ?>" alt="IHU" width="120" height="40" loading="lazy">
+			</div>
+		</div>
+	</section>
+
+
+	<!-- ================================================================
 	     QUICK CATEGORIES — Frosted Glass Pills
 	     ================================================================ -->
 	<section class="quick-categories" aria-label="<?php esc_attr_e( 'Quick categories', 'thessnest' ); ?>">
@@ -162,7 +178,7 @@ if ( have_posts() ) {
 			<?php
 			$featured_query = new WP_Query( array(
 				'post_type'      => 'property',
-				'posts_per_page' => 6,
+				'posts_per_page' => 8,
 				'meta_key'       => '_thessnest_featured',
 				'meta_value'     => '1',
 				'orderby'        => 'date',
@@ -172,7 +188,7 @@ if ( have_posts() ) {
 			if ( ! $featured_query->have_posts() ) {
 				$featured_query = new WP_Query( array(
 					'post_type'      => 'property',
-					'posts_per_page' => 6,
+					'posts_per_page' => 8,
 					'orderby'        => 'date',
 					'order'          => 'DESC',
 				) );
@@ -264,6 +280,50 @@ if ( have_posts() ) {
 					<p class="step-desc"><?php echo wp_kses_post( get_theme_mod( 'hiw_step_3_desc', __( 'Arrive in Thessaloniki and settle into your new home. Welcome to the city!', 'thessnest' ) ) ); ?></p>
 				</div>
 
+			</div>
+		</div>
+	</section>
+
+
+	<!-- ================================================================
+	     WHY TRUST US — Split Layout
+	     ================================================================ -->
+	<section class="section why-trust-us" aria-labelledby="wtu-heading">
+		<div class="container">
+			<div class="wtu-layout">
+				<div class="wtu-image">
+					<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/trust-photo.jpg' ) ); ?>"
+					     alt="<?php esc_attr_e( 'Verified ThessNest apartment', 'thessnest' ); ?>"
+					     loading="lazy" width="600" height="450">
+				</div>
+				<div class="wtu-content">
+					<h2 class="section-title" id="wtu-heading">
+						<?php esc_html_e( 'Why Trust Us', 'thessnest' ); ?>
+					</h2>
+					<ul class="wtu-features">
+						<li>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+							<div>
+								<strong><?php esc_html_e( 'KYC-Verified Landlords', 'thessnest' ); ?></strong>
+								<p><?php esc_html_e( 'Every landlord undergoes ID and property ownership verification before listing.', 'thessnest' ); ?></p>
+							</div>
+						</li>
+						<li>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+							<div>
+								<strong><?php esc_html_e( 'No Hidden Fees', 'thessnest' ); ?></strong>
+								<p><?php esc_html_e( 'Transparent WYSIWYP pricing — rent, utilities, and deposit shown upfront.', 'thessnest' ); ?></p>
+							</div>
+						</li>
+						<li>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+							<div>
+								<strong><?php esc_html_e( 'Built for International Tenants', 'thessnest' ); ?></strong>
+								<p><?php esc_html_e( 'Multilingual support, one-click map navigation, and instant booking for Erasmus students and digital nomads.', 'thessnest' ); ?></p>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</section>
