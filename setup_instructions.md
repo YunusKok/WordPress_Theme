@@ -41,16 +41,60 @@ WordPress varsayılan olarak blog yazılarını ana sayfada gösterir. ThessNest
 ## 3. Navigasyon Menüsü Oluşturma (Creating the Menu)
 Header'daki navigasyon çubuğunun çalışması için bir menü oluşturup atamalısınız.
 
-1. **Appearance (Görünüm) > Menus (Menüler)** sekmesine gidin.
-2. **"Create a new menu"** bağlantısına tıklayın. Menü adını **"Main Menu"** yapın.
-3. Sol taraftaki panellerden sayfalar, özel bağlantılar veya kategoriler ekleyin. Önerilen yapı:
-   - **Home** → Ana sayfa
-   - **About Us** → Hakkımızda sayfası (bkz. Adım 4)
-   - **Our Solutions** → `Özel bağlantı` olarak `/properties/` ekleyin
-   - **Contact** → İletişim sayfası (bkz. Adım 4)
-4. Alttaki **"Menu Settings"** kısmında **"Primary Menu"** kutucuğunu işaretleyin.
-5. **Save Menu** butonuna basın.
-6. İsterseniz aynı şekilde bir **"Footer Menu"** de oluşturup **Footer** konumuna atayabilirsiniz.
+### 3.1 Menüyü Oluşturma
+1. WordPress yönetim panelinden **Appearance (Görünüm) > Menus (Menüler)** sekmesine gidin.
+2. Sayfanın üst kısmında **"Create a new menu"** bağlantısını tıklayın.
+3. **Menu Name** alanına **"Main Menu"** yazın.
+4. Alttaki **Menu Settings** bölümünde **"Primary Menu (Currently set to: Header)"** kutucuğunu **işaretleyin**. Bu kutucuk işaretlenmezse menü header'da görünmez.
+5. **Create Menu** butonuna basın. Menünüz oluşturuldu, şimdi öğe ekleme adımına geçin.
+
+### 3.2 Menüye Sayfa Ekleme (Pages Paneli)
+Menü oluşturulduktan sonra sol tarafta **"Add menu items"** panelleri açılacaktır.
+
+1. Sol panelde **Pages (Sayfalar)** bölümünü açın.
+2. **"View All"** sekmesine tıklayarak tüm sayfaları görün.
+3. Aşağıdaki sayfaları seçin (checkbox'larını işaretleyin):
+   - **Home** (Ana sayfa — Adım 2'de oluşturdunuz)
+   - **About Us** (Hakkımızda — Adım 4.3'te oluşturacaksınız)
+   - **Contact** (İletişim — Adım 4.4'te oluşturacaksınız)
+4. **"Add to Menu"** butonuna basın. Seçtiğiniz sayfalar sağ taraftaki menü yapısına eklenecek.
+
+> 💡 Henüz About Us ve Contact sayfalarını oluşturmadıysanız, önce Adım 4'ü tamamlayıp sonra bu adıma geri dönebilirsiniz. Şimdilik yalnızca **Home** sayfasını ekleyebilirsiniz.
+
+### 3.3 Özel Bağlantı Ekleme — Our Solutions (Custom Links)
+İlan listesi sayfası için özel bir bağlantı eklemeniz gerekir:
+
+1. Sol panelde **Custom Links (Özel Bağlantılar)** bölümünü açın.
+2. **URL** alanına şunu yazın: `/properties/`
+3. **Link Text (Bağlantı Metni)** alanına şunu yazın: `Our Solutions`
+4. **"Add to Menu"** butonuna basın.
+
+### 3.4 Menü Sıralamasını Düzenleme
+Menü öğelerini istediğiniz sırayla düzenlemek için sürükle-bırak yöntemini kullanın. Önerilen sıralama:
+
+| Sıra | Menü Öğesi | Açıklama |
+|------|------------|----------|
+| 1 | Home | Ana sayfa |
+| 2 | About Us | Hakkımızda |
+| 3 | Our Solutions | İlan listesi (`/properties/`) |
+| 4 | Contact | İletişim |
+
+Her bir menü öğesini fare ile tutup yukarı/aşağı sürükleyerek sıralayabilirsiniz.
+
+### 3.5 Menüyü Kaydetme
+1. Tüm öğeleri ekleyip sıraladıktan sonra sayfanın sağ üst köşesindeki **"Save Menu"** butonuna basın.
+2. Sitenizin ön yüzünü ziyaret ederek header'da menünün göründüğünü doğrulayın.
+
+### 3.6 Footer Menüsü (Opsiyonel)
+İsterseniz footer için de ayrı bir menü oluşturabilirsiniz:
+
+1. Yine **Appearance > Menus** sayfasında **"Create a new menu"** bağlantısına tıklayın.
+2. Menü adını **"Footer Menu"** yapın.
+3. **Menu Settings** bölümünde **"Footer Menu"** kutucuğunu işaretleyin.
+4. **Create Menu** butonuna basın.
+5. İstediğiniz sayfa ve bağlantıları ekleyip **Save Menu** ile kaydedin.
+
+> ⚠️ **Primary Menu kutucuğunu işaretlemeyi kesinlikle unutmayın!** Bu kutucuk işaretlenmezse header navigasyonu boş kalır ve ziyaretçiler sayfalar arası geçiş yapamaz.
 
 ---
 
