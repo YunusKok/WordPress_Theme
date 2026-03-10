@@ -103,6 +103,7 @@ require_once THESSNEST_DIR . '/inc/ajax-booking.php';
 require_once THESSNEST_DIR . '/inc/ajax-kyc.php';
 require_once THESSNEST_DIR . '/inc/accommodation-proof.php';
 require_once THESSNEST_DIR . '/inc/admin-menu.php';
+require_once THESSNEST_DIR . '/inc/redux-helpers.php';
 require_once THESSNEST_DIR . '/inc/redux-config.php';
 
 
@@ -290,19 +291,7 @@ function thessnest_get_first_term( $taxonomy, $post_id = null ) {
 }
 
 
-/**
- * Format a price with euro symbol.
- *
- * @param  string|int $price Raw price value.
- * @return string     Formatted price (e.g., "€450").
- */
-function thessnest_format_price( $price ) {
-	if ( empty( $price ) ) {
-		return '';
-	}
-
-	return '€' . number_format( (float) $price, 0, ',', '.' );
-}
+// thessnest_format_price() is now in inc/redux-helpers.php with dynamic currency support.
 
 
 /* ==========================================================================

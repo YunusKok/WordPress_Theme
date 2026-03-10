@@ -32,12 +32,18 @@ if ( function_exists( 'wp_body_open' ) ) {
 
 		<!-- Logo -->
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo" aria-label="<?php esc_attr_e( 'ThessNest Home', 'thessnest' ); ?>">
-			<!-- Inline SVG icon – house + location pin -->
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-				<polyline points="9 22 9 12 15 12 15 22"/>
-			</svg>
-			<span>Thess<span class="logo-accent">Nest</span></span>
+			<?php
+			$logo_url = thessnest_get_logo_url();
+			if ( $logo_url ) : ?>
+				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" style="height:36px; width:auto;" />
+			<?php else : ?>
+				<!-- Inline SVG icon – house + location pin -->
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+					<polyline points="9 22 9 12 15 12 15 22"/>
+				</svg>
+				<span>Thess<span class="logo-accent">Nest</span></span>
+			<?php endif; ?>
 		</a>
 
 		<!-- Primary Navigation (Desktop) -->

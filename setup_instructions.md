@@ -154,18 +154,14 @@ Ana sayfadaki büyük Selanik fotoğrafını değiştirmek veya yüklemek için:
 
 ---
 
-## 6. Redux Framework Kurulumu (Tema Ayar Paneli) ★ KRİTİK
-ThessNest temasının tüm ayarları (logo, header, booking, fiyatlandırma, footer, sosyal medya vb.) **Redux Framework** eklentisi üzerinden yönetilir. Bu eklenti Homey gibi premium temalarda kullanılan aynı altyapıdır.
+## 6. Redux Framework (Tema Ayar Paneli) — Otomatik Kurulum
+ThessNest temasının tüm ayarları **Redux Framework** üzerinden yönetilir. Bu eklenti Homey gibi premium temalarda kullanılan aynı altyapıdır.
 
-### 6.1 Eklentiyi Yükleme
-1. **WordPress Admin → Eklentiler → Yeni Ekle** sekmesine gidin.
-2. Arama kutusuna **"Redux Framework"** yazın.
-3. **Redux – Starter Templates, Starter Sites, Style Kit, and Templates** adlı eklentiyi bulun (veya doğrudan **"Redux Framework"** aratın).
-4. **Yükle (Install Now)** → **Etkinleştir (Activate)** butonlarına basın.
+> ✅ **Redux Framework, tema aktifleştirildiğinde otomatik olarak indirilip kurulur.** Manuel eklenti yüklemenize gerek yoktur!
 
-> ⚠️ Redux Framework **ücretsiz** bir eklentidir (WordPress.org'da mevcut). Eklentiyi yüklemeseniz de tema çalışmaya devam eder, ancak tema ayar paneli görünmez.
+Eğer otomatik kurulum başarısız olursa (sunucu ayarları, internet bağlantısı vb.), admin panelinde sarı bir uyarı ile **"Install & Activate Now"** butonu görünecektir — tek tıkla kurulur.
 
-### 6.2 ThessNest Options Panelini Kullanma
+### 6.1 ThessNest Options Panelini Kullanma
 Redux etkinleştirildikten sonra:
 
 1. Sol menüde **ThessNest → ThessNest Options** bağlantısına tıklayın.

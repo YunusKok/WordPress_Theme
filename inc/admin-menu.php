@@ -163,30 +163,77 @@ add_action( 'admin_bar_menu', 'thessnest_admin_bar_menu', 40 );
 
 
 /* ==========================================================================
-   3. ADMIN NOTICE — Recommend Redux Framework
+   3. AUTO-INSTALL Redux Framework on Theme Activation
    ========================================================================== */
 
 /**
- * Show a notice if Redux Framework is not installed.
+ * Automatically install & activate Redux Framework when the theme is activated.
+ * Works the same way Homey and other premium themes bundle their dependencies.
+ */
+function thessnest_auto_install_redux() {
+	// Already active? Skip.
+	if ( class_exists( 'Redux' ) ) {
+		return;
+	}
+
+	// Check if plugin is installed but not active
+	$plugin_file = 'redux-framework/redux-framework.php';
+	$all_plugins = get_plugins();
+
+	if ( isset( $all_plugins[ $plugin_file ] ) ) {
+		// Plugin exists but not active — just activate it
+		activate_plugin( $plugin_file );
+		return;
+	}
+
+	// Not installed — download from WordPress.org and install
+	if ( ! function_exists( 'plugins_api' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+	}
+	if ( ! class_exists( 'Plugin_Upgrader' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	}
+
+	$api = plugins_api( 'plugin_information', array(
+		'slug'   => 'redux-framework',
+		'fields' => array( 'sections' => false ),
+	) );
+
+	if ( is_wp_error( $api ) ) {
+		return; // Fallback: notice will show
+	}
+
+	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$result   = $upgrader->install( $api->download_link );
+
+	if ( $result && ! is_wp_error( $result ) ) {
+		activate_plugin( $plugin_file );
+	}
+}
+add_action( 'after_switch_theme', 'thessnest_auto_install_redux' );
+
+
+/**
+ * Fallback notice — if auto-install failed (e.g. no internet, permissions),
+ * show a one-click install button.
  */
 function thessnest_redux_notice() {
 	if ( class_exists( 'Redux' ) ) {
 		return;
 	}
-	if ( get_option( 'thessnest_redux_notice_dismissed' ) ) {
-		return;
-	}
+
+	$install_url = wp_nonce_url(
+		admin_url( 'update.php?action=install-plugin&plugin=redux-framework' ),
+		'install-plugin_redux-framework'
+	);
 	?>
-	<div class="notice notice-info is-dismissible">
+	<div class="notice notice-warning">
 		<p>
 			<strong>ThessNest:</strong>
-			<?php
-			printf(
-				/* translators: %s: link to install Redux */
-				__( 'For the full theme options panel, please install and activate the %s plugin.', 'thessnest' ),
-				'<a href="' . esc_url( admin_url( 'plugin-install.php?s=Redux+Framework&tab=search&type=term' ) ) . '">Redux Framework</a>'
-			);
-			?>
+			<?php esc_html_e( 'Theme options panel requires Redux Framework.', 'thessnest' ); ?>
+			<a href="<?php echo esc_url( $install_url ); ?>" class="button button-primary" style="margin-left:10px;">
+				<?php esc_html_e( 'Install & Activate Now', 'thessnest' ); ?>
+			</a>
 		</p>
 	</div>
 	<?php

@@ -102,9 +102,14 @@ function thessnest_sanitize_chatbot_embed( $input ) {
 }
 
 /**
- * Output the chatbot embed code in the footer of all pages.
+ * Output the chatbot embed code in the footer (Customizer fallback).
+ * Skipped if Redux chatbot is already enabled.
  */
 function thessnest_output_chatbot_embed() {
+	// Skip if Redux handles the chatbot
+	if ( function_exists( 'thessnest_opt' ) && thessnest_opt( 'chatbot_enabled', false ) ) {
+		return;
+	}
 	$embed = get_theme_mod( 'thessnest_chatbot_embed', '' );
 	if ( ! empty( $embed ) ) {
 		echo "\n<!-- ThessNest Chatbot Widget -->\n";
