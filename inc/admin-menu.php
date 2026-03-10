@@ -162,83 +162,7 @@ function thessnest_admin_bar_menu( $wp_admin_bar ) {
 add_action( 'admin_bar_menu', 'thessnest_admin_bar_menu', 40 );
 
 
-/* ==========================================================================
-   3. AUTO-INSTALL Redux Framework on Theme Activation
-   ========================================================================== */
-
-/**
- * Automatically install & activate Redux Framework when the theme is activated.
- * Works the same way Homey and other premium themes bundle their dependencies.
- */
-function thessnest_auto_install_redux() {
-	// Already active? Skip.
-	if ( class_exists( 'Redux' ) ) {
-		return;
-	}
-
-	// Check if plugin is installed but not active
-	$plugin_file = 'redux-framework/redux-framework.php';
-	$all_plugins = get_plugins();
-
-	if ( isset( $all_plugins[ $plugin_file ] ) ) {
-		// Plugin exists but not active — just activate it
-		activate_plugin( $plugin_file );
-		return;
-	}
-
-	// Not installed — download from WordPress.org and install
-	if ( ! function_exists( 'plugins_api' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-	}
-	if ( ! class_exists( 'Plugin_Upgrader' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	}
-
-	$api = plugins_api( 'plugin_information', array(
-		'slug'   => 'redux-framework',
-		'fields' => array( 'sections' => false ),
-	) );
-
-	if ( is_wp_error( $api ) ) {
-		return; // Fallback: notice will show
-	}
-
-	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
-	$result   = $upgrader->install( $api->download_link );
-
-	if ( $result && ! is_wp_error( $result ) ) {
-		activate_plugin( $plugin_file );
-	}
-}
-add_action( 'after_switch_theme', 'thessnest_auto_install_redux' );
-
-
-/**
- * Fallback notice — if auto-install failed (e.g. no internet, permissions),
- * show a one-click install button.
- */
-function thessnest_redux_notice() {
-	if ( class_exists( 'Redux' ) ) {
-		return;
-	}
-
-	$install_url = wp_nonce_url(
-		admin_url( 'update.php?action=install-plugin&plugin=redux-framework' ),
-		'install-plugin_redux-framework'
-	);
-	?>
-	<div class="notice notice-warning">
-		<p>
-			<strong>ThessNest:</strong>
-			<?php esc_html_e( 'Theme options panel requires Redux Framework.', 'thessnest' ); ?>
-			<a href="<?php echo esc_url( $install_url ); ?>" class="button button-primary" style="margin-left:10px;">
-				<?php esc_html_e( 'Install & Activate Now', 'thessnest' ); ?>
-			</a>
-		</p>
-	</div>
-	<?php
-}
-add_action( 'admin_notices', 'thessnest_redux_notice' );
+// Replaced with TGM Plugin Activation
 
 
 /* ==========================================================================
@@ -350,6 +274,25 @@ function thessnest_dashboard_page() {
 					<span class="dashicons dashicons-admin-appearance" style="margin-right:6px;"></span>
 					<?php esc_html_e( 'Customize', 'thessnest' ); ?>
 				</a>
+			</div>
+			
+			<div style="margin-top:24px; padding:20px; background:#fff; border-left:4px solid #46b450; box-shadow:0 1px 1px rgba(0,0,0,.04);">
+				<h3 style="margin-top:0;"><?php esc_html_e( '🚀 One-Click Theme Setup (Optional)', 'thessnest' ); ?></h3>
+				<p style="color:#50575e;">
+					<?php esc_html_e( 'If you are installing this theme on a fresh WordPress install, click the button below to automatically generate the required pages (Home, Dashboard, Add Listing), create the main menu, set up taxonomies, and import sample properties.', 'thessnest' ); ?>
+				</p>
+				<form method="post" action="" style="margin-top:15px;">
+					<?php wp_nonce_field( 'thessnest_demo_setup', 'thessnest_demo_nonce' ); ?>
+					<input type="hidden" name="thessnest_run_setup" value="1">
+					<button type="submit" class="button button-primary button-hero" onclick="return confirm('<?php esc_attr_e( 'This will create pages, menus, and dummy properties. Proceed?', 'thessnest' ); ?>');">
+						<?php esc_html_e( 'Run Auto-Setup', 'thessnest' ); ?>
+					</button>
+				</form>
+				<?php if ( isset( $_GET['thessnest_setup'] ) && $_GET['thessnest_setup'] === 'success' ) : ?>
+					<div class="notice notice-success is-dismissible" style="margin:15px 0 0 0;">
+						<p><strong><?php esc_html_e( 'Success!', 'thessnest' ); ?></strong> <?php esc_html_e( 'Essential pages, navigation menu, taxonomies, and dummy properties have been successfully created. Your theme is now ready to use.', 'thessnest' ); ?></p>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 

@@ -76,6 +76,7 @@ global $wp_query;
 
 			<div class="archive-layout container">
 
+		<?php if ( thessnest_opt( 'show_sidebar_filters', true ) ) : ?>
 		<!-- ── Filter Sidebar ──────────────────────────────── -->
 		<aside class="filter-sidebar" id="filter-sidebar" role="complementary" aria-label="<?php esc_attr_e( 'Filter properties', 'thessnest' ); ?>">
 
@@ -84,6 +85,7 @@ global $wp_query;
 			<form id="property-filter-form" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 				<input type="hidden" name="post_type" value="property">
 
+				<?php if ( thessnest_opt( 'search_show_neighborhood', true ) ) : ?>
 				<!-- Neighborhood -->
 				<div class="filter-group">
 					<label class="filter-label" for="filter-neighborhood">
@@ -108,7 +110,9 @@ global $wp_query;
 						?>
 					</select>
 				</div>
+				<?php endif; ?>
 
+				<?php if ( thessnest_opt( 'search_show_target_group', true ) ) : ?>
 				<!-- Target Group -->
 				<div class="filter-group">
 					<label class="filter-label" for="filter-target-group">
@@ -142,6 +146,7 @@ global $wp_query;
 					</label>
 				</div>
 
+				<?php if ( thessnest_opt( 'search_show_amenities', true ) ) : ?>
 				<!-- Appliances (Specific Amenities) -->
 				<div class="filter-group">
 					<span class="filter-label"><?php esc_html_e( 'Appliances', 'thessnest' ); ?></span>
@@ -193,7 +198,9 @@ global $wp_query;
 						?>
 					</div>
 				</div>
+				<?php endif; ?>
 
+				<?php if ( thessnest_opt( 'search_show_price_range', true ) ) : ?>
 				<!-- Price Range -->
 				<div class="filter-group">
 					<span class="filter-label"><?php esc_html_e( 'Price Range (€/month)', 'thessnest' ); ?></span>
@@ -201,19 +208,20 @@ global $wp_query;
 						<input type="number"
 						       name="price_min"
 						       placeholder="<?php esc_attr_e( 'Min', 'thessnest' ); ?>"
-						       min="0"
+						       min="<?php echo esc_attr( thessnest_opt('search_price_min', 100) ); ?>"
 						       step="50"
 						       value="<?php echo isset( $_GET['price_min'] ) ? esc_attr( (int) $_GET['price_min'] ) : ''; ?>"
 						       aria-label="<?php esc_attr_e( 'Minimum price', 'thessnest' ); ?>">
 						<input type="number"
 						       name="price_max"
 						       placeholder="<?php esc_attr_e( 'Max', 'thessnest' ); ?>"
-						       min="0"
+						       max="<?php echo esc_attr( thessnest_opt('search_price_max', 2000) ); ?>"
 						       step="50"
 						       value="<?php echo isset( $_GET['price_max'] ) ? esc_attr( (int) $_GET['price_max'] ) : ''; ?>"
 						       aria-label="<?php esc_attr_e( 'Maximum price', 'thessnest' ); ?>">
 					</div>
 				</div>
+				<?php endif; ?>
 
 				<!-- Apply Filters -->
 				<button type="submit" class="btn btn-primary filter-btn">
@@ -222,10 +230,12 @@ global $wp_query;
 
 			</form>
 		</aside>
+		<?php endif; ?>
 
 		<!-- ── Main Content: Property Grid ─────────────── -->
 		<div class="archive-main">
 
+			<?php if ( thessnest_opt( 'show_sidebar_filters', true ) ) : ?>
 			<!-- Mobile Filter Toggle -->
 			<button class="mobile-filter-toggle" id="mobile-filter-toggle" aria-controls="filter-sidebar" aria-expanded="false">
 				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -234,10 +244,15 @@ global $wp_query;
 				</svg>
 				<?php esc_html_e( 'Filters', 'thessnest' ); ?>
 			</button>
+			<?php endif; ?>
 
 			<?php if ( have_posts() ) : ?>
 
-				<div class="property-grid">
+				<?php
+				$layout = thessnest_opt( 'listings_layout', 'grid' );
+				$cols   = thessnest_opt( 'listings_columns', '3' );
+				?>
+				<div class="property-grid <?php echo $layout === 'list' ? 'property-list' : ''; ?>" data-columns="<?php echo esc_attr( $cols ); ?>">
 					<?php
 					while ( have_posts() ) :
 						the_post();
@@ -290,7 +305,7 @@ global $wp_query;
 		if ( typeof L === 'undefined' ) return;
 
 		// Default to Thessaloniki coordinates
-		window.thessnestMap = L.map('properties-map').setView([40.6401, 22.9444], 13);
+		window.thessnestMap = L.map('properties-map').setView([<?php echo esc_js( thessnest_opt( 'map_default_lat', '40.6401' ) ); ?>, <?php echo esc_js( thessnest_opt( 'map_default_lng', '22.9444' ) ); ?>], 13);
 
 		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 			maxZoom: 19,
@@ -314,8 +329,8 @@ global $wp_query;
 
 				if ( ! $lat || ! $lng ) {
 					// Fallback pseudo-random for demo
-					$lat = 40.6401 + ( ( rand(0, 100) - 50 ) / 3000 );
-					$lng = 22.9444 + ( ( rand(0, 100) - 50 ) / 3000 );
+					$lat = floatval( thessnest_opt( 'map_default_lat', '40.6401' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
+					$lng = floatval( thessnest_opt( 'map_default_lng', '22.9444' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
 				}
 
 				$img_url = has_post_thumbnail() ? get_the_post_thumbnail_url( $prop_id, 'medium' ) : '';

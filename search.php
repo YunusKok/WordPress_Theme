@@ -41,7 +41,11 @@ get_header();
 
 		<?php if ( have_posts() ) : ?>
 
-			<div class="property-grid">
+			<?php
+			$layout = thessnest_opt( 'listings_layout', 'grid' );
+			$cols   = thessnest_opt( 'listings_columns', '3' );
+			?>
+			<div class="property-grid <?php echo $layout === 'list' ? 'property-list' : ''; ?>" data-columns="<?php echo esc_attr( $cols ); ?>">
 				<?php while ( have_posts() ) : the_post(); ?>
 					<?php
 					// Use property card for properties, fallback for other post types

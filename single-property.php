@@ -219,9 +219,9 @@ get_header();
 							?>
 							<h3 style="font-size:var(--font-size-lg);margin-bottom:var(--space-4);color:var(--color-primary);">
 								<?php if ( $is_instant_book ) : ?>
-									⚡ <?php esc_html_e( 'Instant Book', 'thessnest' ); ?>
+									⚡ <?php echo esc_html( thessnest_label( 'book_now', __( 'Instant Book', 'thessnest' ) ) ); ?>
 								<?php else : ?>
-									<?php esc_html_e( 'Request to Book', 'thessnest' ); ?>
+									<?php echo esc_html( thessnest_label( 'book_now', __( 'Request to Book', 'thessnest' ) ) ); ?>
 								<?php endif; ?>
 							</h3>
 							
@@ -269,9 +269,9 @@ get_header();
 
 									<button type="submit" id="booking-submit-btn" class="btn btn-primary" style="width:100%; justify-content:center; padding:var(--space-3); font-size:var(--font-size-base);">
 										<?php if ( $is_instant_book ) : ?>
-											⚡ <?php esc_html_e( 'Book Instantly', 'thessnest' ); ?>
+											⚡ <?php echo esc_html( thessnest_label( 'book_now', __( 'Book Instantly', 'thessnest' ) ) ); ?>
 										<?php else : ?>
-											<?php esc_html_e( 'Request to Book', 'thessnest' ); ?>
+											<?php echo esc_html( thessnest_label( 'book_now', __( 'Request to Book', 'thessnest' ) ) ); ?>
 										<?php endif; ?>
 									</button>
 									<input type="hidden" name="instant_book" value="<?php echo esc_attr( $is_instant_book ? '1' : '0' ); ?>">
@@ -330,7 +330,7 @@ get_header();
 
 		<!-- Reviews & Ratings Section -->
 		<?php
-		if ( comments_open() || get_comments_number() ) :
+		if ( thessnest_opt( 'show_reviews', true ) && ( comments_open() || get_comments_number() ) ) :
 			comments_template();
 		endif;
 		?>

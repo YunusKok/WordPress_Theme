@@ -105,6 +105,9 @@ require_once THESSNEST_DIR . '/inc/accommodation-proof.php';
 require_once THESSNEST_DIR . '/inc/admin-menu.php';
 require_once THESSNEST_DIR . '/inc/redux-helpers.php';
 require_once THESSNEST_DIR . '/inc/redux-config.php';
+require_once THESSNEST_DIR . '/inc/demo-setup.php'; // Local Demo Setup Script
+require_once THESSNEST_DIR . '/inc/tgm-config.php'; // TGM Plugin Activation
+require_once THESSNEST_DIR . '/inc/ocdi-config.php'; // One Click Demo Import Config
 
 
 

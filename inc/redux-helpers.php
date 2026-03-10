@@ -67,6 +67,18 @@ function thessnest_output_dynamic_css() {
 		echo ".property-card, .stat-card { background:#1f2937; border-color:#374151; color:#e5e7eb; }\n";
 	}
 
+	// Layout controls
+	echo "@media (min-width: 1024px) {\n";
+	echo "  .property-grid[data-columns=\"2\"] { grid-template-columns: repeat(2, 1fr) !important; }\n";
+	echo "  .property-grid[data-columns=\"3\"] { grid-template-columns: repeat(3, 1fr) !important; }\n";
+	echo "  .property-grid[data-columns=\"4\"] { grid-template-columns: repeat(4, 1fr) !important; }\n";
+	echo "}\n";
+	echo ".property-grid.property-list { grid-template-columns: 1fr !important; }\n";
+	echo "@media (min-width: 768px) {\n";
+	echo "  .property-grid.property-list .property-card { display: flex; flex-direction: row; align-items: stretch; }\n";
+	echo "  .property-grid.property-list .card-carousel { width: 300px; flex-shrink: 0; }\n";
+	echo "}\n";
+
 	echo "</style>\n";
 }
 add_action( 'wp_head', 'thessnest_output_dynamic_css', 99 );
@@ -408,4 +420,30 @@ add_filter( 'wp_mail_from', 'thessnest_mail_from_email' );
 function thessnest_label( $key, $default = '' ) {
 	return thessnest_opt( 'label_' . $key, $default );
 }
+
+
+/* ==========================================================================
+   15. QUERIES — Property per page & sorting
+   ========================================================================== */
+
+function thessnest_redux_property_query( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && ( is_post_type_archive( 'property' ) || is_tax( array( 'neighborhood', 'amenity', 'target_group' ) ) ) ) {
+		// Per Page
+		$per_page = (int) thessnest_opt( 'listings_per_page', 12 );
+		$query->set( 'posts_per_page', $per_page );
+
+		// Sort
+		$sort = thessnest_opt( 'listings_default_sort', 'newest' );
+		if ( $sort === 'price_low' ) {
+			$query->set( 'meta_key', 'rent' );
+			$query->set( 'orderby', 'meta_value_num' );
+			$query->set( 'order', 'ASC' );
+		} elseif ( $sort === 'price_high' ) {
+			$query->set( 'meta_key', 'rent' );
+			$query->set( 'orderby', 'meta_value_num' );
+			$query->set( 'order', 'DESC' );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'thessnest_redux_property_query' );
 

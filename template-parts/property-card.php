@@ -116,7 +116,7 @@ $placeholder_images = array(
 						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
 						<polyline points="22 4 12 14.01 9 11.01"/>
 					</svg>
-					<?php esc_html_e( 'Verified', 'thessnest' ); ?>
+					<?php echo esc_html( thessnest_label('verified', 'Verified') ); ?>
 				</span>
 			<?php endif; ?>
 
@@ -167,16 +167,16 @@ $placeholder_images = array(
 		<div class="card-pricing">
 			<?php if ( $rent ) : ?>
 				<span class="price-main"><?php echo esc_html( thessnest_format_price( $rent ) ); ?></span>
-				<span class="price-period">/<?php esc_html_e( 'mo', 'thessnest' ); ?></span>
+				<span class="price-period"><?php echo esc_html( thessnest_price_period() ); ?></span>
 			<?php endif; ?>
 
 			<?php if ( $utilities || $deposit ) : ?>
 				<span class="price-breakdown">
 					<?php if ( $utilities ) : ?>
-						+ <?php echo esc_html( thessnest_format_price( $utilities ) ); ?> <?php esc_html_e( 'utils', 'thessnest' ); ?>
+						+ <?php echo esc_html( thessnest_format_price( $utilities ) ); ?> <?php echo esc_html( thessnest_label('utilities', 'utils') ); ?>
 					<?php endif; ?>
 					<?php if ( $deposit ) : ?>
-						&middot; <?php echo esc_html( thessnest_format_price( $deposit ) ); ?> <?php esc_html_e( 'dep.', 'thessnest' ); ?>
+						&middot; <?php echo esc_html( thessnest_format_price( $deposit ) ); ?> <?php echo esc_html( thessnest_label('deposit', 'dep.') ); ?>
 					<?php endif; ?>
 				</span>
 			<?php endif; ?>

@@ -106,8 +106,8 @@ function thessnest_ajax_filter_properties() {
 			$lng = get_post_meta( $prop_id, '_thessnest_longitude', true );
 
 			if ( ! $lat || ! $lng ) {
-				$lat = 40.6401 + ( ( rand(0, 100) - 50 ) / 3000 );
-				$lng = 22.9444 + ( ( rand(0, 100) - 50 ) / 3000 );
+				$lat = floatval( thessnest_opt( 'map_default_lat', '40.6401' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
+				$lng = floatval( thessnest_opt( 'map_default_lng', '22.9444' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
 			}
 
 			$img_url = has_post_thumbnail() ? get_the_post_thumbnail_url( $prop_id, 'medium' ) : '';
