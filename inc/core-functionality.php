@@ -49,7 +49,7 @@ function thessnest_register_property_cpt() {
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
-		'show_in_menu'       => true,
+		'show_in_menu'       => 'thessnest-dashboard',
 		'show_in_rest'       => true,     // Gutenberg + REST API support
 		'query_var'          => true,
 		'rewrite'            => array( 'slug' => 'properties', 'with_front' => false ),
@@ -89,8 +89,8 @@ function thessnest_register_message_cpt() {
 		'label'               => __( 'Messages', 'thessnest' ),
 		'public'              => false, // Completely private
 		'publicly_queryable'  => false,
-		'show_ui'             => true, // Allow admin to see them
-		'show_in_menu'        => true,
+		'show_ui'             => true,
+		'show_in_menu'        => 'thessnest-dashboard',
 		'query_var'           => false,
 		'rewrite'             => false,
 		'capability_type'     => 'post',
@@ -120,8 +120,8 @@ function thessnest_register_booking_cpt() {
 		'label'               => __( 'Bookings', 'thessnest' ),
 		'public'              => false, // Completely private
 		'publicly_queryable'  => false,
-		'show_ui'             => true, // Admin visibility
-		'show_in_menu'        => true,
+		'show_ui'             => true,
+		'show_in_menu'        => 'thessnest-dashboard',
 		'query_var'           => false,
 		'rewrite'             => false,
 		'capability_type'     => 'post',

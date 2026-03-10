@@ -102,6 +102,7 @@ require_once THESSNEST_DIR . '/inc/ajax-messaging.php';
 require_once THESSNEST_DIR . '/inc/ajax-booking.php';
 require_once THESSNEST_DIR . '/inc/ajax-kyc.php';
 require_once THESSNEST_DIR . '/inc/accommodation-proof.php';
+require_once THESSNEST_DIR . '/inc/admin-menu.php';
 
 
 
