@@ -433,6 +433,52 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	/* ----------------------------------------------------
+	 * 10a. Dashboard 'Pay to Publish' (Monetization Paywall)
+	 * ---------------------------------------------------- */
+	const payPublishBtns = document.querySelectorAll('.btn-pay-publish');
+	payPublishBtns.forEach(btn => {
+		btn.addEventListener('click', function(e) {
+			e.preventDefault();
+
+			const propertyId = this.dataset.propertyId;
+			const nonce = this.dataset.nonce;
+			const originalHtml = this.innerHTML;
+
+			this.disabled = true;
+			this.innerHTML = '<?xml version="1.0" encoding="utf-8"?><svg width="20px" height="20px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="display:inline-block; vertical-align:middle; background:transparent;"><circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="8" r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform></circle></svg>';
+
+			const formData = new FormData();
+			formData.append('action', 'thessnest_pay_to_publish');
+			formData.append('security', nonce);
+			formData.append('property_id', propertyId);
+
+			fetch(thessnestAjax.ajaxurl, {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success && data.data.redirect) {
+					window.location.href = data.data.redirect;
+				} else if (data.success) {
+					// Free publish
+					window.location.reload();
+				} else {
+					alert(data.data.message || 'Error processing request.');
+					this.disabled = false;
+					this.innerHTML = originalHtml;
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				alert('An unexpected error occurred.');
+				this.disabled = false;
+				this.innerHTML = originalHtml;
+			});
+		});
+	});
+
+	/* ----------------------------------------------------
 	 * 10. Dashboard specific Property Delete (Trash)
 	 * ---------------------------------------------------- */
 	const deleteBtns = document.querySelectorAll('.btn-delete-property');

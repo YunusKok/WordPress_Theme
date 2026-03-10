@@ -206,6 +206,22 @@ function thessnest_manage_booking() {
 		}
 		
 		$new_status = ( $action_type === 'accept' ) ? 'confirmed' : 'rejected';
+
+		// Intercept Acceptance with WooCommerce Checkout Generation
+		if ( $action_type === 'accept' && class_exists( 'ThessNest_WooCommerce_Integration' ) ) {
+			$payment_link = ThessNest_WooCommerce_Integration::generate_checkout_link_internal( $booking_id );
+			
+			if ( is_wp_error( $payment_link ) ) {
+				wp_send_json_error( array( 'message' => $payment_link->get_error_message() ) );
+			} elseif ( $payment_link !== false ) {
+				// We generated a link, the internal function already updated the status to 'awaiting_payment'
+				wp_send_json_success( array( 
+					'message'    => __( 'Booking accepted. The tenant has been emailed a secure payment link for the deposit.', 'thessnest' ), 
+					'new_status' => 'awaiting_payment' 
+				) );
+			}
+		}
+
 		update_post_meta( $booking_id, '_booking_status', $new_status );
 
 		// Fire internal message to tenant

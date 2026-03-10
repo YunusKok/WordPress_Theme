@@ -202,12 +202,93 @@ get_header();
 				?>
 					<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-6);">
 						<h2 style="font-size:var(--font-size-xl); margin:0; color:var(--color-primary);">
-							<?php esc_html_e( 'My Properties', 'thessnest' ); ?>
+							<?php esc_html_e( 'My Properties & Analytics', 'thessnest' ); ?>
 						</h2>
 						<a href="<?php echo esc_url( home_url( '/add-listing/' ) ); ?>" class="btn btn-outline" style="padding:var(--space-2) var(--space-4); font-size:var(--font-size-sm);">
 							<?php esc_html_e( 'Create New', 'thessnest' ); ?>
 						</a>
 					</div>
+
+					<!-- Performance Overview Chart -->
+					<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-6); margin-bottom:var(--space-8);">
+						<h3 style="margin-top:0; font-size:var(--font-size-lg); color:var(--color-text); margin-bottom:var(--space-4);">
+							<span class="dashicons dashicons-chart-area" style="vertical-align:text-bottom;"></span> <?php esc_html_e( 'Performance Overview', 'thessnest' ); ?>
+						</h3>
+						<div class="chart-container" style="position:relative; height:300px; width:100%;">
+							<canvas id="landlordAnalyticsChart"></canvas>
+						</div>
+					</div>
+
+					<?php
+					$chart_json = function_exists( 'thessnest_get_landlord_chart_data' ) ? thessnest_get_landlord_chart_data( $user->ID ) : '{}';
+					?>
+					<script>
+					document.addEventListener("DOMContentLoaded", function() {
+						if (typeof Chart !== 'undefined') {
+							var chartData = <?php echo $chart_json; ?>;
+							if (chartData && chartData.labels && chartData.labels.length > 0) {
+								var ctx = document.getElementById('landlordAnalyticsChart').getContext('2d');
+								new Chart(ctx, {
+									type: 'bar',
+									data: {
+										labels: chartData.labels,
+										datasets: [
+											{
+												label: 'Total Views',
+												data: chartData.views,
+												backgroundColor: 'rgba(37, 99, 235, 0.7)', // Primary blue
+												borderColor: 'rgba(37, 99, 235, 1)',
+												borderWidth: 1,
+												yAxisID: 'y'
+											},
+											{
+												label: 'Monthly Rent (€)',
+												data: chartData.prices,
+												type: 'line',
+												backgroundColor: 'rgba(56, 161, 105, 0.2)', // Green
+												borderColor: 'rgba(56, 161, 105, 1)',
+												borderWidth: 2,
+												pointBackgroundColor: 'rgba(56, 161, 105, 1)',
+												tension: 0.4,
+												yAxisID: 'y1'
+											}
+										]
+									},
+									options: {
+										responsive: true,
+										maintainAspectRatio: false,
+										interaction: {
+											mode: 'index',
+											intersect: false,
+										},
+										scales: {
+											y: {
+												type: 'linear',
+												display: true,
+												position: 'left',
+												title: { display: true, text: 'Views' }
+											},
+											y1: {
+												type: 'linear',
+												display: true,
+												position: 'right',
+												title: { display: true, text: 'Rent (€)' },
+												grid: { drawOnChartArea: false }
+											}
+										}
+									}
+								});
+							} else {
+								document.getElementById('landlordAnalyticsChart').parentElement.innerHTML = 
+									'<p style="text-align:center; color:gray; padding-top:100px;"><?php esc_html_e("Not enough data to display analytics.", "thessnest"); ?></p>';
+							}
+						}
+					});
+					</script>
+
+					<h3 style="font-size:var(--font-size-lg); border-bottom:1px solid var(--color-border); padding-bottom:var(--space-2); margin-bottom:var(--space-4);">
+						<?php esc_html_e( 'Active Listings', 'thessnest' ); ?>
+					</h3>
 
 					<?php
 					$landlord_query = new WP_Query( array(
@@ -265,6 +346,11 @@ get_header();
 									</div>
 
 									<div style="display:flex; gap:var(--space-2);">
+										<?php if ( 'pending' === $status && class_exists('WooCommerce') ) : ?>
+											<button class="btn btn-primary btn-pay-publish" data-property-id="<?php the_ID(); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'thessnest_dashboard_nonce' ) ); ?>" style="padding:var(--space-2) var(--space-4); background-color:#38a169; border-color:#38a169;" title="<?php esc_attr_e('Pay Listing Fee to Publish', 'thessnest'); ?>">
+												<?php esc_html_e( 'Pay to Publish', 'thessnest' ); ?>
+											</button>
+										<?php endif; ?>
 										<button class="btn btn-outline btn-delete-property" data-property-id="<?php the_ID(); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'thessnest_dashboard_nonce' ) ); ?>" style="padding:var(--space-2); color:#e53e3e; border-color:#fc8181;" title="<?php esc_attr_e('Move to Trash', 'thessnest'); ?>">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 												<polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>

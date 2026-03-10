@@ -56,6 +56,11 @@ function thessnest_submit_listing() {
 	$instant_book = isset( $_POST['listing_instant_book'] ) ? '1' : '0';
 	update_post_meta( $post_id, '_thessnest_instant_book', $instant_book );
 
+	$ical_url = isset( $_POST['listing_ical_url'] ) ? esc_url_raw( $_POST['listing_ical_url'] ) : '';
+	if ( ! empty( $ical_url ) ) {
+		update_post_meta( $post_id, '_thessnest_ical_import_url', $ical_url );
+	}
+
 	// 4. Assign Taxonomies
 	$neighborhood_id = isset( $_POST['listing_neighborhood'] ) ? intval( $_POST['listing_neighborhood'] ) : 0;
 	if ( $neighborhood_id > 0 ) {

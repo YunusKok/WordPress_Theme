@@ -54,6 +54,20 @@ function thessnest_register_required_plugins() {
 			'slug'      => 'one-click-demo-import',
 			'required'  => false,
 		),
+
+		// 6. Elementor (Recommended for Customizing Pages)
+		array(
+			'name'      => 'Elementor Website Builder',
+			'slug'      => 'elementor',
+			'required'  => false,
+		),
+
+		// 7. WooCommerce (Required for Payments & Subscriptions)
+		array(
+			'name'      => 'WooCommerce',
+			'slug'      => 'woocommerce',
+			'required'  => true,
+		),
 	);
 
 	/*

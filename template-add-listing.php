@@ -108,6 +108,17 @@ get_header();
 					</p>
 				</div>
 
+				<!-- iCal External Calendar Import -->
+				<div class="form-group">
+					<label for="listing_ical_url" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+						<?php esc_html_e( 'External iCal Import URL (.ics) - Optional', 'thessnest' ); ?>
+					</label>
+					<input type="url" id="listing_ical_url" name="listing_ical_url" placeholder="https://www.airbnb.com/calendar/ical/..." style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
+					<p style="font-size:12px;color:var(--color-text-muted);margin-top:var(--space-1);">
+						<?php esc_html_e( 'Paste your Airbnb or Booking.com calendar sync link here to prevent double bookings.', 'thessnest' ); ?>
+					</p>
+				</div>
+
 				<!-- Neighborhood -->
 					<div class="form-group">
 						<label for="listing_neighborhood" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">

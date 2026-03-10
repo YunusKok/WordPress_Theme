@@ -108,6 +108,15 @@ require_once THESSNEST_DIR . '/inc/redux-config.php';
 require_once THESSNEST_DIR . '/inc/demo-setup.php'; // Local Demo Setup Script
 require_once THESSNEST_DIR . '/inc/tgm-config.php'; // TGM Plugin Activation
 require_once THESSNEST_DIR . '/inc/ocdi-config.php'; // One Click Demo Import Config
+require_once THESSNEST_DIR . '/inc/elementor/class-thessnest-elementor.php'; // Elementor Extension Base
+require_once THESSNEST_DIR . '/inc/dashboard-analytics.php'; // Advanced Analytics
+require_once THESSNEST_DIR . '/inc/email-templates.php'; // HTML Email Templates
+require_once THESSNEST_DIR . '/inc/availability-calendar.php'; // Availability Calendar
+require_once THESSNEST_DIR . '/inc/woo-integration.php'; // WooCommerce Subscription & Payment gateway
+require_once THESSNEST_DIR . '/inc/ical-sync.php'; // iCal Synchronization API
+require_once THESSNEST_DIR . '/inc/social-login.php'; // OAuth / Social Login
+require_once THESSNEST_DIR . '/inc/monetization.php'; // Monetization & Listing Packages Paywall
+require_once THESSNEST_DIR . '/inc/advanced-reviews.php'; // Multi-Criteria Reviews System
 
 
 
