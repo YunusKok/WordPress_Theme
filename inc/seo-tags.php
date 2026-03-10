@@ -15,24 +15,24 @@ defined( 'ABSPATH' ) || exit;
  */
 function thessnest_native_seo_tags() {
 	// Base Keyword Clusters
-	$base_keywords = 'Erasmus housing Thessaloniki, digital nomad apartments Thessaloniki, student accommodation no agency fee, verified landlord student apartments Thessaloniki, short term rental fast wifi Thessaloniki';
+	$base_keywords = 'Erasmus housing Thessaloniki, digital nomad apartments Thessaloniki, student accommodation no agency fee, verified landlord student apartments Thessaloniki, short term rental fast wifi Thessaloniki, digital nomad in Thessaloniki, digital nomad in Greece, remote work apartment Thessaloniki';
 
 	$description = '';
 	$keywords    = $base_keywords;
 
 	if ( is_front_page() || is_home() ) {
 		$description = 'Verified mid-term rentals & student accommodation with no agency fee. Find laptop-friendly workspace digital nomad apartments, safe student rooms near Aristotle University, and flexible checkout mid-term rent in Thessaloniki.';
-		$keywords    = $base_keywords . ', accommodation proof for D-type student visa, Erasmus internship housing Thessaloniki, student flat with utilities included Thessaloniki, flatmate search Erasmus Thessaloniki, student rental contract requirements Greece';
+		$keywords    = $base_keywords . ', accommodation proof for D-type student visa, Erasmus internship housing Thessaloniki, student flat with utilities included Thessaloniki, flatmate search Erasmus Thessaloniki, student rental contract requirements Greece, safe student rooms near Aristotle University, flexible checkout mid-term rent, laptop-friendly workspace apartment Thessaloniki, instant book mid-term rentals Thessaloniki, split rent student accommodation, 3 person shared student apartment Thessaloniki, short-term Erasmus accommodation Thessaloniki, 1 semester student housing Thessaloniki, short-term student room for rent Greece, how to avoid rental scams Thessaloniki';
 	} elseif ( is_singular( 'property' ) ) {
 		global $post;
 		$title = get_the_title( $post->ID );
 		
 		// Fallback description based on title + trust keywords
 		$description = sprintf( 'Rent %s in Thessaloniki. Safe student rooms & digital nomad flat with high-speed internet monthly rental. Verified landlord student apartments.', esc_attr( $title ) );
-		$keywords    = $title . ', rent apartment abroad without viewing, how to rent a flat in Greece as a foreigner, student apartment with washing machine Thessaloniki, ' . $base_keywords;
+		$keywords    = $title . ', rent apartment abroad without viewing, how to rent a flat in Greece as a foreigner, student apartment with washing machine Thessaloniki, entire furnished flat 3 bedrooms Thessaloniki, student housing with large workspace Thessaloniki, high-speed internet monthly rental Thessaloniki, furnished apartment with laundry Thessaloniki, fully equipped kitchen digital nomad housing Thessaloniki, flat with dishwasher and oven mid-term Thessaloniki, short term rental with full kitchen appliances Thessaloniki, ' . $base_keywords;
 	} elseif ( is_post_type_archive( 'property' ) || is_tax( array( 'neighborhood', 'amenity', 'target_group' ) ) ) {
 		$description = 'Browse verified student apartments and digital nomad housing in Thessaloniki. Filter by safest neighborhoods for international students, deposit-free nomad housing, and flats with dishwasher and oven mid-term.';
-		$keywords    = 'student housing near cheap supermarkets Thessaloniki, Erasmus flat near grocery stores Thessaloniki, coworking friendly apartments Thessaloniki, ' . $base_keywords;
+		$keywords    = 'student housing near cheap supermarkets Thessaloniki, Erasmus flat near grocery stores Thessaloniki, coworking friendly apartments Thessaloniki, safest neighborhoods for international students Thessaloniki, deposit-free nomad housing Thessaloniki, digital nomad flat shared kitchen Thessaloniki, ' . $base_keywords;
 	} else {
 		// Generic fallback
 		$description = 'ThessNest: Premium midterm and short term rental fast wifi in Thessaloniki. Accommodation proof for D-type student visa.';
