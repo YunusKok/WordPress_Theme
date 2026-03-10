@@ -2,7 +2,13 @@
 
 This document contains a list of essential plugins recommended to get the best out of the ThessNest theme, handle translations, and optimize site performance.
 
-### 1. Loco Translate (Translation & String Management)
+### 1. Redux Framework (Theme Options Panel) ★ CRITICAL
+*   **Purpose:** Powers the **ThessNest Options** panel — the full-page settings screen with a dark sidebar where you configure logos, header, booking, pricing, styling, footer, contact info, and live chat. This is the same framework used by premium themes like Homey.
+*   **Install:** WordPress Admin → Plugins → Add New → Search "Redux Framework" → Install → Activate
+*   **Cost:** Free
+*   **Priority:** Critical (Without this, the theme options panel will not appear)
+
+### 2. Loco Translate (Translation & String Management)
 *   **Purpose:** Allows you to translate or modify hardcoded theme strings (e.g., "Verified", "Monthly Rent", "Amenities") directly from the WordPress admin panel without touching code.
 *   **Cost:** Free
 *   **Priority:** Critical (Required to localize/customize standard theme text)

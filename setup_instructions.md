@@ -154,41 +154,72 @@ Ana sayfadaki büyük Selanik fotoğrafını değiştirmek veya yüklemek için:
 
 ---
 
-## 6. Tema Ayarları — Customizer (İletişim ve Sosyal Medya)
-Footer ve diğer bölümlerde kullanılan iletişim bilgilerini güncelleyin:
+## 6. Redux Framework Kurulumu (Tema Ayar Paneli) ★ KRİTİK
+ThessNest temasının tüm ayarları (logo, header, booking, fiyatlandırma, footer, sosyal medya vb.) **Redux Framework** eklentisi üzerinden yönetilir. Bu eklenti Homey gibi premium temalarda kullanılan aynı altyapıdır.
 
-1. **Appearance > Customize** sekmesine gidin.
-2. **ThessNest Ayarları** bölümüne tıklayın.
-3. Aşağıdaki alanları doldurun:
-   - **Telefon Numarası** (Örn: +30 231 000 0000)
-   - **E-Posta Adresi** (Örn: hello@thessnest.com)
-   - **Instagram Bağlantısı** (Örn: https://instagram.com/thessnest)
-   - **WhatsApp Bağlantısı** (Örn: https://wa.me/30231000000)
-   - **Footer Telif Metni** (Örn: © 2026 ThessNest. All rights reserved.)
+### 6.1 Eklentiyi Yükleme
+1. **WordPress Admin → Eklentiler → Yeni Ekle** sekmesine gidin.
+2. Arama kutusuna **"Redux Framework"** yazın.
+3. **Redux – Starter Templates, Starter Sites, Style Kit, and Templates** adlı eklentiyi bulun (veya doğrudan **"Redux Framework"** aratın).
+4. **Yükle (Install Now)** → **Etkinleştir (Activate)** butonlarına basın.
+
+> ⚠️ Redux Framework **ücretsiz** bir eklentidir (WordPress.org'da mevcut). Eklentiyi yüklemeseniz de tema çalışmaya devam eder, ancak tema ayar paneli görünmez.
+
+### 6.2 ThessNest Options Panelini Kullanma
+Redux etkinleştirildikten sonra:
+
+1. Sol menüde **ThessNest → ThessNest Options** bağlantısına tıklayın.
+2. Veya üst admin çubuğundaki **ThessNest Options** kısayolunu kullanın.
+3. Sol tarafta koyu renkli sidebar'da bölüm listesi göreceksiniz:
+
+| Bölüm | Açıklama |
+|-------|----------|
+| **General** | Site açıklaması, varsayılan dil, Google Maps API |
+| **Logos & Favicon** | Logo yükleme (açık/koyu), favicon |
+| **Header Nav** | Sticky header, header stili, CTA butonu |
+| **Booking** | Min/max kiralama süresi, depozito, onay modu |
+| **Price & Currency** | Para birimi, pozisyon, fiyat etiketi |
+| **Styling** | Accent renk, dark mode, köşe yuvarlaklığı |
+| **Footer** | Copyright metni, sosyal medya açık/kapalı |
+| **Contact** | Telefon, e-posta, adres, tüm sosyal medya URL'leri |
+| **Live Chat** | Chatbot embed kodu (Tidio, Tawk.to vb.) |
+
+4. Her bölümde ayarları yapıp sağ üstteki **Save Changes** butonuna basın.
+
+> 💡 Redux panelinde **Import/Export** özelliği mevcuttur — bir sunucudan ekleyip diğerine kopyalayabilirsiniz.
+
+---
+
+## 7. Tema Ayarları — Customizer (Ek Ayarlar)
+Redux Framework dışında, bazı ek ayarlar hâlâ WordPress Customizer üzerinden kontrol edilir:
+
+1. **Appearance → Customize** sekmesine gidin.
+2. **Homepage Settings** → Hero görseli, başlıklar.
+3. **ThessNest Ayarları** → Chatbot embed kodu (Redux'ta da dahil).
 4. **Publish** butonuna basın.
 
 ---
 
-## 7. Mahalleler, Özellikler ve Hedef Grup Ekleme (Taxonomies)
+## 8. Mahalleler, Özellikler ve Hedef Grup Ekleme (Taxonomies)
 Arama filtreleri ve ilanların düzgün çalışması için taxonomy terimlerini önceden oluşturmalısınız:
 
-### 7.1 Neighborhoods (Mahalleler)
-1. **Properties > Neighborhoods** sekmesine gidin.
+### 8.1 Neighborhoods (Mahalleler)
+1. **ThessNest → Neighborhoods** sekmesine gidin.
 2. Selanik'in mahallelerini ekleyin: Ladadika, Kalamaria, Ano Poli, Toumba, Pylaia, Triangle, vb.
 
-### 7.2 Amenities (Özellikler)
-1. **Properties > Amenities** sekmesine gidin.
+### 8.2 Amenities (Özellikler)
+1. **ThessNest → Amenities** sekmesine gidin.
 2. Eklenmesi önerilen özellikler: Fast Wi-Fi, Washing Machine, Balcony, Air Conditioning, Dedicated Workspace, Furnished, Elevator, Parking, Dishwasher, vb.
 
-### 7.3 Target Groups (Hedef Gruplar)
-1. **Properties > Target Groups** sekmesine gidin.
+### 8.3 Target Groups (Hedef Gruplar)
+1. **ThessNest → Target Groups** sekmesine gidin.
 2. Ekleyin: Student, Digital Nomad, Expat
 
 > ✅ Bu terimlerin oluşturulmadan ilan eklenemez (dropdown'lar boş görünür).
 
 ---
 
-## 8. Kullanıcı Rolleri (User Roles — Landlord / Tenant)
+## 9. Kullanıcı Rolleri (User Roles — Landlord / Tenant)
 Tema iki özel kullanıcı rolü tanımlar:
 - **Landlord (Ev Sahibi):** İlan ekleyebilir, KYC belgesi yükleyebilir.
 - **Tenant (Kiracı):** Favorilere ekleyebilir, rezervasyon yapabilir, mesaj gönderebilir.
@@ -200,7 +231,7 @@ Bu roller tema aktifleştirildiğinde otomatik yaratılır.
 
 ---
 
-## 9. E-Posta Gönderimi (SMTP Kurulumu) ★ ÖNEMLİ
+## 10. E-Posta Gönderimi (SMTP Kurulumu) ★ ÖNEMLİ
 İletişim formu, rezervasyon bildirimi ve KYC onay e-postalarının çalışması için WordPress'inizin e-posta gönderebiliyor olması gerekir.
 
 - Paylaşımlı hosting'lerde PHP `mail()` fonksiyonu genellikle spama düşer veya hiç çalışmaz.
@@ -209,7 +240,7 @@ Bu roller tema aktifleştirildiğinde otomatik yaratılır.
 
 ---
 
-## 10. İnceleme Sistemi (Reviews & Ratings)
+## 11. İnceleme Sistemi (Reviews & Ratings)
 5 yıldızlı puanlama sistemi aktiftir. WordPress'in yorum altyapısını kullanır.
 
 1. **Settings > Discussion (Tartışma)** sekmesine gidin.
@@ -218,7 +249,7 @@ Bu roller tema aktifleştirildiğinde otomatik yaratılır.
 
 ---
 
-## 11. Test Verisi Ekleme (Adding Sample Properties)
+## 12. Test Verisi Ekleme (Adding Sample Properties)
 Sitenin canlı görünmesi için birkaç test ilanı eklemelisiniz:
 
 1. **Properties > Add New** sekmesine gidin.
@@ -232,9 +263,10 @@ Sitenin canlı görünmesi için birkaç test ilanı eklemelisiniz:
 
 ---
 
-## 12. Önerilen Eklentiler (Recommended Plugins)
+## 13. Önerilen Eklentiler (Recommended Plugins)
 | Eklenti | Amaç | Öncelik |
 |---------|-------|---------|
+| **Redux Framework** | Tema ayar paneli (ThessNest Options) | ★★★ Kritik |
 | **WP Mail SMTP** | E-posta gönderimini sağlamak | ★★★ Kritik |
 | **Loco Translate** | Tema metinlerini panelden çevirmek/düzenlemek | ★★★ Kritik |
 | **Rank Math SEO** (veya Yoast) | Arama motoru optimizasyonu | ★★☆ Yüksek |
@@ -253,11 +285,12 @@ Sitenin canlı görünmesi için birkaç test ilanı eklemelisiniz:
 - [ ] Add Listing sayfası oluşturuldu (`/add-listing/`) (Adım 4.2)
 - [ ] About Us sayfası oluşturuldu (Adım 4.3)
 - [ ] Hero görseli yüklendi (Adım 5)
-- [ ] Customizer ayarları güncellendi (Adım 6)
-- [ ] Mahalleler eklendi (Adım 7.1)
-- [ ] Özellikler (Amenities) eklendi (Adım 7.2)
-- [ ] Hedef Gruplar eklendi (Adım 7.3)
-- [ ] Test kullanıcıları oluşturuldu (Adım 8)
-- [ ] SMTP eklentisi kuruldu ve test edildi (Adım 9)
-- [ ] En az 1 test ilanı yayınlandı (Adım 11)
-- [ ] Önerilen eklentiler kuruldu (Adım 12)
+- [ ] Redux Framework kuruldu ve aktifleştirildi (Adım 6)
+- [ ] ThessNest Options ayarları yapıldı (Adım 6.2)
+- [ ] Mahalleler eklendi (Adım 8.1)
+- [ ] Özellikler (Amenities) eklendi (Adım 8.2)
+- [ ] Hedef Gruplar eklendi (Adım 8.3)
+- [ ] Test kullanıcıları oluşturuldu (Adım 9)
+- [ ] SMTP eklentisi kuruldu ve test edildi (Adım 10)
+- [ ] En az 1 test ilanı yayınlandı (Adım 12)
+- [ ] Önerilen eklentiler kuruldu (Adım 13)
