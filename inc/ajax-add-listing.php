@@ -17,6 +17,11 @@ function thessnest_submit_listing() {
 		wp_send_json_error( array( 'message' => __( 'You must be logged in to submit a listing.', 'thessnest' ) ) );
 	}
 
+	// Block unverified hosts from submitting listings
+	if ( function_exists( 'thessnest_host_can_list' ) && ! thessnest_host_can_list() ) {
+		wp_send_json_error( array( 'message' => __( 'Your account is not yet verified. Please complete the ID verification in your Dashboard before listing a property.', 'thessnest' ) ) );
+	}
+
 	// 1. Sanitize Basic Inputs
 	$title       = isset( $_POST['listing_title'] ) ? sanitize_text_field( wp_unslash( $_POST['listing_title'] ) ) : '';
 	$description = isset( $_POST['listing_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['listing_description'] ) ) : '';

@@ -17,11 +17,61 @@ class ThessNest_Social_Login {
 		add_action( 'login_form', [ $this, 'render_social_buttons' ] );
 		add_action( 'register_form', [ $this, 'render_social_buttons' ] );
 
+		// Inject Host/Renter role selector on register form
+		add_action( 'register_form', [ $this, 'render_role_selector' ], 5 );
+
 		// Custom styling for the wp-login.php page to make it match the premium theme
 		add_action( 'login_enqueue_scripts', [ $this, 'custom_login_styles' ] );
 
 		// Handle the OAuth Redirection Endpoints
 		add_action( 'init', [ $this, 'handle_oauth_callbacks' ] );
+	}
+
+	/**
+	 * Show Host / Renter toggle on WP register form (Homey-style)
+	 */
+	public function render_role_selector() {
+		// Check if role selection is enabled in Redux
+		if ( function_exists( 'thessnest_opt' ) && thessnest_opt( 'enable_role_selection', '0' ) !== '1' ) {
+			return;
+		}
+
+		$host_label   = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'role_host_label', 'I want to host' ) : 'I want to host';
+		$renter_label = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'role_renter_label', 'I want to book' ) : 'I want to book';
+		?>
+		<div class="thessnest-role-selector" style="margin-bottom:20px;">
+			<p style="font-weight:600;color:#334155;font-size:14px;margin-bottom:10px;">
+				<?php esc_html_e( 'Register as:', 'thessnest' ); ?>
+			</p>
+			<div style="display:flex;gap:10px;">
+				<label style="flex:1;display:flex;align-items:center;gap:8px;padding:12px 14px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all 0.2s;font-weight:500;color:#475569;font-size:14px;">
+					<input type="radio" name="thessnest_user_role" value="landlord" style="accent-color:#2563eb;width:18px;height:18px;">
+					<span>🏠 <?php echo esc_html( $host_label ); ?></span>
+				</label>
+				<label style="flex:1;display:flex;align-items:center;gap:8px;padding:12px 14px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all 0.2s;font-weight:500;color:#475569;font-size:14px;">
+					<input type="radio" name="thessnest_user_role" value="tenant" checked style="accent-color:#2563eb;width:18px;height:18px;">
+					<span>🔑 <?php echo esc_html( $renter_label ); ?></span>
+				</label>
+			</div>
+			<script>
+				document.querySelectorAll('.thessnest-role-selector label').forEach(function(label) {
+					var radio = label.querySelector('input[type="radio"]');
+					function updateStyles() {
+						document.querySelectorAll('.thessnest-role-selector label').forEach(function(l) {
+							l.style.borderColor = '#e2e8f0';
+							l.style.background = '#f8fafc';
+						});
+						if (radio.checked) {
+							label.style.borderColor = '#2563eb';
+							label.style.background = '#eff6ff';
+						}
+					}
+					radio.addEventListener('change', updateStyles);
+					updateStyles();
+				});
+			</script>
+		</div>
+		<?php
 	}
 
 	/**
