@@ -586,6 +586,31 @@ Redux::set_section( $opt_name, array(
 			'data'     => 'pages',
 			'default'  => '',
 		),
+		array(
+			'id'       => 'password_mode',
+			'type'     => 'button_set',
+			'title'    => __( 'Password on Register', 'thessnest' ),
+			'subtitle' => __( 'Auto-generate sends password via email. Custom lets user choose.', 'thessnest' ),
+			'options'  => array(
+				'auto'   => __( 'Auto Generate', 'thessnest' ),
+				'custom' => __( 'User Defined', 'thessnest' ),
+			),
+			'default'  => 'auto',
+		),
+		array(
+			'id'       => 'enable_welcome_email',
+			'type'     => 'switch',
+			'title'    => __( 'Welcome Email', 'thessnest' ),
+			'subtitle' => __( 'Send a welcome email with login credentials to new users.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'welcome_email_subject',
+			'type'     => 'text',
+			'title'    => __( 'Welcome Email Subject', 'thessnest' ),
+			'default'  => 'Welcome to ThessNest! 🏠',
+			'required' => array( 'enable_welcome_email', '=', true ),
+		),
 	),
 ) );
 

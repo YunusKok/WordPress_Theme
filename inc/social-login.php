@@ -20,6 +20,9 @@ class ThessNest_Social_Login {
 		// Inject Host/Renter role selector on register form
 		add_action( 'register_form', [ $this, 'render_role_selector' ], 5 );
 
+		// Inject password fields on register form (when user-defined mode)
+		add_action( 'register_form', [ $this, 'render_password_fields' ], 8 );
+
 		// Custom styling for the wp-login.php page to make it match the premium theme
 		add_action( 'login_enqueue_scripts', [ $this, 'custom_login_styles' ] );
 
@@ -72,6 +75,67 @@ class ThessNest_Social_Login {
 			</script>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Show Password fields on register form when "User Defined" mode is active,
+	 * or show info message when "Auto Generate" mode is active.
+	 */
+	public function render_password_fields() {
+		$password_mode = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'password_mode', 'auto' ) : 'auto';
+
+		if ( $password_mode === 'custom' ) :
+		?>
+		<div class="thessnest-password-fields" style="margin-bottom:16px;">
+			<p style="margin-bottom:8px;">
+				<label for="thessnest_password" style="font-weight:600;color:#334155;font-size:14px;">
+					<?php esc_html_e( 'Password', 'thessnest' ); ?> <span style="color:#ef4444;">*</span>
+				</label>
+				<span style="position:relative;display:block;">
+					<input type="password" name="thessnest_password" id="thessnest_password" class="input" style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;font-size:16px;box-sizing:border-box;" required />
+					<button type="button" onclick="var i=document.getElementById('thessnest_password');i.type=i.type==='password'?'text':'password';" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;font-size:14px;">👁</button>
+				</span>
+			</p>
+			<p style="margin-bottom:8px;">
+				<label for="thessnest_password_confirm" style="font-weight:600;color:#334155;font-size:14px;">
+					<?php esc_html_e( 'Confirm Password', 'thessnest' ); ?> <span style="color:#ef4444;">*</span>
+				</label>
+				<input type="password" name="thessnest_password_confirm" id="thessnest_password_confirm" class="input" style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;font-size:16px;box-sizing:border-box;" required />
+			</p>
+			<div id="thessnest-pw-strength" style="height:4px;border-radius:2px;background:#e2e8f0;margin-top:4px;overflow:hidden;">
+				<div id="thessnest-pw-bar" style="height:100%;width:0%;transition:all 0.3s;border-radius:2px;"></div>
+			</div>
+			<p id="thessnest-pw-msg" style="font-size:12px;color:#94a3b8;margin-top:4px;"></p>
+			<script>
+			(function(){
+				var pw = document.getElementById('thessnest_password');
+				var bar = document.getElementById('thessnest-pw-bar');
+				var msg = document.getElementById('thessnest-pw-msg');
+				pw.addEventListener('input', function() {
+					var v = pw.value, s = 0;
+					if (v.length >= 8) s++;
+					if (v.length >= 12) s++;
+					if (/[A-Z]/.test(v)) s++;
+					if (/[0-9]/.test(v)) s++;
+					if (/[^A-Za-z0-9]/.test(v)) s++;
+					var colors = ['#ef4444','#f97316','#eab308','#22c55e','#16a34a'];
+					var labels = ['<?php echo esc_js( __( 'Very Weak', 'thessnest' ) ); ?>','<?php echo esc_js( __( 'Weak', 'thessnest' ) ); ?>','<?php echo esc_js( __( 'Fair', 'thessnest' ) ); ?>','<?php echo esc_js( __( 'Strong', 'thessnest' ) ); ?>','<?php echo esc_js( __( 'Very Strong', 'thessnest' ) ); ?>'];
+					bar.style.width = (s * 20) + '%';
+					bar.style.background = colors[Math.max(0, s-1)] || '#e2e8f0';
+					msg.textContent = v.length > 0 ? labels[Math.max(0, s-1)] : '';
+					msg.style.color = colors[Math.max(0, s-1)] || '#94a3b8';
+				});
+			})();
+			</script>
+		</div>
+		<?php
+		else :
+		?>
+		<p style="font-size:13px;color:#64748b;margin-bottom:16px;padding:10px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;">
+			🔐 <?php esc_html_e( 'A password will be automatically generated and sent to your email address.', 'thessnest' ); ?>
+		</p>
+		<?php
+		endif;
 	}
 
 	/**
