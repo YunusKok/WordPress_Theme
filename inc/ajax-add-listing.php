@@ -61,6 +61,46 @@ function thessnest_submit_listing() {
 	$instant_book = isset( $_POST['listing_instant_book'] ) ? '1' : '0';
 	update_post_meta( $post_id, '_thessnest_instant_book', $instant_book );
 
+	// Save Advanced Pricing Fields
+	$advanced_fields = array(
+		'thessnest_min_stay'           => '_thessnest_min_stay',
+		'thessnest_cleaning_fee'       => '_thessnest_cleaning_fee',
+		'thessnest_service_fee'        => '_thessnest_service_fee',
+		'thessnest_weekly_discount'    => '_thessnest_weekly_discount',
+		'thessnest_monthly_discount'   => '_thessnest_monthly_discount',
+		'thessnest_quarterly_discount' => '_thessnest_quarterly_discount',
+		'thessnest_early_bird_days'    => '_thessnest_early_bird_days',
+		'thessnest_early_bird_discount'=> '_thessnest_early_bird_discount',
+	);
+	foreach ( $advanced_fields as $post_key => $meta_key ) {
+		if ( isset( $_POST[ $post_key ] ) && $_POST[ $post_key ] !== '' ) {
+			update_post_meta( $post_id, $meta_key, floatval( $_POST[ $post_key ] ) );
+		}
+	}
+
+	if ( isset( $_POST['thessnest_cleaning_fee_type'] ) ) {
+		update_post_meta( $post_id, '_thessnest_cleaning_fee_type', sanitize_text_field( $_POST['thessnest_cleaning_fee_type'] ) );
+	}
+
+	// Save Seasonal Rates Repeater
+	if ( isset( $_POST['thessnest_season'] ) && is_array( $_POST['thessnest_season'] ) ) {
+		$seasonal_rates = array();
+		$starts = $_POST['thessnest_season']['start'] ?? array();
+		$ends   = $_POST['thessnest_season']['end'] ?? array();
+		$rates  = $_POST['thessnest_season']['rate'] ?? array();
+
+		foreach ( $starts as $index => $start_date ) {
+			if ( ! empty( $start_date ) && ! empty( $ends[ $index ] ) && ! empty( $rates[ $index ] ) ) {
+				$seasonal_rates[] = array(
+					'start' => sanitize_text_field( $start_date ),
+					'end'   => sanitize_text_field( $ends[ $index ] ),
+					'rate'  => floatval( $rates[ $index ] ),
+				);
+			}
+		}
+		update_post_meta( $post_id, '_thessnest_seasonal_rates', $seasonal_rates );
+	}
+
 	$ical_url = isset( $_POST['listing_ical_url'] ) ? esc_url_raw( $_POST['listing_ical_url'] ) : '';
 	if ( ! empty( $ical_url ) ) {
 		update_post_meta( $post_id, '_thessnest_ical_import_url', $ical_url );

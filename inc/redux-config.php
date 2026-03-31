@@ -339,6 +339,39 @@ Redux::set_section( $opt_name, array(
 	'icon'   => 'el el-website',
 	'fields' => array(
 		array(
+			'id'       => 'footer_show_widgets',
+			'type'     => 'switch',
+			'title'    => __( 'Show Footer Widget Area', 'thessnest' ),
+			'subtitle' => __( 'Enable/disable the widget columns above the copyright bar.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'footer_columns',
+			'type'     => 'button_set',
+			'title'    => __( 'Footer Columns', 'thessnest' ),
+			'subtitle' => __( 'Number of widget columns in the footer. Configure widgets in Appearance → Widgets.', 'thessnest' ),
+			'options'  => array(
+				'1' => __( '1 Column', 'thessnest' ),
+				'2' => __( '2 Columns', 'thessnest' ),
+				'3' => __( '3 Columns', 'thessnest' ),
+				'4' => __( '4 Columns', 'thessnest' ),
+			),
+			'default'  => '4',
+			'required' => array( 'footer_show_widgets', '=', true ),
+		),
+		array(
+			'id'       => 'footer_style',
+			'type'     => 'button_set',
+			'title'    => __( 'Footer Style', 'thessnest' ),
+			'subtitle' => __( 'Choose the visual style for the footer.', 'thessnest' ),
+			'options'  => array(
+				'default' => __( 'Default', 'thessnest' ),
+				'dark'    => __( 'Dark', 'thessnest' ),
+				'minimal' => __( 'Minimal', 'thessnest' ),
+			),
+			'default'  => 'dark',
+		),
+		array(
 			'id'       => 'footer_copyright',
 			'type'     => 'text',
 			'title'    => __( 'Copyright Text', 'thessnest' ),
@@ -351,6 +384,12 @@ Redux::set_section( $opt_name, array(
 			'title'    => __( 'Social Media on Footer', 'thessnest' ),
 			'subtitle' => __( 'Enable/Disable the social media icons in the footer.', 'thessnest' ),
 			'default'  => true,
+		),
+		array(
+			'id'       => 'footer_logo',
+			'type'     => 'media',
+			'title'    => __( 'Footer Logo', 'thessnest' ),
+			'subtitle' => __( 'Optional. Upload a logo for the footer (e.g. white version).', 'thessnest' ),
 		),
 	),
 ) );
@@ -1205,6 +1244,76 @@ Redux::set_section( $opt_name, array(
 			'subtitle' => __( 'Link to your Privacy Policy.', 'thessnest' ),
 			'data'     => 'pages',
 			'default'  => '',
+		),
+	),
+) );
+
+
+// ═══════════════════════════════════════════════════
+//  SECTION: Platform & Monetization
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Platform & Monetization', 'thessnest' ),
+	'id'     => 'monetization',
+	'icon'   => 'el el-usd',
+	'fields' => array(
+		array(
+			'id'       => 'platform_commission',
+			'type'     => 'slider',
+			'title'    => __( 'Platform Commission (%)', 'thessnest' ),
+			'subtitle' => __( 'Percentage fee the platform takes from each booking. Set to 0 for no commission.', 'thessnest' ),
+			'min'      => 0,
+			'max'      => 30,
+			'step'     => 0.5,
+			'default'  => 0,
+			'display_value' => 'text',
+		),
+		array(
+			'id'       => 'min_payout_amount',
+			'type'     => 'text',
+			'title'    => __( 'Minimum Payout Amount (€)', 'thessnest' ),
+			'subtitle' => __( 'Hosts must accumulate this amount before requesting a payout.', 'thessnest' ),
+			'default'  => '50',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'superhost_min_rating',
+			'type'     => 'text',
+			'title'    => __( 'Superhost: Minimum Rating', 'thessnest' ),
+			'subtitle' => __( 'Minimum average rating to qualify for Superhost badge.', 'thessnest' ),
+			'default'  => '4.8',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'superhost_min_reviews',
+			'type'     => 'text',
+			'title'    => __( 'Superhost: Minimum Reviews', 'thessnest' ),
+			'subtitle' => __( 'Minimum number of reviews to qualify for Superhost badge.', 'thessnest' ),
+			'default'  => '5',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'enable_roommate_matching',
+			'type'     => 'switch',
+			'title'    => __( 'Roommate Matching', 'thessnest' ),
+			'subtitle' => __( 'Enable the roommate finder feature in user dashboards.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'enable_digital_lease',
+			'type'     => 'switch',
+			'title'    => __( 'Digital Lease Agreements', 'thessnest' ),
+			'subtitle' => __( 'Auto-generate lease agreements when bookings are confirmed.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'lease_template',
+			'type'     => 'textarea',
+			'title'    => __( 'Lease Template', 'thessnest' ),
+			'subtitle' => __( 'Use placeholders: {{landlord_name}}, {{tenant_name}}, {{property_title}}, {{property_address}}, {{checkin}}, {{checkout}}, {{rent_total}}, {{deposit}}, {{lease_number}}', 'thessnest' ),
+			'default'  => "RESIDENTIAL LEASE AGREEMENT\n\nRef: {{lease_number}}\nDate: {{generated_date}}\n\nLANDLORD: {{landlord_name}} ({{landlord_email}})\nTENANT: {{tenant_name}} ({{tenant_email}})\n\nPROPERTY: {{property_title}}\nADDRESS: {{property_address}}\n\nLEASE TERM: {{checkin}} to {{checkout}}\nTOTAL RENT: €{{rent_total}}\nSECURITY DEPOSIT: €{{deposit}}\n\nTERMS: The tenant agrees to pay the above rent for the lease period. The security deposit will be refunded within 14 days of checkout, subject to property inspection.\n\nBoth parties agree to the terms above by signing below.",
+			'required' => array( 'enable_digital_lease', '=', true ),
 		),
 	),
 ) );

@@ -139,6 +139,151 @@ get_header();
 
 				</div>
 
+				<!-- ========================================== -->
+				<!-- ADVANCED PRICING ENGINE FIELDS             -->
+				<!-- ========================================== -->
+				<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-6); margin-bottom:var(--space-6);">
+					<h3 style="margin-top:0; margin-bottom:var(--space-4); font-size:var(--font-size-xl); color:var(--color-text);">
+						<?php esc_html_e( 'Advanced Pricing Rules', 'thessnest' ); ?>
+					</h3>
+					
+					<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:var(--space-4); margin-bottom:var(--space-6);">
+						<!-- Minimum Stay -->
+						<div class="form-group">
+							<label for="thessnest_min_stay" style="display:block; margin-bottom:var(--space-2); font-weight:600;">
+								<?php esc_html_e( 'Minimum Stay (Nights)', 'thessnest' ); ?>
+							</label>
+							<input type="number" id="thessnest_min_stay" name="thessnest_min_stay" min="1" value="1" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+
+						<!-- Cleaning Fee -->
+						<div class="form-group">
+							<label for="thessnest_cleaning_fee" style="display:block; margin-bottom:var(--space-2); font-weight:600;">
+								<?php esc_html_e( 'Cleaning Fee (€)', 'thessnest' ); ?>
+							</label>
+							<input type="number" id="thessnest_cleaning_fee" name="thessnest_cleaning_fee" min="0" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+
+						<!-- Cleaning Fee Type -->
+						<div class="form-group">
+							<label for="thessnest_cleaning_fee_type" style="display:block; margin-bottom:var(--space-2); font-weight:600;">
+								<?php esc_html_e( 'Cleaning Fee Type', 'thessnest' ); ?>
+							</label>
+							<select id="thessnest_cleaning_fee_type" name="thessnest_cleaning_fee_type" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								<option value="single"><?php esc_html_e( 'Single (Once per stay)', 'thessnest' ); ?></option>
+								<option value="monthly"><?php esc_html_e( 'Monthly (Charged per month)', 'thessnest' ); ?></option>
+								<option value="on-demand"><?php esc_html_e( 'On-Demand (Per request, not in total)', 'thessnest' ); ?></option>
+							</select>
+						</div>
+
+						<!-- Service Fee -->
+						<div class="form-group">
+							<label for="thessnest_service_fee" style="display:block; margin-bottom:var(--space-2); font-weight:600;">
+								<?php esc_html_e( 'Additional Service Fee (€)', 'thessnest' ); ?>
+							</label>
+							<input type="number" id="thessnest_service_fee" name="thessnest_service_fee" min="0" style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+					</div>
+
+					<hr style="border:0; border-top:1px solid var(--color-border); margin:var(--space-6) 0;">
+
+					<h4 style="margin-top:0; margin-bottom:var(--space-4); color:var(--color-text);"><?php esc_html_e( 'Discounts', 'thessnest' ); ?></h4>
+					<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:var(--space-4); margin-bottom:var(--space-6);">
+						<!-- Weekly Discount -->
+						<div class="form-group">
+							<label style="display:block; margin-bottom:var(--space-2); font-size:var(--font-size-sm);">
+								<?php esc_html_e( 'Weekly Discount (%) - 7+ days', 'thessnest' ); ?>
+							</label>
+							<input type="number" name="thessnest_weekly_discount" min="0" max="100" style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+						<!-- Monthly Discount -->
+						<div class="form-group">
+							<label style="display:block; margin-bottom:var(--space-2); font-size:var(--font-size-sm);">
+								<?php esc_html_e( 'Monthly Discount (%) - 28+ days', 'thessnest' ); ?>
+							</label>
+							<input type="number" name="thessnest_monthly_discount" min="0" max="100" style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+						<!-- Quarterly Discount -->
+						<div class="form-group">
+							<label style="display:block; margin-bottom:var(--space-2); font-size:var(--font-size-sm);">
+								<?php esc_html_e( 'Quarterly Discount (%) - 90+ days', 'thessnest' ); ?>
+							</label>
+							<input type="number" name="thessnest_quarterly_discount" min="0" max="100" style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+					</div>
+
+					<!-- Early Bird Discount -->
+					<div style="display:flex; gap:var(--space-4); margin-bottom:var(--space-6);">
+						<div class="form-group" style="flex:1;">
+							<label style="display:block; margin-bottom:var(--space-2); font-size:var(--font-size-sm);">
+								<?php esc_html_e( 'Early Bird: Days in Advance', 'thessnest' ); ?>
+							</label>
+							<input type="number" name="thessnest_early_bird_days" min="0" placeholder="e.g. 60" style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+						<div class="form-group" style="flex:1;">
+							<label style="display:block; margin-bottom:var(--space-2); font-size:var(--font-size-sm);">
+								<?php esc_html_e( 'Early Bird: Discount (%)', 'thessnest' ); ?>
+							</label>
+							<input type="number" name="thessnest_early_bird_discount" min="0" max="100" style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+						</div>
+					</div>
+
+					<hr style="border:0; border-top:1px solid var(--color-border); margin:var(--space-6) 0;">
+
+					<!-- Seasonal Rates Repeater -->
+					<h4 style="margin-top:0; margin-bottom:var(--space-2); color:var(--color-text);"><?php esc_html_e( 'Seasonal Rates', 'thessnest' ); ?></h4>
+					<p style="font-size:var(--font-size-sm); color:var(--color-text-muted); margin-bottom:var(--space-4);">
+						<?php esc_html_e( 'Define specific nightly rates for certain periods (e.g. High Season, Holidays). These override the base rate.', 'thessnest' ); ?>
+					</p>
+
+					<div id="seasonal-rates-container">
+						<!-- Rows injected by JS -->
+					</div>
+					
+					<button type="button" id="btn-add-season" class="btn btn-outline" style="margin-top:var(--space-2); padding:var(--space-2) var(--space-4); font-size:var(--font-size-sm);">
+						+ <?php esc_html_e( 'Add Seasonal Rate', 'thessnest' ); ?>
+					</button>
+
+					<!-- Season Template (Hidden) -->
+					<template id="season-template">
+						<div class="season-row" style="display:flex; gap:var(--space-3); align-items:flex-end; margin-bottom:var(--space-3); background:var(--color-background); padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-sm);">
+							<div style="flex:1;">
+								<label style="display:block; font-size:12px; margin-bottom:4px;"><?php esc_html_e('Start Date', 'thessnest'); ?></label>
+								<input type="date" name="thessnest_season[start][]" required style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-sm);">
+							</div>
+							<div style="flex:1;">
+								<label style="display:block; font-size:12px; margin-bottom:4px;"><?php esc_html_e('End Date', 'thessnest'); ?></label>
+								<input type="date" name="thessnest_season[end][]" required style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-sm);">
+							</div>
+							<div style="flex:1;">
+								<label style="display:block; font-size:12px; margin-bottom:4px;"><?php esc_html_e('Rate (€)', 'thessnest'); ?></label>
+								<input type="number" name="thessnest_season[rate][]" min="0" required style="width:100%; padding:var(--space-2); border:1px solid var(--color-border); border-radius:var(--radius-sm);">
+							</div>
+							<button type="button" class="btn-remove-season" style="background:#ef4444; color:white; border:none; border-radius:var(--radius-sm); padding:var(--space-2) 12px; cursor:pointer;" title="<?php esc_html_e('Remove', 'thessnest'); ?>">✕</button>
+						</div>
+					</template>
+					
+					<script>
+					document.addEventListener('DOMContentLoaded', function() {
+						const container = document.getElementById('seasonal-rates-container');
+						const btnAdd = document.getElementById('btn-add-season');
+						const template = document.getElementById('season-template');
+
+						btnAdd.addEventListener('click', function() {
+							const clone = template.content.cloneNode(true);
+							container.appendChild(clone);
+						});
+
+						container.addEventListener('click', function(e) {
+							if (e.target.classList.contains('btn-remove-season')) {
+								e.target.closest('.season-row').remove();
+							}
+						});
+					});
+					</script>
+				</div>
+				<!-- ========================================== -->
+
 				<!-- Amenities -->
 				<div class="form-group" style="margin-bottom:var(--space-6);">
 					<label style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">

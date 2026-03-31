@@ -311,14 +311,68 @@ function thessnest_get_first_term( $taxonomy, $post_id = null ) {
    ========================================================================== */
 
 /**
- * Register a footer widget area (optional).
+ * Register widget areas: Footer columns + Sidebars.
  */
 function thessnest_widgets_init() {
+
+	// ── Footer Widget Areas (1–4) ──
+	$footer_cols = 4;
+	if ( function_exists( 'thessnest_opt' ) ) {
+		$footer_cols = (int) thessnest_opt( 'footer_columns', 4 );
+	}
+
+	for ( $i = 1; $i <= $footer_cols; $i++ ) {
+		register_sidebar( array(
+			/* translators: %d = column number */
+			'name'          => sprintf( esc_html__( 'Footer Area %d', 'thessnest' ), $i ),
+			'id'            => 'footer-' . $i,
+			'description'   => sprintf( esc_html__( 'Footer column %d — drag widgets here.', 'thessnest' ), $i ),
+			'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+
+	// ── Page Sidebar ──
 	register_sidebar( array(
-		'name'          => esc_html__( 'Footer Widgets', 'thessnest' ),
-		'id'            => 'footer-widgets',
-		'description'   => esc_html__( 'Widgets displayed in the footer area.', 'thessnest' ),
-		'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+		'name'          => esc_html__( 'Page Sidebar', 'thessnest' ),
+		'id'            => 'page-sidebar',
+		'description'   => esc_html__( 'Widgets shown on standard pages.', 'thessnest' ),
+		'before_widget' => '<div id="%1$s" class="sidebar-widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
+	) );
+
+	// ── Listings Sidebar ──
+	register_sidebar( array(
+		'name'          => esc_html__( 'Listings Sidebar', 'thessnest' ),
+		'id'            => 'listings-sidebar',
+		'description'   => esc_html__( 'Widgets shown on property archive pages.', 'thessnest' ),
+		'before_widget' => '<div id="%1$s" class="sidebar-widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
+	) );
+
+	// ── Single Listing Sidebar ──
+	register_sidebar( array(
+		'name'          => esc_html__( 'Single Listing', 'thessnest' ),
+		'id'            => 'single-listing',
+		'description'   => esc_html__( 'Widgets shown on single property pages.', 'thessnest' ),
+		'before_widget' => '<div id="%1$s" class="sidebar-widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
+	) );
+
+	// ── Blog Sidebar ──
+	register_sidebar( array(
+		'name'          => esc_html__( 'Blog Sidebar', 'thessnest' ),
+		'id'            => 'blog-sidebar',
+		'description'   => esc_html__( 'Widgets shown on blog posts and archives.', 'thessnest' ),
+		'before_widget' => '<div id="%1$s" class="sidebar-widget %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h4 class="widget-title">',
 		'after_title'   => '</h4>',
@@ -543,3 +597,17 @@ if ( ! function_exists( 'thessnest_fallback_menu_mobile' ) ) {
    ========================================================================== */
 
 require_once THESSNEST_DIR . '/inc/customizer.php';
+
+/* ==========================================================================
+   12. FEATURE MODULES
+   ========================================================================== */
+
+require_once THESSNEST_DIR . '/inc/admin-meta-boxes.php';
+require_once THESSNEST_DIR . '/inc/pricing-engine.php';
+require_once THESSNEST_DIR . '/inc/host-payouts.php';
+require_once THESSNEST_DIR . '/inc/public-profile.php';
+require_once THESSNEST_DIR . '/inc/search-advanced.php';
+require_once THESSNEST_DIR . '/inc/roommate-matching.php';
+require_once THESSNEST_DIR . '/inc/wishlist-compare.php';
+require_once THESSNEST_DIR . '/inc/neighborhood-guides.php';
+require_once THESSNEST_DIR . '/inc/digital-lease.php';

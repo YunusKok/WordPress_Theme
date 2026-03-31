@@ -88,7 +88,7 @@ function thessnest_submit_booking() {
 		wp_send_json_error( array( 'message' => __( 'Invalid property.', 'thessnest' ) ) );
 	}
 
-	// Calculate Pricing (Server-side validation)
+	// Calculate Pricing (via Advanced Pricing Engine)
 	$date1 = new DateTime( $checkin );
 	$date2 = new DateTime( $checkout );
 	$interval = $date1->diff( $date2 );
@@ -98,8 +98,17 @@ function thessnest_submit_booking() {
 		wp_send_json_error( array( 'message' => __( 'Checkout date must be after check-in date.', 'thessnest' ) ) );
 	}
 
-	$price_per_night = floatval( get_post_meta( $property_id, '_thessnest_rent', true ) );
-	$total_price = $nights * $price_per_night;
+	// Use pricing engine if available, otherwise fallback to flat rate
+	if ( class_exists( 'ThessNest_Pricing_Engine' ) ) {
+		$pricing = ThessNest_Pricing_Engine::calculate( $property_id, $checkin, $checkout );
+		if ( is_wp_error( $pricing ) ) {
+			wp_send_json_error( array( 'message' => $pricing->get_error_message() ) );
+		}
+		$total_price = $pricing['total'];
+	} else {
+		$price_per_night = floatval( get_post_meta( $property_id, '_thessnest_rent', true ) );
+		$total_price = $nights * $price_per_night;
+	}
 
 	$landlord_id = $property->post_author;
 	if ( $tenant_id == $landlord_id ) {

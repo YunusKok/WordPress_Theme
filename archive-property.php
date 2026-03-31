@@ -84,6 +84,52 @@ global $wp_query;
 
 			<form id="property-filter-form" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 				<input type="hidden" name="post_type" value="property">
+				<input type="hidden" name="action" value="thessnest_live_search">
+
+				<?php if ( is_user_logged_in() ) : ?>
+					<div style="margin-bottom:var(--space-4);text-align:right;">
+						<button type="button" id="btn-save-search" class="btn btn-outline" style="font-size:12px;padding:4px 8px;border-color:var(--color-primary);color:var(--color-primary);">
+							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+							<?php esc_html_e('Save Search', 'thessnest'); ?>
+						</button>
+					</div>
+				<?php endif; ?>
+
+				<!-- Date Availability -->
+				<div class="filter-group">
+					<span class="filter-label"><?php esc_html_e( 'Availability', 'thessnest' ); ?></span>
+					<div style="display:flex; gap:var(--space-2);">
+						<input type="date" name="checkin" class="live-search-input" style="width:50%;font-size:12px;padding:var(--space-2);" title="<?php esc_attr_e('Check-in', 'thessnest'); ?>">
+						<input type="date" name="checkout" class="live-search-input" style="width:50%;font-size:12px;padding:var(--space-2);" title="<?php esc_attr_e('Check-out', 'thessnest'); ?>">
+					</div>
+				</div>
+
+				<!-- Radius Search -->
+				<div class="filter-group">
+					<span class="filter-label"><?php esc_html_e( 'Location Radius', 'thessnest' ); ?></span>
+					<!-- Using hardcoded coordinates for demo. In production, connect to Google Places API -> Lat/Lng -->
+					<input type="hidden" name="lat" id="search-lat" value="<?php echo esc_attr( thessnest_opt( 'map_default_lat', '40.6401' ) ); ?>">
+					<input type="hidden" name="lng" id="search-lng" value="<?php echo esc_attr( thessnest_opt( 'map_default_lng', '22.9444' ) ); ?>">
+					
+					<select name="radius" class="live-search-input" style="width:100%; margin-top:var(--space-2);">
+						<option value="0"><?php esc_html_e( 'Any Distance', 'thessnest' ); ?></option>
+						<option value="1"><?php esc_html_e( '+ 1 km', 'thessnest' ); ?></option>
+						<option value="5"><?php esc_html_e( '+ 5 km', 'thessnest' ); ?></option>
+						<option value="10"><?php esc_html_e( '+ 10 km', 'thessnest' ); ?></option>
+					</select>
+				</div>
+
+				<!-- Guests & WiFi -->
+				<div class="filter-group" style="display:flex; gap:var(--space-4);">
+					<div style="flex:1;">
+						<span class="filter-label"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
+						<input type="number" name="guests" class="live-search-input" min="1" placeholder="1" style="width:100%;">
+					</div>
+					<div style="flex:1;">
+						<span class="filter-label"><?php esc_html_e( 'Min WiFi (Mbps)', 'thessnest' ); ?></span>
+						<input type="number" name="wifi_min" class="live-search-input" min="0" step="10" placeholder="50" style="width:100%;">
+					</div>
+				</div>
 
 				<?php if ( thessnest_opt( 'search_show_neighborhood', true ) ) : ?>
 				<!-- Neighborhood -->
@@ -91,7 +137,7 @@ global $wp_query;
 					<label class="filter-label" for="filter-neighborhood">
 						<?php esc_html_e( 'Neighborhood', 'thessnest' ); ?>
 					</label>
-					<select id="filter-neighborhood" name="neighborhood">
+					<select id="filter-neighborhood" name="neighborhood" class="live-search-input">
 						<option value=""><?php esc_html_e( 'All Neighborhoods', 'thessnest' ); ?></option>
 						<?php
 						$neighborhoods = get_terms( array(
@@ -141,7 +187,7 @@ global $wp_query;
 				<!-- Instant Book -->
 				<div class="filter-group">
 					<label class="filter-label" style="display:flex; align-items:center; gap:var(--space-2); cursor:pointer;">
-						<input type="checkbox" name="instant_book" value="1" <?php echo isset( $_GET['instant_book'] ) ? 'checked' : ''; ?>>
+						<input type="checkbox" name="instant_book" value="1" class="live-search-input" <?php echo isset( $_GET['instant_book'] ) ? 'checked' : ''; ?>>
 						<span>⚡ <?php esc_html_e( 'Instant Book Only', 'thessnest' ); ?></span>
 					</label>
 				</div>
@@ -167,7 +213,7 @@ global $wp_query;
 									$checked = in_array( $am->slug, $selected_amenities, true ) ? 'checked' : '';
 									?>
 									<label>
-										<input type="checkbox" name="amenity[]" value="<?php echo esc_attr( $am->slug ); ?>" <?php echo esc_attr( $checked ); ?>>
+										<input type="checkbox" name="amenity[]" value="<?php echo esc_attr( $am->slug ); ?>" class="live-search-input" <?php echo esc_attr( $checked ); ?>>
 										<?php echo esc_html( $am->name ); ?>
 									</label>
 									<?php
@@ -207,6 +253,7 @@ global $wp_query;
 					<div class="price-range">
 						<input type="number"
 						       name="price_min"
+						       class="live-search-input"
 						       placeholder="<?php esc_attr_e( 'Min', 'thessnest' ); ?>"
 						       min="<?php echo esc_attr( thessnest_opt('search_price_min', 100) ); ?>"
 						       step="50"
@@ -214,6 +261,7 @@ global $wp_query;
 						       aria-label="<?php esc_attr_e( 'Minimum price', 'thessnest' ); ?>">
 						<input type="number"
 						       name="price_max"
+						       class="live-search-input"
 						       placeholder="<?php esc_attr_e( 'Max', 'thessnest' ); ?>"
 						       max="<?php echo esc_attr( thessnest_opt('search_price_max', 2000) ); ?>"
 						       step="50"
@@ -223,10 +271,18 @@ global $wp_query;
 				</div>
 				<?php endif; ?>
 
-				<!-- Apply Filters -->
-				<button type="submit" class="btn btn-primary filter-btn">
+				<!-- Apply Filters (Disabled via JS if live search is active, but kept for fallback) -->
+				<button type="submit" class="btn btn-primary filter-btn" id="btn-fallback-apply">
 					<?php esc_html_e( 'Apply Filters', 'thessnest' ); ?>
 				</button>
+				
+				<!-- Live Search Loading Overlay -->
+				<div id="live-search-loading" style="display:none; text-align:center; padding:10px; color:var(--color-primary);">
+					<svg class="thessnest-spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+					<span style="font-size:14px; margin-left:8px; font-weight:bold;"><?php esc_html_e('Updating...', 'thessnest'); ?></span>
+				</div>
+				<style> @keyframes spin { 100% { transform: rotate(360deg); } } </style>
+
 
 			</form>
 		</aside>
@@ -389,6 +445,118 @@ global $wp_query;
 		window.renderMarkers(propertiesData);
 	});
 	</script>
+
+	<!-- ── AJAX LIVE SEARCH SCRIPT ───────────────────────── -->
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const form = document.getElementById('property-filter-form');
+		const gridContainer = document.querySelector('.archive-main');
+		const loadingIndicator = document.getElementById('live-search-loading');
+		const headerCount = document.querySelector('.archive-count');
+		let searchTimeout;
+
+		if (!form || !gridContainer) return;
+
+		// Utility to serialize form logic for AJAX
+		function triggerLiveSearch() {
+			clearTimeout(searchTimeout);
+			searchTimeout = setTimeout(() => {
+				loadingIndicator.style.display = 'block';
+				document.getElementById('btn-fallback-apply').style.display = 'none';
+
+				// Ensure map is slightly faded while loading to show activity
+				document.getElementById('properties-map').style.opacity = '0.5';
+
+				const formData = new FormData(form);
+				
+				fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+					method: 'POST',
+					body: formData
+				})
+				.then(response => response.json())
+				.then(data => {
+					loadingIndicator.style.display = 'none';
+					document.getElementById('properties-map').style.opacity = '1';
+
+					if (data.success) {
+						// 1. Update Grid Content
+						// We replace everything except the mobile filter toggle
+						const mobileToggle = document.getElementById('mobile-filter-toggle');
+						gridContainer.innerHTML = '';
+						if (mobileToggle) gridContainer.appendChild(mobileToggle);
+
+						if (data.data.html) {
+							// Found results
+							gridContainer.insertAdjacentHTML('beforeend', data.data.html);
+						} else {
+							// Error or no results
+							gridContainer.insertAdjacentHTML('beforeend', '<div class="text-center" style="padding:var(--space-16);"><h3>No properties found mathcing your criteria.</h3></div>');
+						}
+
+						// 2. Update Map Markers
+						if (window.renderMarkers && data.data.map_data) {
+							window.renderMarkers(data.data.map_data);
+						}
+
+						// 3. Update Count String
+						if (headerCount) {
+							const found = data.data.found_posts || 0;
+							headerCount.textContent = found === 1 ? '1 property found' : found + ' properties found';
+						}
+					}
+				})
+				.catch(err => {
+					console.error('AJAX Search Error:', err);
+					loadingIndicator.style.display = 'none';
+					document.getElementById('properties-map').style.opacity = '1';
+				});
+			}, 400); // 400ms debounce
+		}
+
+		// Prevent Form Submission Default -> Turn it into AJAX 
+		form.addEventListener('submit', function(e) {
+			e.preventDefault();
+			triggerLiveSearch();
+		});
+
+		// Listen to all inputs with class live-search-input
+		const inputs = form.querySelectorAll('.live-search-input');
+		inputs.forEach(input => {
+			input.addEventListener('change', triggerLiveSearch);
+			// For text/number inputs, also listen on keyup with debounce
+			if (input.type === 'number' || input.type === 'text') {
+				input.addEventListener('keyup', triggerLiveSearch);
+			}
+		});
+
+		// Save Search Button Handler
+		const btnSaveSearch = document.getElementById('btn-save-search');
+		if (btnSaveSearch) {
+			btnSaveSearch.addEventListener('click', function(e) {
+				e.preventDefault();
+				const origText = btnSaveSearch.innerHTML;
+				btnSaveSearch.innerHTML = 'Saving...';
+				btnSaveSearch.disabled = true;
+
+				// Append specific action for saving
+				const formData = new FormData(form);
+				formData.set('action', 'thessnest_save_search');
+
+				fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+					method: 'POST',
+					body: formData
+				}).then(res => res.json()).then(data => {
+					if (data.success) {
+						btnSaveSearch.innerHTML = '✅ Saved';
+						setTimeout(() => { btnSaveSearch.innerHTML = origText; btnSaveSearch.disabled = false; }, 2000);
+					}
+				});
+			});
+		}
+
+	});
+	</script>
+
 
 </main>
 

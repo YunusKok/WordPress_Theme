@@ -62,6 +62,11 @@ get_header();
 							</a>
 						</li>
 						<li style="margin-bottom:var(--space-2);">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'earnings', $dashboard_url ) ); ?>" style="display:block; padding:var(--space-2); border-radius:var(--radius-md); <?php echo ( 'earnings' === $active_tab ) ? 'background:var(--color-primary); color:white; font-weight:600;' : 'color:var(--color-text);'; ?>">
+								<?php esc_html_e( 'Earnings & Payouts', 'thessnest' ); ?>
+							</a>
+						</li>
+						<li style="margin-bottom:var(--space-2);">
 							<a href="<?php echo esc_url( home_url( '/add-listing/' ) ); ?>" style="display:block; padding:var(--space-2); border-radius:var(--radius-md); color:var(--color-accent); font-weight:600;">
 								<?php esc_html_e( '+ Add New Property', 'thessnest' ); ?>
 							</a>
@@ -74,6 +79,15 @@ get_header();
 							<?php esc_html_e( 'Saved Properties', 'thessnest' ); ?>
 						</a>
 					</li>
+
+					<!-- Roommate Finder -->
+					<?php if ( thessnest_opt( 'enable_roommate_matching', true ) ) : ?>
+					<li style="margin-bottom:var(--space-2);">
+						<a href="<?php echo esc_url( add_query_arg( 'tab', 'roommates', $dashboard_url ) ); ?>" style="display:block; padding:var(--space-2); border-radius:var(--radius-md); <?php echo ( 'roommates' === $active_tab ) ? 'background:var(--color-primary); color:white; font-weight:600;' : 'color:var(--color-text);'; ?>">
+							🔥 <?php esc_html_e( 'Roommate Finder', 'thessnest' ); ?>
+						</a>
+					</li>
+					<?php endif; ?>
 					
 					<!-- Inbox (Messages) -->
 					<li style="margin-bottom:var(--space-2);">
@@ -366,6 +380,476 @@ get_header();
 							<?php esc_html_e( 'You have not submitted any properties yet.', 'thessnest' ); ?>
 						</p>
 					<?php endif; ?>
+
+				<?php
+				/* ==========================================================================
+				   TAB: EARNINGS & PAYOUTS (LANDLORD ONLY)
+				   ========================================================================== */
+				elseif ( 'earnings' === $active_tab && $is_landlord ) :
+					$payout_engine = null;
+					$available_balance = 0;
+					$lifetime_earnings = 0;
+					$min_payout        = function_exists('thessnest_opt') ? floatval( thessnest_opt('min_payout_threshold', 100) ) : 100;
+
+					if ( class_exists('ThessNest_Host_Payout_Engine') ) {
+						$payout_engine = ThessNest_Host_Payout_Engine::get_instance();
+						$available_balance = $payout_engine->get_host_balance( $user->ID );
+						$lifetime_earnings = $payout_engine->get_lifetime_earnings( $user->ID );
+					}
+				?>
+					<h2 style="font-size:var(--font-size-xl); margin-bottom:var(--space-6); color:var(--color-primary);">
+						<?php esc_html_e( 'Earnings & Payouts', 'thessnest' ); ?>
+					</h2>
+
+					<!-- At a Glance Cards -->
+					<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:var(--space-6); margin-bottom:var(--space-8);">
+						<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-6); text-align:center;">
+							<h4 style="margin:0 0 var(--space-2) 0; font-size:var(--font-size-sm); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:1px;"><?php esc_html_e('Available Balance', 'thessnest'); ?></h4>
+							<div style="font-size:32px; font-weight:700; color:#38a169;">
+								<?php echo esc_html( thessnest_format_price($available_balance) ); ?>
+							</div>
+						</div>
+						<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-6); text-align:center;">
+							<h4 style="margin:0 0 var(--space-2) 0; font-size:var(--font-size-sm); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:1px;"><?php esc_html_e('Lifetime Earnings', 'thessnest'); ?></h4>
+							<div style="font-size:32px; font-weight:700; color:var(--color-text);">
+								<?php echo esc_html( thessnest_format_price($lifetime_earnings) ); ?>
+							</div>
+						</div>
+					</div>
+
+					<!-- Request Payout Form -->
+					<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-6); margin-bottom:var(--space-8);">
+						<h3 style="font-size:var(--font-size-lg); border-bottom:1px solid var(--color-border); padding-bottom:var(--space-2); margin-top:0; margin-bottom:var(--space-4);">
+							<?php esc_html_e( 'Request Payout', 'thessnest' ); ?>
+						</h3>
+						<?php if ( $available_balance >= $min_payout ) : ?>
+							<p style="color:var(--color-text-muted); margin-bottom:var(--space-4); font-size:var(--font-size-sm);">
+								<?php esc_html_e('You can request a payout for your available balance. Please provide your bank or PayPal details below.', 'thessnest'); ?>
+							</p>
+							<form id="payout-request-form" style="max-width:500px;">
+								<input type="hidden" name="action" value="thessnest_request_payout">
+								<?php wp_nonce_field( 'thessnest_payout_nonce', 'payout_security' ); ?>
+								
+								<div class="form-group" style="margin-bottom:var(--space-4);">
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Payout Method', 'thessnest'); ?></label>
+									<select name="payout_method" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+										<option value="bank_transfer"><?php esc_html_e('Bank Transfer (IBAN)', 'thessnest'); ?></option>
+										<option value="paypal"><?php esc_html_e('PayPal', 'thessnest'); ?></option>
+									</select>
+								</div>
+
+								<div class="form-group" style="margin-bottom:var(--space-4);">
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Payment Details (IBAN or PayPal Email)', 'thessnest'); ?></label>
+									<input type="text" name="payout_details" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								</div>
+
+								<div class="form-group" style="margin-bottom:var(--space-6);">
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Amount to Withdraw', 'thessnest'); ?></label>
+									<input type="number" name="payout_amount" max="<?php echo esc_attr($available_balance); ?>" step="0.01" value="<?php echo esc_attr($available_balance); ?>" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								</div>
+
+								<div id="payout-response" style="margin-bottom:var(--space-4); display:none; padding:var(--space-2); border-radius:var(--radius-sm); font-size:14px;"></div>
+								
+								<button type="submit" id="btn-request-payout" class="btn btn-primary">
+									<?php esc_html_e('Submit Request', 'thessnest'); ?>
+								</button>
+							</form>
+
+							<script>
+							document.addEventListener('DOMContentLoaded', function() {
+								const form = document.getElementById('payout-request-form');
+								if (form) {
+									form.addEventListener('submit', function(e) {
+										e.preventDefault();
+										const btn = document.getElementById('btn-request-payout');
+										const responseDiv = document.getElementById('payout-response');
+										const formData = new FormData(form);
+										
+										btn.disabled = true;
+										btn.textContent = 'Processing...';
+										
+										fetch('<?php echo esc_url(admin_url("admin-ajax.php")); ?>', {
+											method: 'POST',
+											body: formData
+										}).then(res => res.json()).then(data => {
+											responseDiv.style.display = 'block';
+											if (data.success) {
+												responseDiv.style.background = '#f0fdf4';
+												responseDiv.style.color = '#166534';
+												responseDiv.textContent = data.data.message;
+												setTimeout(() => location.reload(), 2000);
+											} else {
+												responseDiv.style.background = '#fef2f2';
+												responseDiv.style.color = '#991b1b';
+												responseDiv.textContent = data.data.message || 'Error processing request.';
+												btn.disabled = false;
+												btn.textContent = 'Submit Request';
+											}
+										}).catch(() => {
+											responseDiv.style.display = 'block';
+											responseDiv.textContent = 'Server error. Please try again.';
+											btn.disabled = false;
+											btn.textContent = 'Submit Request';
+										});
+									});
+								}
+							});
+							</script>
+
+						<?php else : ?>
+							<div style="background:#fffbeb; border:1px solid #fde68a; color:#b45309; padding:var(--space-4); border-radius:var(--radius-md); font-weight:600; display:flex; gap:var(--space-2); align-items:center;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+								<?php printf( 
+									esc_html__('You must reach a minimum balance of %s to request a payout.', 'thessnest'), 
+									thessnest_format_price($min_payout) 
+								); ?>
+							</div>
+						<?php endif; ?>
+					</div>
+
+					<!-- Payout History -->
+					<h3 style="font-size:var(--font-size-lg); border-bottom:1px solid var(--color-border); padding-bottom:var(--space-2); margin-bottom:var(--space-4);">
+						<?php esc_html_e( 'Payout History', 'thessnest' ); ?>
+					</h3>
+					<?php
+					$payout_query = new WP_Query( array(
+						'post_type'      => 'thessnest_payout',
+						'author'         => $user->ID,
+						'posts_per_page' => 20,
+						'post_status'    => array('publish', 'pending', 'draft')
+					) );
+
+					if ( $payout_query->have_posts() ) : ?>
+						<div style="overflow-x:auto;">
+							<table style="width:100%; border-collapse:collapse; text-align:left; font-size:var(--font-size-sm);">
+								<thead>
+									<tr style="border-bottom:2px solid var(--color-border);">
+										<th style="padding:var(--space-3) 0; color:var(--color-text-muted);"><?php esc_html_e('Date', 'thessnest'); ?></th>
+										<th style="padding:var(--space-3) 0; color:var(--color-text-muted);"><?php esc_html_e('Amount', 'thessnest'); ?></th>
+										<th style="padding:var(--space-3) 0; color:var(--color-text-muted);"><?php esc_html_e('Method', 'thessnest'); ?></th>
+										<th style="padding:var(--space-3) 0; color:var(--color-text-muted);"><?php esc_html_e('Status', 'thessnest'); ?></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php while ( $payout_query->have_posts() ) : $payout_query->the_post(); 
+										$p_amount = get_post_meta( get_the_ID(), '_payout_amount', true );
+										$p_method = get_post_meta( get_the_ID(), '_payout_method', true );
+										$p_status = get_post_meta( get_the_ID(), '_payout_status', true );
+										
+										$badge_bg = '#e2e8f0'; $badge_col = '#4a5568';
+										if ( 'completed' === $p_status ) { $badge_bg = '#c6f6d5'; $badge_col = '#22543d'; }
+										elseif ( 'pending' === $p_status ) { $badge_bg = '#feebc8'; $badge_col = '#7b341e'; }
+										elseif ( 'rejected' === $p_status ) { $badge_bg = '#fed7d7'; $badge_col = '#742a2a'; }
+									?>
+									<tr style="border-bottom:1px solid var(--color-border);">
+										<td style="padding:var(--space-3) 0;"><?php echo get_the_date(); ?></td>
+										<td style="padding:var(--space-3) 0; font-weight:600;"><?php echo esc_html(thessnest_format_price($p_amount)); ?></td>
+										<td style="padding:var(--space-3) 0; text-transform:capitalize;"><?php echo esc_html(str_replace('_', ' ', $p_method)); ?></td>
+										<td style="padding:var(--space-3) 0;">
+											<span style="background:<?php echo esc_attr($badge_bg); ?>; color:<?php echo esc_attr($badge_col); ?>; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:600; text-transform:uppercase;">
+												<?php echo esc_html($p_status); ?>
+											</span>
+										</td>
+									</tr>
+									<?php endwhile; ?>
+								</tbody>
+							</table>
+						</div>
+					<?php else : ?>
+						<p style="color:var(--color-text-muted);"><?php esc_html_e('No payout requests found.', 'thessnest'); ?></p>
+					<?php endif; wp_reset_postdata(); ?>
+
+				<?php
+				/* ==========================================================================
+				   TAB: ROOMMATE FINDER
+				   ========================================================================== */
+				elseif ( 'roommates' === $active_tab && thessnest_opt( 'enable_roommate_matching', true ) ) : 
+					$r_active = get_user_meta( $user->ID, '_thessnest_roommate_active', true );
+					$r_prefs  = get_user_meta( $user->ID, '_thessnest_roommate_prefs', true );
+					if ( ! is_array( $r_prefs ) ) {
+						$r_prefs = array();
+					}
+					// Default values for form:
+					$p_bmin = isset($r_prefs['budget_min']) ? $r_prefs['budget_min'] : '';
+					$p_bmax = isset($r_prefs['budget_max']) ? $r_prefs['budget_max'] : '';
+					$p_neigh = isset($r_prefs['neighborhood']) ? $r_prefs['neighborhood'] : '';
+					$p_move = isset($r_prefs['move_in_date']) ? $r_prefs['move_in_date'] : '';
+					$p_dur = isset($r_prefs['stay_duration']) ? $r_prefs['stay_duration'] : '';
+					$p_age = isset($r_prefs['age_range']) ? $r_prefs['age_range'] : '';
+					$p_gen = isset($r_prefs['gender_pref']) ? $r_prefs['gender_pref'] : 'any';
+					$p_smk = isset($r_prefs['smoker']) ? $r_prefs['smoker'] : 'no';
+					$p_pet = isset($r_prefs['pets']) ? $r_prefs['pets'] : 'no';
+					$p_stu = !empty($r_prefs['student']) ? 'checked' : '';
+					$p_qui = !empty($r_prefs['quiet_hours']) ? 'checked' : '';
+					$p_lan = isset($r_prefs['languages']) ? $r_prefs['languages'] : '';
+					$p_bio = isset($r_prefs['bio']) ? $r_prefs['bio'] : '';
+				?>
+					<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-6);">
+						<h2 style="font-size:var(--font-size-xl); margin:0; color:var(--color-primary);">
+							🔥 <?php esc_html_e( 'Roommate Finder', 'thessnest' ); ?>
+						</h2>
+						<div class="toggle-switch-container" style="display:flex; align-items:center; gap:var(--space-2);">
+							<span style="font-size:var(--font-size-sm); color:var(--color-text-muted); font-weight:600;"><?php esc_html_e('Search Status:', 'thessnest'); ?></span>
+							<label class="thessnest-toggle" style="position:relative; display:inline-block; width:40px; height:20px;">
+								<input type="checkbox" id="roommate-status-toggle" <?php checked($r_active, '1'); ?> style="opacity:0; width:0; height:0;">
+								<span class="thessnest-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; border-radius:34px; transition:.4s;"></span>
+							</label>
+							<span id="roommate-status-label" style="font-size:var(--font-size-sm); font-weight:bold; color: <?php echo $r_active ? '#38a169' : '#718096'; ?>;">
+								<?php echo $r_active ? esc_html__('Active', 'thessnest') : esc_html__('Inactive', 'thessnest'); ?>
+							</span>
+						</div>
+					</div>
+					
+					<style>
+						.thessnest-toggle input:checked + .thessnest-slider { background-color: #38a169; }
+						.thessnest-slider:before { position:absolute; content:""; height:16px; width:16px; left:2px; bottom:2px; background-color:white; border-radius:50%; transition:.4s; }
+						.thessnest-toggle input:checked + .thessnest-slider:before { transform: translateX(20px); }
+					</style>
+
+					<!-- Roommate Matches Section -->
+					<div style="margin-bottom:var(--space-8); padding-bottom:var(--space-8); border-bottom:1px dashed var(--color-border);">
+						<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-4);">
+							<h3 style="margin:0; font-size:var(--font-size-lg);"><?php esc_html_e('Top Matches', 'thessnest'); ?></h3>
+							<button id="btn-roommate-refresh" class="btn btn-primary" style="padding:var(--space-2) var(--space-4);">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+								<?php esc_html_e('Find Matches', 'thessnest'); ?>
+							</button>
+						</div>
+
+						<div id="roommate-matches-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:var(--space-4);">
+							<!-- AJAX Results injected here -->
+							<div style="grid-column:1/-1; text-align:center; padding:var(--space-8); color:var(--color-text-muted); background:var(--color-surface); border-radius:var(--radius-lg); border:1px solid var(--color-border);">
+								<?php esc_html_e('Click "Find Matches" to see who shares your lifestyle preferences.', 'thessnest'); ?>
+							</div>
+						</div>
+					</div>
+
+					<!-- My Match Profile Form -->
+					<h3 style="font-size:var(--font-size-lg); margin-bottom:var(--space-4);"><?php esc_html_e('My Match Preferences', 'thessnest'); ?></h3>
+					<form id="roommate-profile-form" style="background:var(--color-surface); padding:var(--space-6); border-radius:var(--radius-lg); border:1px solid var(--color-border);">
+						<input type="hidden" name="action" value="thessnest_save_roommate_profile">
+						<?php wp_nonce_field( 'thessnest_dashboard_nonce', 'security' ); ?>
+
+						<div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Min Budget (€)', 'thessnest'); ?></label>
+								<input type="number" name="budget_min" value="<?php echo esc_attr($p_bmin); ?>" placeholder="0" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+							</div>
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Max Budget (€)', 'thessnest'); ?></label>
+								<input type="number" name="budget_max" value="<?php echo esc_attr($p_bmax); ?>" placeholder="500" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+							</div>
+						</div>
+
+						<div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Preferred Neighborhood', 'thessnest'); ?></label>
+								<input type="text" name="neighborhood" value="<?php echo esc_attr($p_neigh); ?>" placeholder="e.g. Ano Poli" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+							</div>
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Move-in Date', 'thessnest'); ?></label>
+								<input type="date" name="move_in_date" value="<?php echo esc_attr($p_move); ?>" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+							</div>
+						</div>
+
+						<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Stay Duration', 'thessnest'); ?></label>
+								<select name="stay_duration" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+									<option value="1-3m" <?php selected($p_dur, '1-3m'); ?>>1-3 Months</option>
+									<option value="3-6m" <?php selected($p_dur, '3-6m'); ?>>3-6 Months</option>
+									<option value="6m+" <?php selected($p_dur, '6m+'); ?>>6+ Months</option>
+								</select>
+							</div>
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Age Range', 'thessnest'); ?></label>
+								<select name="age_range" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+									<option value="18-25" <?php selected($p_age, '18-25'); ?>>18 - 25</option>
+									<option value="25-35" <?php selected($p_age, '25-35'); ?>>25 - 35</option>
+									<option value="35+" <?php selected($p_age, '35+'); ?>>35+</option>
+								</select>
+							</div>
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Preferred Gender', 'thessnest'); ?></label>
+								<select name="gender_pref" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+									<option value="any" <?php selected($p_gen, 'any'); ?>>Any</option>
+									<option value="male" <?php selected($p_gen, 'male'); ?>>Male</option>
+									<option value="female" <?php selected($p_gen, 'female'); ?>>Female</option>
+								</select>
+							</div>
+						</div>
+
+						<div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Are you a Smoker?', 'thessnest'); ?></label>
+								<select name="smoker" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+									<option value="no" <?php selected($p_smk, 'no'); ?>>No</option>
+									<option value="yes" <?php selected($p_smk, 'yes'); ?>>Yes</option>
+								</select>
+							</div>
+							<div>
+								<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Do you have Pets?', 'thessnest'); ?></label>
+								<select name="pets" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+									<option value="no" <?php selected($p_pet, 'no'); ?>>No</option>
+									<option value="yes" <?php selected($p_pet, 'yes'); ?>>Yes</option>
+								</select>
+							</div>
+						</div>
+
+						<div style="margin-bottom:var(--space-4); display:flex; gap:var(--space-4);">
+							<label style="display:flex; align-items:center; gap:8px; font-size:14px;">
+								<input type="checkbox" name="student" value="1" <?php echo $p_stu; ?>>
+								<?php esc_html_e('I am a student', 'thessnest'); ?>
+							</label>
+							<label style="display:flex; align-items:center; gap:8px; font-size:14px;">
+								<input type="checkbox" name="quiet_hours" value="1" <?php echo $p_qui; ?>>
+								<?php esc_html_e('I need quiet hours (Strict)', 'thessnest'); ?>
+							</label>
+						</div>
+
+						<div style="margin-bottom:var(--space-4);">
+							<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Languages Spoken', 'thessnest'); ?></label>
+							<input type="text" name="languages" value="<?php echo esc_attr($p_lan); ?>" placeholder="e.g. English, Greek, Spanish" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border);">
+						</div>
+
+						<div style="margin-bottom:var(--space-4);">
+							<label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;"><?php esc_html_e('Short Bio', 'thessnest'); ?></label>
+							<textarea name="bio" rows="3" placeholder="<?php esc_attr_e('Describe yourself...', 'thessnest'); ?>" style="width:100%; padding:var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--color-border); resize:vertical;"><?php echo esc_textarea($p_bio); ?></textarea>
+						</div>
+
+						<div id="roommate-form-response" style="margin-bottom:var(--space-4); display:none; padding:var(--space-2); border-radius:var(--radius-sm); font-size:14px;"></div>
+
+						<button type="submit" id="btn-save-roommate" class="btn btn-primary">
+							<?php esc_html_e('Save Match Profile', 'thessnest'); ?>
+						</button>
+					</form>
+
+					<script>
+					document.addEventListener('DOMContentLoaded', function() {
+						
+						// 1. Toggle Active Search Status
+						const toggle = document.getElementById('roommate-status-toggle');
+						const label = document.getElementById('roommate-status-label');
+						if (toggle) {
+							toggle.addEventListener('change', function() {
+								const formData = new FormData();
+								formData.append('action', 'thessnest_toggle_roommate_search');
+								formData.append('security', '<?php echo esc_js( wp_create_nonce("thessnest_dashboard_nonce") ); ?>');
+								
+								fetch(thessnestAjax.ajaxurl, { method: 'POST', body: formData })
+								.then(r => r.json())
+								.then(data => {
+									if (data.success) {
+										if (data.data.active) {
+											label.textContent = 'Active';
+											label.style.color = '#38a169';
+										} else {
+											label.textContent = 'Inactive';
+											label.style.color = '#718096';
+										}
+									}
+								});
+							});
+						}
+
+						// 2. Save Preferences Form
+						const form = document.getElementById('roommate-profile-form');
+						if (form) {
+							form.addEventListener('submit', function(e) {
+								e.preventDefault();
+								const btn = document.getElementById('btn-save-roommate');
+								const resp = document.getElementById('roommate-form-response');
+								btn.disabled = true; btn.textContent = 'Saving...';
+								
+								fetch(thessnestAjax.ajaxurl, { method: 'POST', body: new FormData(form) })
+								.then(r => r.json())
+								.then(data => {
+									resp.style.display = 'block';
+									resp.textContent = data.data.message || 'Saved successfully!';
+									resp.style.background = data.success ? '#f0fdf4' : '#fef2f2';
+									resp.style.color = data.success ? '#166534' : '#991b1b';
+									btn.disabled = false; btn.textContent = 'Save Match Profile';
+
+									// Turn toggle to true if it isn't
+									if(data.success && toggle && !toggle.checked) {
+										toggle.checked = true;
+										label.textContent = 'Active'; label.style.color = '#38a169';
+									}
+								});
+							});
+						}
+
+						// 3. Find Matches AI Fetcher
+						const btnMatch = document.getElementById('btn-roommate-refresh');
+						const matchCont = document.getElementById('roommate-matches-container');
+						if (btnMatch) {
+							btnMatch.addEventListener('click', function() {
+								btnMatch.disabled = true;
+								btnMatch.innerHTML = '<svg class="thessnest-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite; margin-right:4px;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Loading...';
+								matchCont.style.opacity = '0.5';
+								
+								const data = new FormData();
+								data.append('action', 'thessnest_get_roommate_matches');
+								data.append('security', '<?php echo esc_js( wp_create_nonce("thessnest_dashboard_nonce") ); ?>');
+								
+								fetch(thessnestAjax.ajaxurl, { method: 'POST', body: data })
+								.then(r => r.json())
+								.then(res => {
+									matchCont.style.opacity = '1';
+									btnMatch.disabled = false;
+									btnMatch.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> Find Matches';
+									
+									matchCont.innerHTML = '';
+									if (!res.success) {
+										matchCont.innerHTML = `<div style="grid-column:1/-1; padding:20px; text-align:center; color:#e53e3e; background:#fff5f5; border-radius:8px;">${res.data.message}</div>`;
+										return;
+									}
+
+									if (res.data.matches.length === 0) {
+										matchCont.innerHTML = `<div style="grid-column:1/-1; padding:20px; text-align:center; color:var(--color-text-muted);">No exact matches found yet. Try broadening your criteria!</div>`;
+										return;
+									}
+
+									res.data.matches.forEach(m => {
+										// Color mapping for score
+										let scoreCol = '#38a169'; // Green > 70
+										if(m.match_score < 40) scoreCol = '#e53e3e'; // Red
+										else if (m.match_score < 70) scoreCol = '#d97706'; // Orange
+
+										const html = `
+											<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-4); display:flex; flex-direction:column; gap:var(--space-3);">
+												<div style="display:flex; justify-content:space-between; align-items:flex-start;">
+													<div style="display:flex; gap:var(--space-3); align-items:center;">
+														<img src="${m.avatar}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+														<div>
+															<h4 style="margin:0; font-size:16px;">${m.name}</h4>
+															${m.student ? '<span style="font-size:11px; background:#ebf8ff; color:#3182ce; padding:2px 6px; border-radius:4px;">🎓 Student</span>' : ''}
+														</div>
+													</div>
+													<div style="text-align:center;">
+														<div style="font-size:18px; font-weight:700; color:${scoreCol};">${m.match_score}%</div>
+														<div style="font-size:10px; color:var(--color-text-muted); text-transform:uppercase;">Match</div>
+													</div>
+												</div>
+												<div style="font-size:13px; color:var(--color-text-muted); display:flex; flex-direction:column; gap:4px; margin-top:var(--space-2);">
+													<span><strong>📍 Prefers:</strong> ${m.neighborhood || 'Any'}</span>
+													<span><strong>💰 Budget:</strong> ${m.budget_range}</span>
+													<span><strong>📅 Move in:</strong> ${m.move_in || 'Flexible'} (${m.duration})</span>
+												</div>
+												<p style="font-size:13px; margin:0; padding-top:var(--space-3); border-top:1px solid var(--color-border);">
+													${m.bio || '<i>No bio provided.</i>'}
+												</p>
+												<button class="btn btn-outline" style="width:100%; margin-top:auto;" onclick="alert('In a real app, this would open the message composer to say Hi!')">Send Message</button>
+											</div>
+										`;
+										matchCont.insertAdjacentHTML('beforeend', html);
+									});
+								});
+							});
+						}
+
+					});
+					</script>
 
 				<?php
 				/* ==========================================================================
