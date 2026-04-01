@@ -117,6 +117,8 @@ require_once THESSNEST_DIR . '/inc/ical-sync.php'; // iCal Synchronization API
 require_once THESSNEST_DIR . '/inc/social-login.php'; // OAuth / Social Login
 require_once THESSNEST_DIR . '/inc/monetization.php'; // Monetization & Listing Packages Paywall
 require_once THESSNEST_DIR . '/inc/advanced-reviews.php'; // Multi-Criteria Reviews System
+require_once THESSNEST_DIR . '/inc/automated-invoicing.php'; // Automated Invoicing Engine
+require_once THESSNEST_DIR . '/inc/extra-post-types.php'; // Experience & Event Tickets
 
 
 

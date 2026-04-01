@@ -67,6 +67,11 @@ get_header();
 							</a>
 						</li>
 						<li style="margin-bottom:var(--space-2);">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'pricing_calendar', $dashboard_url ) ); ?>" style="display:block; padding:var(--space-2); border-radius:var(--radius-md); <?php echo ( 'pricing_calendar' === $active_tab ) ? 'background:var(--color-primary); color:white; font-weight:600;' : 'color:var(--color-text);'; ?>">
+								<?php esc_html_e( 'Pricing Calendar', 'thessnest' ); ?>
+							</a>
+						</li>
+						<li style="margin-bottom:var(--space-2);">
 							<a href="<?php echo esc_url( home_url( '/add-listing/' ) ); ?>" style="display:block; padding:var(--space-2); border-radius:var(--radius-md); color:var(--color-accent); font-weight:600;">
 								<?php esc_html_e( '+ Add New Property', 'thessnest' ); ?>
 							</a>
@@ -380,6 +385,92 @@ get_header();
 							<?php esc_html_e( 'You have not submitted any properties yet.', 'thessnest' ); ?>
 						</p>
 					<?php endif; ?>
+
+				<?php
+				/* ==========================================================================
+				   TAB: PRICING CALENDAR (LANDLORD ONLY)
+				   ========================================================================== */
+				elseif ( 'pricing_calendar' === $active_tab && $is_landlord ) :
+				?>
+					<h2 style="font-size:var(--font-size-xl); margin-bottom:var(--space-6); color:var(--color-primary);">
+						<?php esc_html_e( 'Custom Period Pricing', 'thessnest' ); ?>
+					</h2>
+					<p style="color:var(--color-text-muted); margin-bottom:var(--space-6);">
+						<?php esc_html_e( 'Select a property and define seasonal or custom date prices. These rates will override the base nightly rent.', 'thessnest' ); ?>
+					</p>
+
+					<div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:var(--space-6); margin-bottom:var(--space-8);">
+						<form id="custom-pricing-form">
+							<div style="margin-bottom:var(--space-4);">
+								<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Select Property', 'thessnest'); ?></label>
+								<select id="pricing_property_id" name="property_id" required style="width:100%; max-width:400px; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+									<option value=""><?php esc_html_e('-- Select a Property --', 'thessnest'); ?></option>
+									<?php
+									$landlord_props = get_posts(array('post_type'=>'property', 'author'=>$user->ID, 'posts_per_page'=>-1, 'post_status'=>'publish'));
+									foreach($landlord_props as $prop) {
+										echo '<option value="' . esc_attr($prop->ID) . '">' . esc_html($prop->post_title) . '</option>';
+									}
+									?>
+								</select>
+							</div>
+
+							<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4); max-width:600px;">
+								<div>
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Start Date', 'thessnest'); ?></label>
+									<input type="date" id="pricing_start_date" name="start_date" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								</div>
+								<div>
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('End Date', 'thessnest'); ?></label>
+									<input type="date" id="pricing_end_date" name="end_date" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								</div>
+								<div>
+									<label style="display:block; margin-bottom:var(--space-2); font-weight:600; font-size:var(--font-size-sm);"><?php esc_html_e('Daily Rate (€)', 'thessnest'); ?></label>
+									<input type="number" step="0.01" id="pricing_rate" name="rate" required style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md);">
+								</div>
+							</div>
+							
+							<div id="pricing-response" style="margin-bottom:var(--space-4); display:none; padding:var(--space-2); border-radius:var(--radius-sm); font-size:14px;"></div>
+							<button type="submit" id="btn-save-pricing" class="btn btn-primary"><?php esc_html_e('Add Custom Price Period', 'thessnest'); ?></button>
+						</form>
+					</div>
+
+					<script>
+					document.addEventListener('DOMContentLoaded', function() {
+						const form = document.getElementById('custom-pricing-form');
+						if(form) {
+							form.addEventListener('submit', function(e) {
+								e.preventDefault();
+								const btn = document.getElementById('btn-save-pricing');
+								const resp = document.getElementById('pricing-response');
+								
+								btn.disabled = true; btn.textContent = 'Saving...';
+								
+								const formData = new FormData(form);
+								formData.append('action', 'thessnest_save_custom_pricing');
+								formData.append('security', '<?php echo esc_js( wp_create_nonce("thessnest_dashboard_nonce") ); ?>');
+								
+								fetch('<?php echo esc_url(admin_url("admin-ajax.php")); ?>', {
+									method: 'POST',
+									body: formData
+								}).then(r => r.json()).then(data => {
+									resp.style.display = 'block';
+									if(data.success) {
+										resp.style.background = '#f0fdf4'; resp.style.color = '#166534';
+										resp.textContent = data.data.message || 'Saved successfully!';
+										form.reset();
+									} else {
+										resp.style.background = '#fef2f2'; resp.style.color = '#991b1b';
+										resp.textContent = data.data.message || 'Error saving price.';
+									}
+									btn.disabled = false; btn.textContent = 'Add Custom Price Period';
+								}).catch(() => {
+									resp.style.display = 'block'; resp.textContent = 'Server Error.';
+									btn.disabled = false; btn.textContent = 'Add Custom Price Period';
+								});
+							});
+						}
+					});
+					</script>
 
 				<?php
 				/* ==========================================================================

@@ -213,9 +213,57 @@ class ThessNest_Pricing_Engine {
 		}
 
 		wp_send_json_success( $result );
+	/**
+	 * AJAX endpoint: Save custom pricing from Landlord Dashboard.
+	 */
+	public static function ajax_save_custom_pricing() {
+		check_ajax_referer( 'thessnest_dashboard_nonce', 'security' );
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( array( 'message' => __( 'Not logged in.', 'thessnest' ) ) );
+		}
+
+		$property_id = isset( $_POST['property_id'] ) ? intval( $_POST['property_id'] ) : 0;
+		$start_date  = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date'] ) : '';
+		$end_date    = isset( $_POST['end_date'] ) ? sanitize_text_field( $_POST['end_date'] ) : '';
+		$rate        = isset( $_POST['rate'] ) ? floatval( $_POST['rate'] ) : 0;
+
+		if ( ! $property_id || ! $start_date || ! $end_date || $rate <= 0 ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid data.', 'thessnest' ) ) );
+		}
+
+		// Security: Check if current user is the author of the property
+		if ( get_post_field( 'post_author', $property_id ) != get_current_user_id() && ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'thessnest' ) ) );
+		}
+
+		// Retrieve existing seasonal rates
+		$seasonal_rates = get_post_meta( $property_id, '_thessnest_seasonal_rates', true );
+		if ( ! is_array( $seasonal_rates ) ) {
+			$seasonal_rates = array();
+		}
+
+		// Check for overlapping dates
+		foreach ( $seasonal_rates as $season ) {
+			if ( $start_date <= $season['end'] && $end_date >= $season['start'] ) {
+				wp_send_json_error( array( 'message' => __( 'Dates overlap with an existing custom price period.', 'thessnest' ) ) );
+			}
+		}
+
+		// Add new rate
+		$seasonal_rates[] = array(
+			'start' => $start_date,
+			'end'   => $end_date,
+			'rate'  => $rate
+		);
+
+		update_post_meta( $property_id, '_thessnest_seasonal_rates', $seasonal_rates );
+
+		wp_send_json_success( array( 'message' => __( 'Custom pricing period saved successfully.', 'thessnest' ) ) );
 	}
 }
 
 // Register AJAX endpoints
 add_action( 'wp_ajax_thessnest_get_price', array( 'ThessNest_Pricing_Engine', 'ajax_get_price' ) );
 add_action( 'wp_ajax_nopriv_thessnest_get_price', array( 'ThessNest_Pricing_Engine', 'ajax_get_price' ) );
+add_action( 'wp_ajax_thessnest_save_custom_pricing', array( 'ThessNest_Pricing_Engine', 'ajax_save_custom_pricing' ) );

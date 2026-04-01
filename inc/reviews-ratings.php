@@ -174,6 +174,36 @@ function thessnest_custom_comment_callback( $comment, $args, $depth ) {
 			</div><!-- .comment-content -->
 
 			<?php
+			// Advanced Review Breakdown
+			$breakdown = array(
+				'cleanliness'   => __( 'Cleanliness', 'thessnest' ),
+				'communication' => __( 'Communication', 'thessnest' ),
+				'location'      => __( 'Location', 'thessnest' ),
+				'value'         => __( 'Value', 'thessnest' ),
+			);
+			
+			$has_breakdown = false;
+			$breakdown_html = '<div class="review-breakdown" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:20px; padding-top:20px; border-top:1px solid var(--color-border); font-size:13px;">';
+			
+			foreach ( $breakdown as $key => $label ) {
+				$val = get_comment_meta( $comment->comment_ID, '_thessnest_rating_' . $key, true );
+				if ( $val ) {
+					$has_breakdown = true;
+					$percent = ( intval( $val ) / 5 ) * 100;
+					$breakdown_html .= '<div class="breakdown-item">';
+					$breakdown_html .= '<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>' . esc_html( $label ) . '</span><strong>' . esc_html( $val ) . ' / 5</strong></div>';
+					$breakdown_html .= '<div style="height:6px; background:var(--color-border); border-radius:3px; overflow:hidden;"><div style="height:100%; width:' . esc_attr( $percent ) . '%; background:var(--color-accent);"></div></div>';
+					$breakdown_html .= '</div>';
+				}
+			}
+			$breakdown_html .= '</div>';
+
+			if ( $has_breakdown ) {
+				echo $breakdown_html;
+			}
+			?>
+
+			<?php
 			comment_reply_link( array_merge( $args, array(
 				'add_below' => 'div-comment',
 				'depth'     => $depth,
