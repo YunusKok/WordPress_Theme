@@ -1318,3 +1318,70 @@ Redux::set_section( $opt_name, array(
 	),
 ) );
 
+
+// ═══════════════════════════════════════════════════
+//  SECTION: Email Management
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Email Management', 'thessnest' ),
+	'id'     => 'email_management',
+	'icon'   => 'el el-envelope',
+	'fields' => array(
+		array(
+			'id'       => 'email_logo',
+			'type'     => 'media',
+			'title'    => __( 'Email Logo', 'thessnest' ),
+			'subtitle' => __( 'Upload a specific logo for emails. Defaults to main logo if not set.', 'thessnest' ),
+		),
+		array(
+			'id'       => 'email_bg_color',
+			'type'     => 'color',
+			'title'    => __( 'Email Background Color', 'thessnest' ),
+			'default'  => '#f7f9fc',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_header_bg',
+			'type'     => 'color',
+			'title'    => __( 'Header Background Color', 'thessnest' ),
+			'default'  => '#ffffff',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_body_bg',
+			'type'     => 'color',
+			'title'    => __( 'Body Context Background Color', 'thessnest' ),
+			'default'  => '#ffffff',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_footer_bg',
+			'type'     => 'color',
+			'title'    => __( 'Footer Background Color', 'thessnest' ),
+			'default'  => '#f8fafc',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_text_color',
+			'type'     => 'color',
+			'title'    => __( 'Text Color', 'thessnest' ),
+			'default'  => '#334155',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_btn_color',
+			'type'     => 'color',
+			'title'    => __( 'Button Color', 'thessnest' ),
+			'default'  => '#2563eb',
+			'transparent' => false,
+		),
+		array(
+			'id'       => 'email_footer_text',
+			'type'     => 'textarea',
+			'title'    => __( 'Footer Text', 'thessnest' ),
+			'subtitle' => __( 'Custom footer text for emails. Defaults to the main site copyright text.', 'thessnest' ),
+			'default'  => '',
+		),
+	),
+) );
