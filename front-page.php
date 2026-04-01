@@ -41,10 +41,10 @@ if ( have_posts() ) {
 		<div class="hero-content">
 
 			<h1 class="hero-title">
-				<?php echo esc_html( get_theme_mod( 'hero_title', __( 'Find Your Home in Thessaloniki', 'thessnest' ) ) ); ?>
+				<?php echo esc_html( get_theme_mod( 'hero_title', __( 'Find Your Home Anywhere', 'thessnest' ) ) ); ?>
 			</h1>
 			<p class="hero-subtitle">
-				<?php echo wp_kses_post( get_theme_mod( 'hero_subtitle', __( 'Find student accommodation no agency fee and digital nomad apartments in Thessaloniki. Verified landlords, instant booking.', 'thessnest' ) ) ); ?>
+				<?php echo wp_kses_post( get_theme_mod( 'hero_subtitle', __( 'Find student accommodation no agency fee and digital nomad apartments. Verified landlords, instant booking.', 'thessnest' ) ) ); ?>
 			</p>
 
 			<!-- ── Liquid Glass Search Bar ───────────────── -->
@@ -239,7 +239,7 @@ if ( have_posts() ) {
 					<?php echo esc_html( get_theme_mod( 'hiw_title', __( 'How It Works', 'thessnest' ) ) ); ?>
 				</h2>
 				<p class="section-subtitle">
-					<?php echo esc_html( get_theme_mod( 'hiw_subtitle', __( 'Secure your Thessaloniki home in three simple steps.', 'thessnest' ) ) ); ?>
+					<?php echo esc_html( get_theme_mod( 'hiw_subtitle', __( 'Secure your home in three simple steps.', 'thessnest' ) ) ); ?>
 				</p>
 			</div>
 
@@ -277,7 +277,7 @@ if ( have_posts() ) {
 					</div>
 					<span class="step-number">3</span>
 					<h3 class="step-title"><?php echo esc_html( get_theme_mod( 'hiw_step_3_title', __( 'Move In', 'thessnest' ) ) ); ?></h3>
-					<p class="step-desc"><?php echo wp_kses_post( get_theme_mod( 'hiw_step_3_desc', __( 'Arrive in Thessaloniki and settle into your new home. Welcome to the city!', 'thessnest' ) ) ); ?></p>
+					<p class="step-desc"><?php echo wp_kses_post( get_theme_mod( 'hiw_step_3_desc', __( 'Arrive in your destination and settle into your new home. Welcome!', 'thessnest' ) ) ); ?></p>
 				</div>
 
 			</div>
@@ -333,7 +333,7 @@ if ( have_posts() ) {
 	     CTA BANNER
 	     ================================================================ -->
 	<section class="cta-banner" aria-label="<?php esc_attr_e( 'List your property', 'thessnest' ); ?>">
-		<h2 class="cta-title"><?php echo esc_html( get_theme_mod( 'cta_title', __( 'Own a Property in Thessaloniki?', 'thessnest' ) ) ); ?></h2>
+		<h2 class="cta-title"><?php echo esc_html( get_theme_mod( 'cta_title', __( 'Own a Property Here?', 'thessnest' ) ) ); ?></h2>
 		<p class="cta-subtitle"><?php echo wp_kses_post( get_theme_mod( 'cta_subtitle', __( 'List your space and reach thousands of Erasmus students and digital nomads looking for their next home.', 'thessnest' ) ) ); ?></p>
 		<a href="<?php echo esc_url( get_theme_mod( 'cta_btn_link', '#' ) ); ?>" class="btn btn-primary">
 			<?php echo esc_html( get_theme_mod( 'cta_btn_text', __( 'List Your Property', 'thessnest' ) ) ); ?>

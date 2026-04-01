@@ -73,7 +73,7 @@ Redux::set_section( $opt_name, array(
 			'type'     => 'textarea',
 			'title'    => __( 'Site Description', 'thessnest' ),
 			'subtitle' => __( 'A short description of your platform.', 'thessnest' ),
-			'default'  => 'Mid-term housing for Erasmus students & Digital Nomads in Thessaloniki.',
+			'default'  => 'Mid-term housing for Erasmus students & Digital Nomads.',
 		),
 		array(
 			'id'       => 'default_language',
@@ -421,7 +421,7 @@ Redux::set_section( $opt_name, array(
 			'id'       => 'contact_address',
 			'type'     => 'textarea',
 			'title'    => __( 'Address', 'thessnest' ),
-			'default'  => 'Thessaloniki, Greece',
+			'default'  => 'London, United Kingdom',
 		),
 		array(
 			'id'       => 'social_instagram',
@@ -1382,6 +1382,53 @@ Redux::set_section( $opt_name, array(
 			'title'    => __( 'Footer Text', 'thessnest' ),
 			'subtitle' => __( 'Custom footer text for emails. Defaults to the main site copyright text.', 'thessnest' ),
 			'default'  => '',
+		),
+	),
+) );
+
+// ═══════════════════════════════════════════════════
+//  SECTION: Location & SEO Settings
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Location & SEO', 'thessnest' ),
+	'id'     => 'location_seo',
+	'icon'   => 'el el-globe',
+	'fields' => array(
+		array(
+			'id'       => 'primary_city',
+			'type'     => 'text',
+			'title'    => __( 'Primary Focus City', 'thessnest' ),
+			'subtitle' => __( 'The main city your platform operates in (used for SEO and defaults).', 'thessnest' ),
+			'default'  => 'Thessaloniki',
+		),
+		array(
+			'id'       => 'primary_country',
+			'type'     => 'text',
+			'title'    => __( 'Primary Country', 'thessnest' ),
+			'subtitle' => __( 'The country your platform operates in.', 'thessnest' ),
+			'default'  => 'Greece',
+		),
+		array(
+			'id'       => 'target_audience',
+			'type'     => 'text',
+			'title'    => __( 'Target Audience (SEO)', 'thessnest' ),
+			'subtitle' => __( 'Comma separated list of target renter types (e.g. Erasmus students, Digital Nomads).', 'thessnest' ),
+			'default'  => 'Erasmus students, digital nomads',
+		),
+		array(
+			'id'       => 'default_map_lat',
+			'type'     => 'text',
+			'title'    => __( 'Default Map Latitude', 'thessnest' ),
+			'subtitle' => __( 'Fallback latitude when a property has no coordinates.', 'thessnest' ),
+			'default'  => '40.6401',
+		),
+		array(
+			'id'       => 'default_map_lng',
+			'type'     => 'text',
+			'title'    => __( 'Default Map Longitude', 'thessnest' ),
+			'subtitle' => __( 'Fallback longitude when a property has no coordinates.', 'thessnest' ),
+			'default'  => '22.9444',
 		),
 	),
 ) );

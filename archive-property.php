@@ -108,8 +108,8 @@ global $wp_query;
 				<div class="filter-group">
 					<span class="filter-label"><?php esc_html_e( 'Location Radius', 'thessnest' ); ?></span>
 					<!-- Using hardcoded coordinates for demo. In production, connect to Google Places API -> Lat/Lng -->
-					<input type="hidden" name="lat" id="search-lat" value="<?php echo esc_attr( thessnest_opt( 'map_default_lat', '40.6401' ) ); ?>">
-					<input type="hidden" name="lng" id="search-lng" value="<?php echo esc_attr( thessnest_opt( 'map_default_lng', '22.9444' ) ); ?>">
+					<input type="hidden" name="lat" id="search-lat" value="<?php echo esc_attr( thessnest_opt( 'default_map_lat', '51.5074' ) ); ?>">
+					<input type="hidden" name="lng" id="search-lng" value="<?php echo esc_attr( thessnest_opt( 'default_map_lng', '-0.1278' ) ); ?>">
 					
 					<select name="radius" class="live-search-input" style="width:100%; margin-top:var(--space-2);">
 						<option value="0"><?php esc_html_e( 'Any Distance', 'thessnest' ); ?></option>
@@ -360,8 +360,8 @@ global $wp_query;
 	document.addEventListener('DOMContentLoaded', function() {
 		if ( typeof L === 'undefined' ) return;
 
-		// Default to Thessaloniki coordinates
-		window.thessnestMap = L.map('properties-map').setView([<?php echo esc_js( thessnest_opt( 'map_default_lat', '40.6401' ) ); ?>, <?php echo esc_js( thessnest_opt( 'map_default_lng', '22.9444' ) ); ?>], 13);
+		// Default to general coordinates
+		window.thessnestMap = L.map('properties-map').setView([<?php echo esc_js( thessnest_opt( 'default_map_lat', '51.5074' ) ); ?>, <?php echo esc_js( thessnest_opt( 'default_map_lng', '-0.1278' ) ); ?>], 13);
 
 		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 			maxZoom: 19,
@@ -385,8 +385,8 @@ global $wp_query;
 
 				if ( ! $lat || ! $lng ) {
 					// Fallback pseudo-random for demo
-					$lat = floatval( thessnest_opt( 'map_default_lat', '40.6401' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
-					$lng = floatval( thessnest_opt( 'map_default_lng', '22.9444' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
+					$lat = floatval( thessnest_opt( 'default_map_lat', '51.5074' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
+					$lng = floatval( thessnest_opt( 'default_map_lng', '-0.1278' ) ) + ( ( rand(0, 100) - 50 ) / 3000 );
 				}
 
 				$img_url = has_post_thumbnail() ? get_the_post_thumbnail_url( $prop_id, 'medium' ) : '';

@@ -37,7 +37,7 @@ class ThessNest_Hero_Search_Widget extends \Elementor\Widget_Base {
 			[
 				'label'       => esc_html__( 'Title', 'thessnest' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => esc_html__( 'Find Your Home in Thessaloniki', 'thessnest' ),
+				'default'     => esc_html__( 'Find Your Home Anywhere', 'thessnest' ),
 				'label_block' => true,
 			]
 		);
@@ -47,7 +47,7 @@ class ThessNest_Hero_Search_Widget extends \Elementor\Widget_Base {
 			[
 				'label'       => esc_html__( 'Subtitle', 'thessnest' ),
 				'type'        => \Elementor\Controls_Manager::TEXTAREA,
-				'default'     => esc_html__( 'Find student accommodation no agency fee and digital nomad apartments in Thessaloniki. Verified landlords, instant booking.', 'thessnest' ),
+				'default'     => esc_html__( 'Find student accommodation no agency fee and digital nomad apartments. Verified landlords, instant booking.', 'thessnest' ),
 			]
 		);
 

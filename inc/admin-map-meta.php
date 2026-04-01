@@ -37,9 +37,9 @@ function thessnest_property_location_callback( $post ) {
 	$lat = get_post_meta( $post->ID, '_thessnest_latitude', true );
 	$lng = get_post_meta( $post->ID, '_thessnest_longitude', true );
 
-	// Default to Thessaloniki center if empty.
-	$default_lat = thessnest_opt( 'map_default_lat', '40.6401' );
-	$default_lng = thessnest_opt( 'map_default_lng', '22.9444' );
+	// Default to general center if empty.
+	$default_lat = thessnest_opt( 'default_map_lat', '51.5074' );
+	$default_lng = thessnest_opt( 'default_map_lng', '-0.1278' );
 
 	if ( ! $lat ) { $lat = $default_lat; }
 	if ( ! $lng ) { $lng = $default_lng; }
@@ -66,8 +66,8 @@ function thessnest_property_location_callback( $post ) {
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		// Initialize the map
-		var defaultLat = parseFloat('<?php echo esc_js( $default_lat ); ?>') || 40.6401;
-		var defaultLng = parseFloat('<?php echo esc_js( $default_lng ); ?>') || 22.9444;
+		var defaultLat = parseFloat('<?php echo esc_js( $default_lat ); ?>') || 51.5074;
+		var defaultLng = parseFloat('<?php echo esc_js( $default_lng ); ?>') || -0.1278;
 
 		var adminLat = parseFloat(document.getElementById('thessnest_latitude').value) || defaultLat;
 		var adminLng = parseFloat(document.getElementById('thessnest_longitude').value) || defaultLng;

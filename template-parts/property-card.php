@@ -159,7 +159,13 @@ $placeholder_images = array(
 					<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
 					<circle cx="12" cy="10" r="3"/>
 				</svg>
-				<?php echo esc_html( $neighborhood ); ?>, Thessaloniki
+				<?php
+					$primary_city = function_exists('thessnest_opt') ? thessnest_opt('primary_city', '') : '';
+					echo esc_html( $neighborhood );
+					if ( !empty($primary_city) ) {
+						echo ', ' . esc_html( $primary_city );
+					}
+				?>
 			</p>
 		<?php endif; ?>
 

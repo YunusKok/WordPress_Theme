@@ -48,7 +48,7 @@ class ThessNest_How_It_Works_Widget extends \Elementor\Widget_Base {
 			[
 				'label'   => esc_html__( 'Section Subtitle', 'thessnest' ),
 				'type'    => \Elementor\Controls_Manager::TEXTAREA,
-				'default' => esc_html__( 'Secure your Thessaloniki home in three simple steps.', 'thessnest' ),
+				'default' => esc_html__( 'Secure your home in three simple steps.', 'thessnest' ),
 			]
 		);
 
@@ -105,7 +105,7 @@ class ThessNest_How_It_Works_Widget extends \Elementor\Widget_Base {
 			[
 				'label'       => esc_html__( 'Step 3 Description', 'thessnest' ),
 				'type'        => \Elementor\Controls_Manager::TEXTAREA,
-				'default'     => esc_html__( 'Arrive in Thessaloniki and settle into your new home. Welcome to the city!', 'thessnest' ),
+				'default'     => esc_html__( 'Arrive in your destination and settle into your new home. Welcome!', 'thessnest' ),
 			]
 		);
 

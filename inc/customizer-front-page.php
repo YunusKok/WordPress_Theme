@@ -47,7 +47,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 
 	// Hero Title
 	$wp_customize->add_setting( 'hero_title', array(
-		'default'           => __( 'Find Your Home in Thessaloniki', 'thessnest' ),
+		'default'           => __( 'Find Your Home Anywhere', 'thessnest' ),
 		'sanitize_callback' => 'sanitize_text_field',
 	) );
 	$wp_customize->add_control( 'hero_title', array(
@@ -58,7 +58,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 
 	// Hero Subtitle
 	$wp_customize->add_setting( 'hero_subtitle', array(
-		'default'           => __( 'Find student accommodation no agency fee and digital nomad apartments in Thessaloniki. Verified landlords, instant booking.', 'thessnest' ),
+		'default'           => __( 'Find student accommodation no agency fee and digital nomad apartments. Verified landlords, instant booking.', 'thessnest' ),
 		'sanitize_callback' => 'wp_kses_post',
 	) );
 	$wp_customize->add_control( 'hero_subtitle', array(
@@ -122,7 +122,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 
 	// HIW Subtitle
 	$wp_customize->add_setting( 'hiw_subtitle', array(
-		'default'           => __( 'Secure your Thessaloniki home in three simple steps.', 'thessnest' ),
+		'default'           => __( 'Secure your home in three simple steps.', 'thessnest' ),
 		'sanitize_callback' => 'sanitize_text_field',
 	) );
 	$wp_customize->add_control( 'hiw_subtitle', array(
@@ -153,7 +153,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 		$default_descs = array(
 			1 => __( 'Browse verified listings near Aristotle University or grocery stores. Filter by high-speed Wi-Fi, budget, and amenities.', 'thessnest' ),
 			2 => __( 'Reserve your place online with transparent pricing. No hidden fees, no surprises.', 'thessnest' ),
-			3 => __( 'Arrive in Thessaloniki and settle into your new home. Welcome to the city!', 'thessnest' )
+			3 => __( 'Arrive in your destination and settle into your new home. Welcome!', 'thessnest' )
 		);
 		$wp_customize->add_setting( 'hiw_step_' . $i . '_desc', array(
 			'default'           => $default_descs[$i],
@@ -178,7 +178,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 
 	// CTA Title
 	$wp_customize->add_setting( 'cta_title', array(
-		'default'           => __( 'Own a Property in Thessaloniki?', 'thessnest' ),
+		'default'           => __( 'Own a Property Here?', 'thessnest' ),
 		'sanitize_callback' => 'sanitize_text_field',
 	) );
 	$wp_customize->add_control( 'cta_title', array(

@@ -110,7 +110,13 @@ function thessnest_handle_proof_download() {
 				
 				<div class="label"><?php esc_html_e( 'Location', 'thessnest' ); ?></div>
 				<div class="value">
-					<?php echo esc_html( thessnest_get_first_term( 'neighborhood', $property_id ) ); ?>, <?php esc_html_e( 'Thessaloniki', 'thessnest' ); ?>
+					<?php
+						$primary_city = function_exists('thessnest_opt') ? thessnest_opt('primary_city', '') : '';
+						echo esc_html( thessnest_get_first_term( 'neighborhood', $property_id ) );
+						if ( !empty($primary_city) ) {
+							echo ', ' . esc_html( $primary_city );
+						}
+					?>
 				</div>
 				<p><em><?php esc_html_e( 'GPS Coordinates:', 'thessnest' ); ?> <?php echo esc_html( get_post_meta($property_id, '_thessnest_latitude', true) ); ?>, <?php echo esc_html( get_post_meta($property_id, '_thessnest_longitude', true) ); ?></em></p>
 			</div>

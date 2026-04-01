@@ -3,7 +3,7 @@
  * ThessNest — Native SEO Tags
  *
  * Injects dynamic Meta Title, Description, and Keywords into <head>.
- * Built specifically for Erasmus / Digital Nomad keywords in Thessaloniki.
+ * Built to adapt to the configured primary city and target audience.
  *
  * @package ThessNest
  */
@@ -14,28 +14,32 @@ defined( 'ABSPATH' ) || exit;
  * Generate and output SEO Meta Tags in wp_head.
  */
 function thessnest_native_seo_tags() {
+	$primary_city    = function_exists('thessnest_opt') ? thessnest_opt('primary_city', 'your city') : 'your city';
+	$primary_country = function_exists('thessnest_opt') ? thessnest_opt('primary_country', '') : '';
+	$target_audience = function_exists('thessnest_opt') ? thessnest_opt('target_audience', 'Erasmus students, digital nomads') : 'Erasmus students, digital nomads';
+
 	// Base Keyword Clusters
-	$base_keywords = 'Erasmus housing Thessaloniki, digital nomad apartments Thessaloniki, student accommodation no agency fee, verified landlord student apartments Thessaloniki, short term rental fast wifi Thessaloniki, digital nomad in Thessaloniki, digital nomad in Greece, remote work apartment Thessaloniki';
+	$base_keywords = sprintf( '%s housing %s, digital nomad apartments %s, short term rental fast wifi %s, remote work apartment %s', $target_audience, $primary_city, $primary_city, $primary_city, $primary_city );
 
 	$description = '';
 	$keywords    = $base_keywords;
 
 	if ( is_front_page() || is_home() ) {
-		$description = 'Verified mid-term rentals & student accommodation with no agency fee. Find laptop-friendly workspace digital nomad apartments, safe student rooms near Aristotle University, and flexible checkout mid-term rent in Thessaloniki.';
-		$keywords    = $base_keywords . ', accommodation proof for D-type student visa, Erasmus internship housing Thessaloniki, student flat with utilities included Thessaloniki, flatmate search Erasmus Thessaloniki, student rental contract requirements Greece, safe student rooms near Aristotle University, flexible checkout mid-term rent, laptop-friendly workspace apartment Thessaloniki, instant book mid-term rentals Thessaloniki, split rent student accommodation, 3 person shared student apartment Thessaloniki, short-term Erasmus accommodation Thessaloniki, 1 semester student housing Thessaloniki, short-term student room for rent Greece, how to avoid rental scams Thessaloniki';
+		$description = sprintf( 'Verified mid-term rentals & student accommodation with no agency fee. Find laptop-friendly workspace digital nomad apartments and flexible checkout mid-term rent in %s.', $primary_city );
+		$keywords    = $base_keywords . ', ' . sprintf( 'student flat with utilities included %s, instant book mid-term rentals %s', $primary_city, $primary_city );
 	} elseif ( is_singular( 'property' ) ) {
 		global $post;
 		$title = get_the_title( $post->ID );
 		
 		// Fallback description based on title + trust keywords
-		$description = sprintf( 'Rent %s in Thessaloniki. Safe student rooms & digital nomad flat with high-speed internet monthly rental. Verified landlord student apartments.', esc_attr( $title ) );
-		$keywords    = $title . ', rent apartment abroad without viewing, how to rent a flat in Greece as a foreigner, student apartment with washing machine Thessaloniki, entire furnished flat 3 bedrooms Thessaloniki, student housing with large workspace Thessaloniki, high-speed internet monthly rental Thessaloniki, furnished apartment with laundry Thessaloniki, fully equipped kitchen digital nomad housing Thessaloniki, flat with dishwasher and oven mid-term Thessaloniki, short term rental with full kitchen appliances Thessaloniki, ' . $base_keywords;
+		$description = sprintf( 'Rent %s in %s. Safe rooms & digital nomad flat with high-speed internet monthly rental. Verified landlord apartments.', esc_attr( $title ), $primary_city );
+		$keywords    = $title . ', rent apartment abroad without viewing, student apartment with washing machine ' . $primary_city . ', fully equipped kitchen digital nomad housing ' . $primary_city . ', ' . $base_keywords;
 	} elseif ( is_post_type_archive( 'property' ) || is_tax( array( 'neighborhood', 'amenity', 'target_group' ) ) ) {
-		$description = 'Browse verified student apartments and digital nomad housing in Thessaloniki. Filter by safest neighborhoods for international students, deposit-free nomad housing, and flats with dishwasher and oven mid-term.';
-		$keywords    = 'student housing near cheap supermarkets Thessaloniki, Erasmus flat near grocery stores Thessaloniki, coworking friendly apartments Thessaloniki, safest neighborhoods for international students Thessaloniki, deposit-free nomad housing Thessaloniki, digital nomad flat shared kitchen Thessaloniki, ' . $base_keywords;
+		$description = sprintf( 'Browse verified student apartments and digital nomad housing in %s. Filter by safest neighborhoods, deposit-free nomad housing, and flexible mid-term rentals.', $primary_city );
+		$keywords    = sprintf( 'student housing near supermarkets %s, coworking friendly apartments %s, safest neighborhoods for international students %s, deposit-free nomad housing %s, %s', $primary_city, $primary_city, $primary_city, $primary_city, $base_keywords );
 	} else {
 		// Generic fallback
-		$description = 'ThessNest: Premium midterm and short term rental fast wifi in Thessaloniki. Accommodation proof for D-type student visa.';
+		$description = sprintf( 'ThessNest: Premium midterm and short term rental fast wifi in %s.', $primary_city );
 	}
 
 	echo "\n<!-- ThessNest Native SEO -->\n";
@@ -63,7 +67,7 @@ function thessnest_native_seo_tags() {
 		$lat        = get_post_meta( $prop_id, '_thessnest_latitude', true );
 		$lng        = get_post_meta( $prop_id, '_thessnest_longitude', true );
 		$nb         = wp_get_post_terms( $prop_id, 'neighborhood', array( 'fields' => 'names' ) );
-		$neighborhood_name = ( ! is_wp_error( $nb ) && ! empty( $nb ) ) ? $nb[0] : 'Thessaloniki';
+		$neighborhood_name = ( ! is_wp_error( $nb ) && ! empty( $nb ) ) ? $nb[0] : $primary_city;
 		$img_url    = get_the_post_thumbnail_url( $prop_id, 'large' );
 
 		$schema = array(
@@ -88,16 +92,16 @@ function thessnest_native_seo_tags() {
 
 		$schema['address'] = array(
 			'@type'           => 'PostalAddress',
-			'addressLocality' => 'Thessaloniki',
+			'addressLocality' => $primary_city,
 			'addressRegion'   => $neighborhood_name,
-			'addressCountry'  => 'GR',
+			'addressCountry'  => $primary_country,
 		);
 
 		if ( $rent ) {
 			$schema['offers'] = array(
 				'@type'         => 'Offer',
 				'price'         => (float) $rent,
-				'priceCurrency' => 'EUR',
+				'priceCurrency' => function_exists('thessnest_opt') ? thessnest_opt('payment_currency', 'EUR') : 'EUR',
 				'availability'  => 'https://schema.org/InStock',
 				'priceValidUntil' => date( 'Y-12-31' ),
 			);
