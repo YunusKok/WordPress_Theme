@@ -29,10 +29,6 @@ class ThessNest_WooCommerce_Integration {
 	 * and returns the add-to-cart checkout link.
 	 */
 	public static function generate_checkout_link_internal( $booking_id ) {
-		if ( ! class_exists( 'WooCommerce' ) ) {
-			return new WP_Error( 'no_woo', esc_html__( 'WooCommerce is not active.', 'thessnest' ) );
-		}
-
 		$property_id = get_post_meta( $booking_id, '_booking_property_id', true );
 		$deposit     = (float) get_post_meta( $property_id, '_thessnest_deposit', true );
 		$tenant_id   = get_post_field( 'post_author', $booking_id );
@@ -42,33 +38,66 @@ class ThessNest_WooCommerce_Integration {
 			return false;
 		}
 
-		// Check if a payment product already exists for this booking
-		$existing_product_id = get_post_meta( $booking_id, '_woo_payment_product_id', true );
+		global $thessnest_opt;
+		$engine = isset($thessnest_opt['payment_engine']) ? $thessnest_opt['payment_engine'] : 'native';
 
-		if ( ! $existing_product_id ) {
-			// Create a Hidden "Deposit" Product
-			$product = new WC_Product_Simple();
-			$product->set_name( sprintf( esc_html__( 'Booking Deposit: %s', 'thessnest' ), get_the_title( $property_id ) ) );
-			$product->set_status( 'publish' );
-			$product->set_catalog_visibility( 'hidden' ); // Keep out of shop
-			$product->set_price( $deposit );
-			$product->set_regular_price( $deposit );
-			$product->set_virtual( true ); // No shipping
-			$product->set_sold_individually( true );
-			
-			// Save the product
-			$product_id = $product->save();
-			
-			// Link product to booking
-			update_post_meta( $product_id, '_thessnest_related_booking', $booking_id );
-			update_post_meta( $booking_id, '_woo_payment_product_id', $product_id );
+		$payment_link = '';
+
+		if ( 'woocommerce' === $engine ) {
+			if ( ! class_exists( 'WooCommerce' ) ) {
+				return new WP_Error( 'no_woo', esc_html__( 'WooCommerce is not active.', 'thessnest' ) );
+			}
+
+			// Check if a payment product already exists for this booking
+			$existing_product_id = get_post_meta( $booking_id, '_woo_payment_product_id', true );
+
+			if ( ! $existing_product_id ) {
+				// Create a Hidden "Deposit" Product
+				$product = new WC_Product_Simple();
+				$product->set_name( sprintf( esc_html__( 'Booking Deposit: %s', 'thessnest' ), get_the_title( $property_id ) ) );
+				$product->set_status( 'publish' );
+				$product->set_catalog_visibility( 'hidden' ); // Keep out of shop
+				$product->set_price( $deposit );
+				$product->set_regular_price( $deposit );
+				$product->set_virtual( true ); // No shipping
+				$product->set_sold_individually( true );
+				
+				// Save the product
+				$product_id = $product->save();
+				
+				// Link product to booking
+				update_post_meta( $product_id, '_thessnest_related_booking', $booking_id );
+				update_post_meta( $booking_id, '_woo_payment_product_id', $product_id );
+			} else {
+				$product_id = $existing_product_id;
+			}
+
+			// Generate the Add To Cart URL which redirects immediately to checkout
+			$checkout_url = wc_get_checkout_url();
+			$payment_link = add_query_arg( [ 'add-to-cart' => $product_id ], $checkout_url );
+
 		} else {
-			$product_id = $existing_product_id;
-		}
+			// NATIVE PAYMENT ENGINE (Stripe / PayPal)
+			$checkout_page_cache = get_option( 'thessnest_native_checkout_page_id' );
+			$checkout_page = get_post( $checkout_page_cache );
+			
+			if ( ! $checkout_page || $checkout_page->post_status !== 'publish' ) {
+				// Create the page dynamically if it doesn't exist
+				$page_id = wp_insert_post( array(
+					'post_title'     => 'Secure Checkout',
+					'post_name'      => 'secure-checkout',
+					'post_status'    => 'publish',
+					'post_type'      => 'page',
+					'page_template'  => 'template-checkout.php'
+				) );
+				update_option( 'thessnest_native_checkout_page_id', $page_id );
+				$payment_link = get_permalink( $page_id );
+			} else {
+				$payment_link = get_permalink( $checkout_page->ID );
+			}
 
-		// Generate the Add To Cart URL which redirects immediately to checkout
-		$checkout_url = wc_get_checkout_url();
-		$payment_link = add_query_arg( [ 'add-to-cart' => $product_id ], $checkout_url );
+			$payment_link = add_query_arg( 'booking_id', $booking_id, $payment_link );
+		}
 
 		// Update booking status to "Awaiting Payment"
 		update_post_meta( $booking_id, '_booking_status', 'awaiting_payment' );

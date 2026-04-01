@@ -119,6 +119,7 @@ require_once THESSNEST_DIR . '/inc/monetization.php'; // Monetization & Listing 
 require_once THESSNEST_DIR . '/inc/advanced-reviews.php'; // Multi-Criteria Reviews System
 require_once THESSNEST_DIR . '/inc/automated-invoicing.php'; // Automated Invoicing Engine
 require_once THESSNEST_DIR . '/inc/extra-post-types.php'; // Experience & Event Tickets
+require_once THESSNEST_DIR . '/inc/payments-native.php'; // Native Payment Engine (Stripe/PayPal)
 
 
 

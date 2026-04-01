@@ -1385,3 +1385,95 @@ Redux::set_section( $opt_name, array(
 		),
 	),
 ) );
+
+// ═══════════════════════════════════════════════════
+//  SECTION: Payment Gateways
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Payment Gateways', 'thessnest' ),
+	'id'     => 'payment_gateways',
+	'icon'   => 'el el-credit-card',
+	'fields' => array(
+		array(
+			'id'       => 'payment_engine',
+			'type'     => 'button_set',
+			'title'    => __( 'Choose Payment Gateway Type', 'thessnest' ),
+			'subtitle' => __( 'Select which engine to use to process bookings and features.', 'thessnest' ),
+			'options'  => array(
+				'native'      => 'ThessNest Custom Gateways',
+				'woocommerce' => 'WooCommerce'
+			),
+			'default'  => 'native',
+		),
+		array(
+			'id'       => 'payment_currency',
+			'type'     => 'select',
+			'title'    => __( 'Currency', 'thessnest' ),
+			'subtitle' => __( 'Select the currency to use for payments.', 'thessnest' ),
+			'options'  => array(
+				'EUR' => 'EUR - Euro',
+				'USD' => 'USD - US Dollar',
+				'GBP' => 'GBP - British Pound',
+				'TRY' => 'TRY - Turkish Lira'
+			),
+			'default'  => 'EUR',
+		),
+		// STRIPE NATIVE
+		array(
+			'id'       => 'enable_stripe',
+			'type'     => 'switch',
+			'title'    => __( 'Enable Stripe', 'thessnest' ),
+			'subtitle' => __( 'Enable Native Stripe API Checkout. Runs without WooCommerce.', 'thessnest' ),
+			'default'  => false,
+			'required' => array( 'payment_engine', '=', 'native' ),
+		),
+		array(
+			'id'       => 'stripe_publishable_key',
+			'type'     => 'text',
+			'title'    => __( 'Stripe Publishable Key', 'thessnest' ),
+			'required' => array( 'enable_stripe', '=', true ),
+		),
+		array(
+			'id'       => 'stripe_secret_key',
+			'type'     => 'password',
+			'title'    => __( 'Stripe Secret Key', 'thessnest' ),
+			'required' => array( 'enable_stripe', '=', true ),
+		),
+		array(
+			'id'       => 'stripe_webhook_secret',
+			'type'     => 'password',
+			'title'    => __( 'Stripe Webhook Secret', 'thessnest' ),
+			'subtitle' => __( 'Required for verifying incoming payments securely.', 'thessnest' ),
+			'required' => array( 'enable_stripe', '=', true ),
+		),
+		// PAYPAL NATIVE
+		array(
+			'id'       => 'enable_paypal',
+			'type'     => 'switch',
+			'title'    => __( 'Enable PayPal', 'thessnest' ),
+			'subtitle' => __( 'Enable Native PayPal Payments via REST API.', 'thessnest' ),
+			'default'  => false,
+			'required' => array( 'payment_engine', '=', 'native' ),
+		),
+		array(
+			'id'       => 'paypal_client_id',
+			'type'     => 'text',
+			'title'    => __( 'PayPal Client ID', 'thessnest' ),
+			'required' => array( 'enable_paypal', '=', true ),
+		),
+		array(
+			'id'       => 'paypal_secret',
+			'type'     => 'password',
+			'title'    => __( 'PayPal Secret Key', 'thessnest' ),
+			'required' => array( 'enable_paypal', '=', true ),
+		),
+		array(
+			'id'       => 'paypal_sandbox',
+			'type'     => 'switch',
+			'title'    => __( 'PayPal Sandbox Mode', 'thessnest' ),
+			'default'  => true,
+			'required' => array( 'enable_paypal', '=', true ),
+		),
+	),
+) );
