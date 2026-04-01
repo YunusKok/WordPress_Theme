@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 /**
- * ThessNest — Archive Template: Properties
+ * ThessNest â€” Archive Template: Properties
  *
  * Displays the property listing archive with:
  *   - Sticky sidebar filter panel (Neighborhood, Amenities, Target Group, Price Range)
@@ -21,12 +21,12 @@ global $wp_query;
 
 	<div class="properties-split-layout">
 
-		<!-- ── MAP SECTION (Left on Desktop) ───────────────────── -->
+		<!-- â”€â”€ MAP SECTION (Left on Desktop) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 		<div class="properties-map-wrapper">
 			<div id="properties-map" aria-label="<?php esc_attr_e( 'Properties Map', 'thessnest' ); ?>"></div>
 		</div>
 
-		<!-- ── LISTINGS SECTION (Right on Desktop) ─────────────── -->
+		<!-- â”€â”€ LISTINGS SECTION (Right on Desktop) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 		<div class="properties-content-wrapper">
 
 			<!-- Archive Page Header -->
@@ -77,7 +77,7 @@ global $wp_query;
 			<div class="archive-layout container">
 
 		<?php if ( thessnest_opt( 'show_sidebar_filters', true ) ) : ?>
-		<!-- ── Filter Sidebar ──────────────────────────────── -->
+		<!-- â”€â”€ Filter Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 		<aside class="filter-sidebar" id="filter-sidebar" role="complementary" aria-label="<?php esc_attr_e( 'Filter properties', 'thessnest' ); ?>">
 
 			<h3><?php esc_html_e( 'Filters', 'thessnest' ); ?></h3>
@@ -183,12 +183,13 @@ global $wp_query;
 						?>
 					</select>
 				</div>
+				<?php endif; ?>
 
 				<!-- Instant Book -->
 				<div class="filter-group">
 					<label class="filter-label" style="display:flex; align-items:center; gap:var(--space-2); cursor:pointer;">
 						<input type="checkbox" name="instant_book" value="1" class="live-search-input" <?php echo isset( $_GET['instant_book'] ) ? 'checked' : ''; ?>>
-						<span>⚡ <?php esc_html_e( 'Instant Book Only', 'thessnest' ); ?></span>
+						<span>âš¡ <?php esc_html_e( 'Instant Book Only', 'thessnest' ); ?></span>
 					</label>
 				</div>
 
@@ -249,7 +250,7 @@ global $wp_query;
 				<?php if ( thessnest_opt( 'search_show_price_range', true ) ) : ?>
 				<!-- Price Range -->
 				<div class="filter-group">
-					<span class="filter-label"><?php esc_html_e( 'Price Range (€/month)', 'thessnest' ); ?></span>
+					<span class="filter-label"><?php esc_html_e( 'Price Range (â‚¬/month)', 'thessnest' ); ?></span>
 					<div class="price-range">
 						<input type="number"
 						       name="price_min"
@@ -288,7 +289,7 @@ global $wp_query;
 		</aside>
 		<?php endif; ?>
 
-		<!-- ── Main Content: Property Grid ─────────────── -->
+		<!-- â”€â”€ Main Content: Property Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 		<div class="archive-main">
 
 			<?php if ( thessnest_opt( 'show_sidebar_filters', true ) ) : ?>
@@ -355,7 +356,7 @@ global $wp_query;
 		</div>
 	</div>
 
-	<!-- ── MAP INITIALIZATION SCRIPT ───────────────────────── -->
+	<!-- â”€â”€ MAP INITIALIZATION SCRIPT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		if ( typeof L === 'undefined' ) return;
@@ -446,7 +447,7 @@ global $wp_query;
 	});
 	</script>
 
-	<!-- ── AJAX LIVE SEARCH SCRIPT ───────────────────────── -->
+	<!-- â”€â”€ AJAX LIVE SEARCH SCRIPT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		const form = document.getElementById('property-filter-form');
@@ -547,7 +548,7 @@ global $wp_query;
 					body: formData
 				}).then(res => res.json()).then(data => {
 					if (data.success) {
-						btnSaveSearch.innerHTML = '✅ Saved';
+						btnSaveSearch.innerHTML = 'âœ… Saved';
 						setTimeout(() => { btnSaveSearch.innerHTML = origText; btnSaveSearch.disabled = false; }, 2000);
 					}
 				});

@@ -11,7 +11,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-<?php
 // ── Pull Redux options (with fallbacks) ──
 $footer_show_widgets = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'footer_show_widgets', true )  : true;
 $footer_columns      = function_exists( 'thessnest_opt' ) ? (int) thessnest_opt( 'footer_columns', 4 )   : 4;
