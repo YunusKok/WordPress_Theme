@@ -894,4 +894,52 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
+	/* ----------------------------------------------------
+	 * 15. Stats Counter — Animated Count-Up on Scroll
+	 * ---------------------------------------------------- */
+	const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+	if (statNumbers.length > 0 && 'IntersectionObserver' in window) {
+		let statsAnimated = false;
+
+		const animateCount = (el) => {
+			const target = parseInt(el.getAttribute('data-count'), 10);
+			if (isNaN(target)) return;
+
+			const duration = 2000; // ms
+			const startTime = performance.now();
+
+			const tick = (now) => {
+				const elapsed = now - startTime;
+				const progress = Math.min(elapsed / duration, 1);
+
+				// Ease-out cubic
+				const eased = 1 - Math.pow(1 - progress, 3);
+				const current = Math.round(eased * target);
+
+				el.textContent = current.toLocaleString();
+
+				if (progress < 1) {
+					requestAnimationFrame(tick);
+				}
+			};
+
+			requestAnimationFrame(tick);
+		};
+
+		const statsObserver = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting && !statsAnimated) {
+					statsAnimated = true;
+					statNumbers.forEach(el => animateCount(el));
+					statsObserver.disconnect();
+				}
+			});
+		}, { threshold: 0.3 });
+
+		const statsSection = document.querySelector('.stats-counter');
+		if (statsSection) {
+			statsObserver.observe(statsSection);
+		}
+	}
+
 });
