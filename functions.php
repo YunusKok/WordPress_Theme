@@ -87,8 +87,6 @@ add_action( 'after_setup_theme', 'thessnest_setup' );
    2. CORE FUNCTIONALITY (CPTs, Taxonomies & Meta Boxes)
    ========================================================================== */
 
-require_once THESSNEST_DIR . '/inc/core-functionality.php';
-require_once THESSNEST_DIR . '/inc/admin-map-meta.php';
 require_once THESSNEST_DIR . '/inc/admin-front-page.php';
 require_once THESSNEST_DIR . '/inc/seo-tags.php';
 require_once THESSNEST_DIR . '/inc/ajax-favorites.php';
@@ -97,29 +95,20 @@ require_once THESSNEST_DIR . '/inc/user-roles.php';
 require_once THESSNEST_DIR . '/inc/ajax-filter.php';
 require_once THESSNEST_DIR . '/inc/ajax-add-listing.php';
 require_once THESSNEST_DIR . '/inc/reviews-ratings.php';
-require_once THESSNEST_DIR . '/inc/ajax-dashboard.php';
-require_once THESSNEST_DIR . '/inc/ajax-messaging.php';
-require_once THESSNEST_DIR . '/inc/ajax-booking.php';
-require_once THESSNEST_DIR . '/inc/ajax-kyc.php';
-require_once THESSNEST_DIR . '/inc/accommodation-proof.php';
+
+// Theme Settings & Admin Integrations
 require_once THESSNEST_DIR . '/inc/admin-menu.php';
 require_once THESSNEST_DIR . '/inc/redux-helpers.php';
 require_once THESSNEST_DIR . '/inc/redux-config.php';
 require_once THESSNEST_DIR . '/inc/demo-setup.php'; // Local Demo Setup Script
 require_once THESSNEST_DIR . '/inc/tgm-config.php'; // TGM Plugin Activation
 require_once THESSNEST_DIR . '/inc/ocdi-config.php'; // One Click Demo Import Config
-require_once THESSNEST_DIR . '/inc/elementor/class-thessnest-elementor.php'; // Elementor Extension Base
-require_once THESSNEST_DIR . '/inc/dashboard-analytics.php'; // Advanced Analytics
-require_once THESSNEST_DIR . '/inc/email-templates.php'; // HTML Email Templates
-require_once THESSNEST_DIR . '/inc/availability-calendar.php'; // Availability Calendar
-require_once THESSNEST_DIR . '/inc/woo-integration.php'; // WooCommerce Subscription & Payment gateway
-require_once THESSNEST_DIR . '/inc/ical-sync.php'; // iCal Synchronization API
-require_once THESSNEST_DIR . '/inc/social-login.php'; // OAuth / Social Login
-require_once THESSNEST_DIR . '/inc/monetization.php'; // Monetization & Listing Packages Paywall
-require_once THESSNEST_DIR . '/inc/advanced-reviews.php'; // Multi-Criteria Reviews System
-require_once THESSNEST_DIR . '/inc/automated-invoicing.php'; // Automated Invoicing Engine
-require_once THESSNEST_DIR . '/inc/extra-post-types.php'; // Experience & Event Tickets
-require_once THESSNEST_DIR . '/inc/payments-native.php'; // Native Payment Engine (Stripe/PayPal)
+
+// -------------------------------------------------------------------------
+// NOTE: Core functionality (CPTs, Elementor Widgets, Payments, 
+// Booking Engine, Advanced Reviews) has been strictly extracted to 
+// the `thessnest-core` plugin to comply with Envato ThemeForest guidelines.
+// -------------------------------------------------------------------------
 
 
 

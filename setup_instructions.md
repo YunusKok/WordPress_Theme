@@ -170,7 +170,7 @@ Ana sayfadaki büyük Selanik fotoğrafını değiştirmek veya yüklemek için:
 4. Hero başlığını ve alt başlığını da bu panelden düzenleyebilirsiniz.
 5. Üstteki **Publish (Yayınla)** butonuna basın.
 
-> 💡 Tema `assets/images/` klasöründe varsayılan bir görsel (`Thessaloniki_Resized.jpg`) içerir. Ancak bu görselin sunucunuzda mevcut olduğundan emin olun.
+> 💡 Tema `assets/images/` klasöründe varsayılan bir görsel (`hero-bg-default.png`) içerir. Ancak bu görselin sunucunuzda mevcut olduğundan emin olun.
 
 ---
 

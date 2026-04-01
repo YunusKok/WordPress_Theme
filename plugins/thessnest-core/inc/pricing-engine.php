@@ -213,6 +213,8 @@ class ThessNest_Pricing_Engine {
 		}
 
 		wp_send_json_success( $result );
+	}
+
 	/**
 	 * AJAX endpoint: Save custom pricing from Landlord Dashboard.
 	 */

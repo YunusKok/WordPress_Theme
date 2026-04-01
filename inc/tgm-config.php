@@ -20,7 +20,14 @@ function thessnest_register_required_plugins() {
 	 */
 	$plugins = array(
 
-		// 1. Redux Framework (Required for Theme Options)
+		// 1. ThessNest Core (MANDATORY Architecture Plugin)
+		array(
+			'name'      => 'ThessNest Core',
+			'slug'      => 'thessnest-core',
+			'required'  => true,
+		),
+
+		// 2. Redux Framework (Required for Theme Options)
 		array(
 			'name'      => 'Redux Framework',
 			'slug'      => 'redux-framework',

@@ -57,7 +57,7 @@ class ThessNest_Hero_Search_Widget extends \Elementor\Widget_Base {
 				'label'   => esc_html__( 'Background Image', 'thessnest' ),
 				'type'    => \Elementor\Controls_Manager::MEDIA,
 				'default' => [
-					'url' => get_theme_file_uri( 'assets/images/Thessaloniki_Resized.jpg' ),
+					'url' => get_theme_file_uri( 'assets/images/hero-bg-default.png' ),
 				],
 			]
 		);

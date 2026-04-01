@@ -36,7 +36,7 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 
 	// Hero Background Image
 	$wp_customize->add_setting( 'hero_bg_image', array(
-		'default'           => get_theme_file_uri( 'assets/images/Thessaloniki_Resized.jpg' ),
+		'default'           => get_theme_file_uri( 'assets/images/hero-bg-default.png' ),
 		'sanitize_callback' => 'esc_url_raw',
 	) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hero_bg_image', array(

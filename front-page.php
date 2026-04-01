@@ -28,7 +28,7 @@ if ( have_posts() ) {
 	     HERO — Fluid Gradient Orbs + Liquid Glass Search
 	     ================================================================ -->
 	<?php
-	$hero_bg_default = get_theme_file_uri( 'assets/images/Thessaloniki_Resized.jpg' );
+	$hero_bg_default = get_theme_file_uri( 'assets/images/hero-bg-default.png' );
 	$hero_bg_image   = get_theme_mod( 'hero_bg_image', $hero_bg_default );
 	?>
 	<section class="hero-section" style="background-image:url('<?php echo esc_url( $hero_bg_image ); ?>');" aria-label="<?php esc_attr_e( 'Search for housing', 'thessnest' ); ?>">
