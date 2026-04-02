@@ -51,49 +51,49 @@ if ( have_posts() ) {
 				<?php echo wp_kses_post( get_theme_mod( 'hero_subtitle', __( 'Browse verified listings with transparent pricing. No hidden fees, instant booking.', 'thessnest' ) ) ); ?>
 			</p>
 
-			<!-- ── Search Bar ───────────────── -->
-			<form class="search-bar" role="search" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
+			<!-- ── Search Bar (Booking Style) ───────────────── -->
+			<form class="search-bar search-bar--booking-style" role="search" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 
-				<!-- Keyword -->
-				<div class="search-field">
-					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-					</svg>
-					<input type="text" name="s" placeholder="<?php esc_attr_e( 'What are you looking for?', 'thessnest' ); ?>" aria-label="<?php esc_attr_e( 'Search keywords', 'thessnest' ); ?>">
-					<input type="hidden" name="post_type" value="property">
-				</div>
+				<!-- Hidden Inputs for actual date submission -->
+				<input type="hidden" name="move_in_date" id="home_move_in">
+				<input type="hidden" name="move_out_date" id="home_move_out">
 
-				<!-- Location -->
-				<div class="search-field">
-					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-					</svg>
-					<select name="neighborhood" aria-label="<?php esc_attr_e( 'Select neighborhood', 'thessnest' ); ?>">
-						<option value=""><?php esc_html_e( 'Location', 'thessnest' ); ?></option>
-						<?php
-						$neighborhoods = get_terms( array( 'taxonomy' => 'neighborhood', 'hide_empty' => false ) );
-						if ( ! is_wp_error( $neighborhoods ) && ! empty( $neighborhoods ) ) :
-							foreach ( $neighborhoods as $nb ) : ?>
-								<option value="<?php echo esc_attr( $nb->slug ); ?>"><?php echo esc_html( $nb->name ); ?></option>
-							<?php endforeach;
-						endif;
-						?>
-					</select>
-				</div>
-
-				<!-- Move-in Date -->
-				<div class="search-field">
+				<!-- Move-in / Move-out Trigger Wrapper -->
+				<div class="search-field date-trigger" id="home-dates-trigger">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
 					</svg>
-					<input type="date" name="move_in_date" aria-label="<?php esc_attr_e( 'Move-in date', 'thessnest' ); ?>">
+					<div class="field-content">
+						<span class="field-label"><?php esc_html_e( 'Move in', 'thessnest' ); ?></span>
+						<span class="field-value" id="val-move-in"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
+					</div>
+					<!-- Invisible input overriding the UI for flatpickr to attach to -->
+					<input type="text" id="home_date_range_picker" class="invisible-date-picker" placeholder="">
+				</div>
+
+				<div class="search-field date-trigger date-trigger-out">
+					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+					</svg>
+					<div class="field-content">
+						<span class="field-label"><?php esc_html_e( 'Move out', 'thessnest' ); ?></span>
+						<span class="field-value" id="val-move-out"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
+					</div>
+				</div>
+
+				<!-- Guests -->
+				<div class="search-field">
+					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+					</svg>
+					<div class="field-content">
+						<span class="field-label"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
+						<input type="number" name="guests" class="guest-input" min="1" placeholder="<?php esc_attr_e( 'Guests', 'thessnest' ); ?>" aria-label="<?php esc_attr_e( 'Number of guests', 'thessnest' ); ?>">
+					</div>
 				</div>
 
 				<!-- Search CTA -->
 				<button type="submit" class="btn-search">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-					</svg>
 					<?php esc_html_e( 'Search', 'thessnest' ); ?>
 				</button>
 			</form>

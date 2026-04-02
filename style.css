@@ -625,95 +625,126 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* ==========================================================================
-   5. SEARCH BAR — iOS Liquid Glass
+   5. SEARCH BAR — Booking Style (Distinct Boxes)
    ========================================================================== */
 
-.search-bar {
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-saturate));
-  backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-saturate));
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-inner-glow-strong), var(--glass-shadow);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-2);
+.search-bar.search-bar--booking-style {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-4);
   width: 100%;
-  max-width: 780px;
+  max-width: 900px;
   margin: 0 auto;
-  transition: all var(--transition-base);
-}
-
-.search-bar:focus-within {
-  box-shadow: var(--glass-inner-glow-strong), var(--glass-shadow-lg), 0 0 0 2px rgba(232, 145, 58, 0.3);
-  background: rgba(255, 255, 255, 0.18);
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
 }
 
 @media (min-width: 768px) {
-  .search-bar {
+  .search-bar.search-bar--booking-style {
     flex-direction: row;
-    align-items: center;
-    border-radius: var(--radius-full);
-    padding: var(--space-1) var(--space-2);
+    align-items: stretch;
+    justify-content: center;
+    gap: var(--space-2);
   }
 }
 
-.search-field {
+.search-bar--booking-style .search-field {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
+  background: var(--color-background);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   position: relative;
+  cursor: text;
+  transition: all var(--transition-fast);
 }
 
-.search-field .field-icon {
-  width: 20px;
-  height: 20px;
-  color: rgba(255, 255, 255, 0.5);
+.search-bar--booking-style .search-field:focus-within,
+.search-bar--booking-style .search-field:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 2px rgba(232, 145, 58, 0.3);
+  transform: translateY(-2px);
+}
+
+.search-bar--booking-style .search-field.date-trigger {
+  cursor: pointer;
+}
+
+.search-bar--booking-style .field-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-muted);
   flex-shrink: 0;
 }
 
-.search-field input,
-.search-field select {
-  width: 100%;
-  background: none;
+.search-bar--booking-style .field-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.search-bar--booking-style .field-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.search-bar--booking-style .field-value {
   font-size: var(--font-size-sm);
-  color: #fff;
-}
-
-.search-field input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.search-field select {
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.search-field select option {
   color: var(--color-text);
-  background: var(--color-background);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Frosted dividers */
+.search-bar--booking-style .guest-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  font-weight: 600;
+  padding: 0;
+  outline: none;
+}
+
+.search-bar--booking-style .guest-input::placeholder {
+  color: var(--color-text);
+}
+
+.search-bar--booking-style .invisible-date-picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  /* To cover the second box as well on desktop */
+}
+
 @media (min-width: 768px) {
-  .search-field + .search-field::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 25%;
-    height: 50%;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.15);
+  .search-bar--booking-style .invisible-date-picker {
+    width:calc(200% + var(--space-2)); /* Covers both Move in and Move out */
   }
 }
 
-.search-bar .btn-search {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #D47E2E 100%);
+.search-bar--booking-style .btn-search {
+  background: var(--color-accent); /* Flat orange, no gradient for cleaner look */
   color: #fff;
   border: none;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-8);
   font-weight: 700;
   font-size: var(--font-size-base);
@@ -723,21 +754,46 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  box-shadow: 0 4px 18px rgba(232, 145, 58, 0.4);
+  box-shadow: 0 4px 14px rgba(232, 145, 58, 0.25);
 }
 
 @media (min-width: 768px) {
-  .search-bar .btn-search {
-    border-radius: var(--radius-full);
-    padding: var(--space-3) var(--space-6);
+  .search-bar--booking-style .btn-search {
+    padding: 0 var(--space-10);
   }
 }
 
-.search-bar .btn-search:hover {
-  transform: scale(1.04);
-  box-shadow: 0 6px 24px rgba(232, 145, 58, 0.55);
-  filter: brightness(1.05);
+.search-bar--booking-style .btn-search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 145, 58, 0.4);
+  background: var(--color-accent-hover);
+}
+
+/* Flatpickr overrides for dual calendar styling to match image */
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after {
+    display: none !important; /* Hide arrows for a cleaner look */
+}
+.flatpickr-calendar {
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border: 1px solid var(--color-border) !important;
+    padding: var(--space-4) !important;
+    font-family: var(--font-family) !important;
+}
+.flatpickr-months .flatpickr-month {
+    font-size: var(--font-size-lg) !important;
+    font-weight: 600 !important;
+    color: var(--color-primary) !important;
+    margin-bottom: var(--space-2);
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+    background: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+}
+.flatpickr-day.inRange {
+    background: rgba(232, 145, 58, 0.15) !important;
+    border-color: transparent !important;
+    box-shadow: -5px 0 0 rgba(232, 145, 58, 0.15), 5px 0 0 rgba(232, 145, 58, 0.15) !important;
 }
 
 

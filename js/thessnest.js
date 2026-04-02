@@ -942,4 +942,57 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	/* ----------------------------------------------------
+	 * 16. Homepage Date Range Picker (Booking Style)
+	 * ---------------------------------------------------- */
+	const homeRangePicker = document.getElementById('home_date_range_picker');
+	const homeMoveInVal = document.getElementById('val-move-in');
+	const homeMoveOutVal = document.getElementById('val-move-out');
+	const homeMoveInInput = document.getElementById('home_move_in');
+	const homeMoveOutInput = document.getElementById('home_move_out');
+	const homeDateTrigger = document.getElementById('home-dates-trigger');
+	const homeDateTriggerOut = document.querySelector('.date-trigger-out');
+
+	if (homeRangePicker && typeof flatpickr !== 'undefined') {
+		const fp = flatpickr(homeRangePicker, {
+			mode: 'range',
+			minDate: 'today',
+			showMonths: window.innerWidth >= 768 ? 2 : 1, // Double calendar on desktop
+			altInput: false,
+			dateFormat: 'Y-m-d',
+			onChange: function(selectedDates, dateStr, instance) {
+				if (selectedDates.length > 0) {
+					// Set Move in
+					const moveInStr = instance.formatDate(selectedDates[0], 'M j, Y');
+					homeMoveInVal.textContent = moveInStr;
+					homeMoveInInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+					homeMoveInVal.style.color = 'var(--color-primary)';
+				} else {
+					homeMoveInVal.textContent = 'Add dates';
+					homeMoveInInput.value = '';
+					homeMoveInVal.style.color = '';
+				}
+
+				if (selectedDates.length > 1) {
+					// Set Move out
+					const moveOutStr = instance.formatDate(selectedDates[1], 'M j, Y');
+					homeMoveOutVal.textContent = moveOutStr;
+					homeMoveOutInput.value = instance.formatDate(selectedDates[1], 'Y-m-d');
+					homeMoveOutVal.style.color = 'var(--color-primary)';
+				} else {
+					homeMoveOutVal.textContent = 'Add dates';
+					homeMoveOutInput.value = '';
+					homeMoveOutVal.style.color = '';
+				}
+			}
+		});
+
+		// Focus the date picker when the out field is clicked
+		if (homeDateTriggerOut) {
+			homeDateTriggerOut.addEventListener('click', function() {
+				fp.open();
+			});
+		}
+	}
+
 });
