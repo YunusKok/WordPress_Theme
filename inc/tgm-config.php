@@ -24,6 +24,7 @@ function thessnest_register_required_plugins() {
 		array(
 			'name'      => 'ThessNest Core',
 			'slug'      => 'thessnest-core',
+			'source'    => get_template_directory() . '/inc/plugins/thessnest-core.zip',
 			'required'  => true,
 		),
 

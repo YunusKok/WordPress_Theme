@@ -89,13 +89,8 @@ add_action( 'after_setup_theme', 'thessnest_setup' );
 
 require_once THESSNEST_DIR . '/inc/admin-front-page.php';
 require_once THESSNEST_DIR . '/inc/seo-tags.php';
-require_once THESSNEST_DIR . '/inc/ajax-favorites.php';
-require_once THESSNEST_DIR . '/inc/ajax-inquiry.php';
-require_once THESSNEST_DIR . '/inc/user-roles.php';
-require_once THESSNEST_DIR . '/inc/ajax-filter.php';
-require_once THESSNEST_DIR . '/inc/ajax-add-listing.php';
-require_once THESSNEST_DIR . '/inc/reviews-ratings.php';
-require_once THESSNEST_DIR . '/inc/recaptcha.php';
+// Theme Settings & Admin Integrations
+// NOTE: Plugin specific files have been extracted to `thessnest-core`.
 
 // Theme Settings & Admin Integrations
 require_once THESSNEST_DIR . '/inc/admin-menu.php';
@@ -592,15 +587,9 @@ if ( ! function_exists( 'thessnest_fallback_menu_mobile' ) ) {
 require_once THESSNEST_DIR . '/inc/customizer.php';
 
 /* ==========================================================================
-   12. FEATURE MODULES
+   12. FEATURE MODULES (MOVED TO PLUGIN)
    ========================================================================== */
 
-require_once THESSNEST_DIR . '/inc/admin-meta-boxes.php';
-require_once THESSNEST_DIR . '/inc/pricing-engine.php';
-require_once THESSNEST_DIR . '/inc/host-payouts.php';
-require_once THESSNEST_DIR . '/inc/public-profile.php';
-require_once THESSNEST_DIR . '/inc/search-advanced.php';
-require_once THESSNEST_DIR . '/inc/roommate-matching.php';
-require_once THESSNEST_DIR . '/inc/wishlist-compare.php';
-require_once THESSNEST_DIR . '/inc/neighborhood-guides.php';
-require_once THESSNEST_DIR . '/inc/digital-lease.php';
+// NOTE: All feature modules (Digital Lease, Payouts, Roommate Matching, etc.) 
+// have been moved to the `thessnest-core` plugin to comply with 
+// Envato ThemeForest "Plugin Territory" requirements.

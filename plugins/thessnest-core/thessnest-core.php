@@ -64,31 +64,46 @@ final class ThessNest_Core {
 	 */
 	private function includes() {
 		// Ajax Handlers
-		require_once THESSNEST_CORE_DIR . 'inc/ajax-dashboard.php';
-		require_once THESSNEST_CORE_DIR . 'inc/ajax-messaging.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-add-listing.php';
 		require_once THESSNEST_CORE_DIR . 'inc/ajax-booking.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-dashboard.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-favorites.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-filter.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-inquiry.php';
 		require_once THESSNEST_CORE_DIR . 'inc/ajax-kyc.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ajax-messaging.php';
 
-		// CPTs and Taxonomies
+		// CPTs, Taxonomies & Meta Boxes
 		require_once THESSNEST_CORE_DIR . 'inc/core-functionality.php'; // Property & Neighborhoods
 		require_once THESSNEST_CORE_DIR . 'inc/extra-post-types.php';   // Experience & Events
 		require_once THESSNEST_CORE_DIR . 'inc/admin-map-meta.php';
+		require_once THESSNEST_CORE_DIR . 'inc/admin-meta-boxes.php';
 
 		// Features & Logic
-		require_once THESSNEST_CORE_DIR . 'inc/dashboard-analytics.php';
-		require_once THESSNEST_CORE_DIR . 'inc/email-templates.php';
-		require_once THESSNEST_CORE_DIR . 'inc/availability-calendar.php';
-		require_once THESSNEST_CORE_DIR . 'inc/pricing-engine.php';
 		require_once THESSNEST_CORE_DIR . 'inc/accommodation-proof.php';
 		require_once THESSNEST_CORE_DIR . 'inc/advanced-reviews.php';
+		require_once THESSNEST_CORE_DIR . 'inc/availability-calendar.php';
+		require_once THESSNEST_CORE_DIR . 'inc/dashboard-analytics.php';
+		require_once THESSNEST_CORE_DIR . 'inc/digital-lease.php';
+		require_once THESSNEST_CORE_DIR . 'inc/email-templates.php';
+		require_once THESSNEST_CORE_DIR . 'inc/host-payouts.php';
+		require_once THESSNEST_CORE_DIR . 'inc/neighborhood-guides.php';
+		require_once THESSNEST_CORE_DIR . 'inc/pricing-engine.php';
+		require_once THESSNEST_CORE_DIR . 'inc/public-profile.php';
+		require_once THESSNEST_CORE_DIR . 'inc/recaptcha.php';
+		require_once THESSNEST_CORE_DIR . 'inc/reviews-ratings.php';
+		require_once THESSNEST_CORE_DIR . 'inc/roommate-matching.php';
+		require_once THESSNEST_CORE_DIR . 'inc/search-advanced.php';
 		require_once THESSNEST_CORE_DIR . 'inc/social-login.php';
+		require_once THESSNEST_CORE_DIR . 'inc/user-roles.php';
+		require_once THESSNEST_CORE_DIR . 'inc/wishlist-compare.php';
 
 		// Payments & Monetization
+		require_once THESSNEST_CORE_DIR . 'inc/automated-invoicing.php';
+		require_once THESSNEST_CORE_DIR . 'inc/ical-sync.php';
+		require_once THESSNEST_CORE_DIR . 'inc/monetization.php';
 		require_once THESSNEST_CORE_DIR . 'inc/payments-native.php';
 		require_once THESSNEST_CORE_DIR . 'inc/woo-integration.php';
-		require_once THESSNEST_CORE_DIR . 'inc/automated-invoicing.php';
-		require_once THESSNEST_CORE_DIR . 'inc/monetization.php';
-		require_once THESSNEST_CORE_DIR . 'inc/ical-sync.php';
 
 		// Elementor Extension (Loaded explicitly on plugins_loaded or elementor/init)
 		require_once THESSNEST_CORE_DIR . 'inc/elementor/class-thessnest-elementor.php';

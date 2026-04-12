@@ -58,19 +58,58 @@ class ThessNest_Automated_Invoicing {
 		$rent_total    = get_post_meta( $booking_id, '_booking_rent_total', true );
 		$deposit       = get_post_meta( $property_id, '_thessnest_deposit', true );
 
+		// ── Pull Company Details from Redux Invoice Settings ──
+		$company_name    = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_company_name', '' ) : '';
+		$company_address = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_company_address', '' ) : '';
+		$bank_details    = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_bank_details', '' ) : '';
+		$payment_terms   = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_payment_terms', 'Payment due within 30 days.' ) : 'Payment due within 30 days.';
+		$tax_info        = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_tax_info', '' ) : '';
+		$inv_prefix      = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_prefix', 'INV-' ) : 'INV-';
+
+		if ( empty( $company_name ) ) {
+			$company_name = get_bloginfo( 'name' );
+		}
+
+		// ── Company Logo: prefer invoice logo, fallback to theme logo ──
 		$site_logo = '';
-		if ( class_exists( 'Redux' ) ) {
-			global $thessnest_opt;
-			if ( ! empty( $thessnest_opt['opt-media-logo']['url'] ) ) {
-				$site_logo = $thessnest_opt['opt-media-logo']['url'];
+		$inv_logo  = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'invoice_company_logo', '' ) : '';
+		if ( ! empty( $inv_logo ) && is_array( $inv_logo ) && ! empty( $inv_logo['url'] ) ) {
+			$site_logo = $inv_logo['url'];
+		} else {
+			if ( class_exists( 'Redux' ) ) {
+				global $thessnest_opt;
+				if ( ! empty( $thessnest_opt['opt-media-logo']['url'] ) ) {
+					$site_logo = $thessnest_opt['opt-media-logo']['url'];
+				}
 			}
 		}
 		if ( empty( $site_logo ) ) {
 			$site_logo = get_theme_file_uri( 'assets/images/logo-dark.svg' );
 		}
 
-		$invoice_number = 'INV-' . date( 'Y' ) . '-' . str_pad( $booking_id, 5, '0', STR_PAD_LEFT );
-		$invoice_date   = get_the_date( 'Y-m-d', $booking_id );
+		// ── Invoice Number: use stored number or generate from Redux auto-increment ──
+		$stored_inv_number = get_post_meta( $booking_id, '_thessnest_invoice_number', true );
+		if ( ! empty( $stored_inv_number ) ) {
+			$invoice_number = $stored_inv_number;
+		} else {
+			$next_num = function_exists( 'thessnest_opt' ) ? intval( thessnest_opt( 'invoice_next_number', 1 ) ) : $booking_id;
+			$invoice_number = $inv_prefix . date( 'Y' ) . '-' . str_pad( $next_num, 5, '0', STR_PAD_LEFT );
+			
+			// Store on this booking so it never changes
+			update_post_meta( $booking_id, '_thessnest_invoice_number', $invoice_number );
+			
+			// Auto-increment the Redux setting for the next invoice
+			if ( class_exists( 'Redux' ) ) {
+				global $thessnest_opt;
+				$thessnest_opt['invoice_next_number'] = $next_num + 1;
+				update_option( 'thessnest_opt', $thessnest_opt );
+			}
+		}
+		$invoice_date = get_the_date( 'Y-m-d', $booking_id );
+
+		// ── Host Tax ID ──
+		$host_tax_id = get_user_meta( $landlord_id, '_thessnest_tax_id', true );
+
 
 		?>
 		<!DOCTYPE html>
@@ -193,14 +232,26 @@ class ThessNest_Automated_Invoicing {
 							<table>
 								<tr>
 									<td>
-										<strong>Billed From (Landlord):</strong><br />
-										<?php echo esc_html( $landlord->display_name ); ?><br />
-										<?php echo esc_html( $landlord->user_email ); ?>
+										<strong>Platform Operator:</strong><br />
+										<?php echo esc_html( $company_name ); ?><br />
+										<?php echo nl2br( esc_html( $company_address ) ); ?><br />
+										<?php if ( ! empty( $tax_info ) ) : ?>
+											<strong>Tax ID:</strong> <?php echo esc_html( $tax_info ); ?>
+										<?php endif; ?>
 									</td>
 									<td>
 										<strong>Billed To (Tenant):</strong><br />
 										<?php echo esc_html( $tenant->display_name ); ?><br />
 										<?php echo esc_html( $tenant->user_email ); ?>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="padding-top: 20px;">
+										<strong>Host (Service Provider):</strong><br />
+										<?php echo esc_html( $landlord->display_name ); ?> (<?php echo esc_html( $landlord->user_email ); ?>)<br />
+										<?php if ( ! empty( $host_tax_id ) ) : ?>
+											<strong>Host Tax ID:</strong> <?php echo esc_html( $host_tax_id ); ?>
+										<?php endif; ?>
 									</td>
 								</tr>
 							</table>
@@ -209,6 +260,7 @@ class ThessNest_Automated_Invoicing {
 
 					<tr class="heading">
 						<td>Description</td>
+
 						<td>Amount</td>
 					</tr>
 
@@ -234,9 +286,20 @@ class ThessNest_Automated_Invoicing {
 					</tr>
 				</table>
 
+				<div style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 6px;">
+					<?php if ( ! empty( $bank_details ) ) : ?>
+						<strong>Bank Details:</strong>
+						<p style="margin-top: 5px; margin-bottom: 15px;"><?php echo nl2br( esc_html( $bank_details ) ); ?></p>
+					<?php endif; ?>
+					<?php if ( ! empty( $payment_terms ) ) : ?>
+						<strong>Payment Terms:</strong>
+						<p style="margin-top: 5px; margin-bottom: 0;"><?php echo nl2br( esc_html( $payment_terms ) ); ?></p>
+					<?php endif; ?>
+				</div>
+
 				<div style="margin-top: 40px; text-align: center; border-top: 1px solid #eee; padding-top: 20px; font-size: 12px; color: #777;">
 					<p>This is a computer-generated invoice and requires no physical signature.</p>
-					<p>Thank you for using <?php bloginfo('name'); ?>!</p>
+					<p>Thank you for using <?php echo esc_html( $company_name ); ?>!</p>
 				</div>
 			</div>
 		</body>
