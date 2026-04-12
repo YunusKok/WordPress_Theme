@@ -54,11 +54,12 @@ if ( have_posts() ) {
 			<!-- ── Search Bar (Booking Style) ───────────────── -->
 			<form class="search-bar search-bar--booking-style" role="search" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 
-				<!-- Hidden Inputs for actual date submission -->
+				<!-- Real form inputs -->
 				<input type="hidden" name="move_in_date" id="home_move_in">
 				<input type="hidden" name="move_out_date" id="home_move_out">
+				<input type="hidden" name="guests" id="home_guests" value="1">
 
-				<!-- Move-in / Move-out Trigger Wrapper -->
+				<!-- Move-in Trigger Wrapper -->
 				<div class="search-field date-trigger" id="home-dates-trigger">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -67,10 +68,10 @@ if ( have_posts() ) {
 						<span class="field-label"><?php esc_html_e( 'Move in', 'thessnest' ); ?></span>
 						<span class="field-value" id="val-move-in"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
 					</div>
-					<!-- Invisible input overriding the UI for flatpickr to attach to -->
-					<input type="text" id="home_date_range_picker" class="invisible-date-picker" placeholder="">
+					<input type="text" id="home_date_in_picker" class="invisible-date-picker" placeholder="">
 				</div>
 
+				<!-- Move-out Trigger Wrapper -->
 				<div class="search-field date-trigger date-trigger-out">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -79,16 +80,32 @@ if ( have_posts() ) {
 						<span class="field-label"><?php esc_html_e( 'Move out', 'thessnest' ); ?></span>
 						<span class="field-value" id="val-move-out"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
 					</div>
+					<input type="text" id="home_date_out_picker" class="invisible-date-picker" placeholder="">
 				</div>
 
-				<!-- Guests -->
-				<div class="search-field">
+				<!-- Guests Modal Trigger -->
+				<div class="search-field" id="trigger-guest-modal" style="cursor: pointer; position: relative;">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 					</svg>
 					<div class="field-content">
 						<span class="field-label"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
-						<input type="number" name="guests" class="guest-input" min="1" placeholder="<?php esc_attr_e( 'Guests', 'thessnest' ); ?>" aria-label="<?php esc_attr_e( 'Number of guests', 'thessnest' ); ?>">
+						<span class="field-value" id="val-guests">1 <?php esc_html_e( 'Guest', 'thessnest' ); ?></span>
+					</div>
+
+					<!-- Glassmorphism Guest Selector Modal -->
+					<div id="guest-selector-modal" style="display:none; position:absolute; top:calc(100% + 15px); right:0; width:280px; background:rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); border-radius:12px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); z-index:100; cursor:default;">
+						<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+							<div>
+								<h4 style="margin:0; font-size:16px; color:#333;"><?php esc_html_e( 'Adults', 'thessnest' ); ?></h4>
+								<span style="font-size:12px; color:#777;"><?php esc_html_e( 'Age 18+', 'thessnest' ); ?></span>
+							</div>
+							<div style="display:flex; align-items:center; gap:10px;">
+								<button type="button" id="guest-dec" style="width:32px; height:32px; border-radius:50%; border:1px solid #ccc; background:transparent; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer;">-</button>
+								<span id="guest-count-display" style="font-weight:600; width:15px; text-align:center; color:#333;">1</span>
+								<button type="button" id="guest-inc" style="width:32px; height:32px; border-radius:50%; border:1px solid #aaa; color:#333; background:transparent; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer;">+</button>
+							</div>
+						</div>
 					</div>
 				</div>
 

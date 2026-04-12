@@ -95,6 +95,7 @@ require_once THESSNEST_DIR . '/inc/user-roles.php';
 require_once THESSNEST_DIR . '/inc/ajax-filter.php';
 require_once THESSNEST_DIR . '/inc/ajax-add-listing.php';
 require_once THESSNEST_DIR . '/inc/reviews-ratings.php';
+require_once THESSNEST_DIR . '/inc/recaptcha.php';
 
 // Theme Settings & Admin Integrations
 require_once THESSNEST_DIR . '/inc/admin-menu.php';

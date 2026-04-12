@@ -42,6 +42,114 @@ add_action( 'after_switch_theme', 'thessnest_add_roles' );
 
 
 /* ==========================================================================
+   SECURE FIELD ENCRYPTION HELPERS (Passport, ID Numbers)
+   Uses OpenSSL AES-256-CBC with WordPress AUTH_KEY as encryption key.
+   ========================================================================== */
+
+/**
+ * Encrypt sensitive data for secure storage.
+ *
+ * @param string $data Plain text value.
+ * @return string      Base64-encoded encrypted string, or empty on failure.
+ */
+function thessnest_encrypt( $data ) {
+	if ( empty( $data ) ) {
+		return '';
+	}
+
+	$key    = substr( hash( 'sha256', AUTH_KEY ), 0, 32 );
+	$iv     = substr( hash( 'sha256', SECURE_AUTH_KEY ), 0, 16 );
+	$cipher = openssl_encrypt( $data, 'AES-256-CBC', $key, 0, $iv );
+
+	return $cipher ? base64_encode( $cipher ) : '';
+}
+
+/**
+ * Decrypt sensitive data for display/PDF generation.
+ *
+ * @param string $data Base64-encoded encrypted string.
+ * @return string      Decrypted plain text, or empty on failure.
+ */
+function thessnest_decrypt( $data ) {
+	if ( empty( $data ) ) {
+		return '';
+	}
+
+	$key       = substr( hash( 'sha256', AUTH_KEY ), 0, 32 );
+	$iv        = substr( hash( 'sha256', SECURE_AUTH_KEY ), 0, 16 );
+	$decrypted = openssl_decrypt( base64_decode( $data ), 'AES-256-CBC', $key, 0, $iv );
+
+	return $decrypted ? $decrypted : '';
+}
+
+
+/* ==========================================================================
+   EXTENDED USER META — Student & Host Profile Fields
+   ========================================================================== */
+
+/**
+ * Save extended profile meta from the dashboard profile form.
+ * Hooked into the AJAX profile update handler.
+ */
+function thessnest_save_extended_profile_meta( $user_id ) {
+	if ( ! $user_id ) {
+		return;
+	}
+
+	$user = get_userdata( $user_id );
+	if ( ! $user ) {
+		return;
+	}
+
+	// ── Student/Tenant Fields ──
+	if ( in_array( 'tenant', (array) $user->roles, true ) ) {
+		$student_fields = array(
+			'nationality'          => 'thessnest_nationality',
+			'sending_university'   => 'thessnest_sending_university',
+			'receiving_university' => 'thessnest_receiving_university',
+			'funding_source'       => 'thessnest_funding_source',
+			'student_age'          => 'thessnest_student_age',
+			'emergency_contact'    => 'thessnest_emergency_contact',
+		);
+
+		foreach ( $student_fields as $meta_key => $post_key ) {
+			if ( isset( $_POST[ $post_key ] ) ) {
+				update_user_meta( $user_id, '_thessnest_' . $meta_key, sanitize_text_field( wp_unslash( $_POST[ $post_key ] ) ) );
+			}
+		}
+
+		// Passport number — encrypted storage
+		if ( isset( $_POST['thessnest_passport_number'] ) && ! empty( $_POST['thessnest_passport_number'] ) ) {
+			$passport = sanitize_text_field( wp_unslash( $_POST['thessnest_passport_number'] ) );
+			update_user_meta( $user_id, '_thessnest_passport_number', thessnest_encrypt( $passport ) );
+		}
+	}
+
+	// ── Host/Landlord Fields ──
+	if ( in_array( 'landlord', (array) $user->roles, true ) ) {
+		if ( isset( $_POST['thessnest_tax_id'] ) ) {
+			update_user_meta( $user_id, '_thessnest_tax_id', sanitize_text_field( wp_unslash( $_POST['thessnest_tax_id'] ) ) );
+		}
+		if ( isset( $_POST['thessnest_id_card_number'] ) ) {
+			update_user_meta( $user_id, '_thessnest_id_card_number', sanitize_text_field( wp_unslash( $_POST['thessnest_id_card_number'] ) ) );
+		}
+	}
+}
+add_action( 'thessnest_after_profile_save', 'thessnest_save_extended_profile_meta' );
+
+/**
+ * Get a student's decrypted passport number.
+ *
+ * @param int $user_id User ID.
+ * @return string Decrypted passport number or empty string.
+ */
+function thessnest_get_passport_number( $user_id ) {
+	$encrypted = get_user_meta( $user_id, '_thessnest_passport_number', true );
+	return thessnest_decrypt( $encrypted );
+}
+
+
+/* ==========================================================================
    ROLE ASSIGNMENT ON REGISTRATION
    ========================================================================== */
 

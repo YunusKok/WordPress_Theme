@@ -57,6 +57,12 @@ function thessnest_update_profile() {
 		wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 	}
 
+	/**
+	 * Hook for extended profile meta (student fields, host fields, passport, etc.)
+	 * @see thessnest_save_extended_profile_meta() in inc/user-roles.php
+	 */
+	do_action( 'thessnest_after_profile_save', $user_id );
+
 	wp_send_json_success( array( 'message' => __( 'Profile updated successfully.', 'thessnest' ) ) );
 }
 add_action( 'wp_ajax_thessnest_update_profile', 'thessnest_update_profile' );

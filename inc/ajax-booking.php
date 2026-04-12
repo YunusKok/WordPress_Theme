@@ -68,6 +68,9 @@ add_action( 'wp_ajax_nopriv_thessnest_fetch_booked_dates', 'thessnest_fetch_book
 function thessnest_submit_booking() {
 	check_ajax_referer( 'thessnest-inquiry-nonce', 'security' ); // Re-using the single property form nonce
 
+	// Allow reCAPTCHA validation to run (will wp_send_json_error on failure)
+	do_action( 'thessnest_before_booking_submit' );
+
 	if ( ! is_user_logged_in() ) {
 		wp_send_json_error( array( 'message' => __( 'You must be logged in to request a booking. Please sign in or register.', 'thessnest' ), 'login_required' => true ) );
 	}

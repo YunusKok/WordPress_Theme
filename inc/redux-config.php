@@ -1320,6 +1320,90 @@ Redux::set_section( $opt_name, array(
 
 
 // ═══════════════════════════════════════════════════
+//  SECTION: Invoice Settings
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Invoice Settings', 'thessnest' ),
+	'id'     => 'invoice_settings',
+	'icon'   => 'el el-file-edit',
+	'fields' => array(
+		array(
+			'id'       => 'invoice_enabled',
+			'type'     => 'switch',
+			'title'    => __( 'Enable Invoicing', 'thessnest' ),
+			'subtitle' => __( 'Generate invoices for confirmed bookings.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'invoice_company_name',
+			'type'     => 'text',
+			'title'    => __( 'Company Name', 'thessnest' ),
+			'subtitle' => __( 'Name of the hosting company/platform displayed on invoices.', 'thessnest' ),
+			'default'  => '',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_company_address',
+			'type'     => 'textarea',
+			'title'    => __( 'Company Address', 'thessnest' ),
+			'subtitle' => __( 'Full company address for the invoice header.', 'thessnest' ),
+			'default'  => '',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_company_logo',
+			'type'     => 'media',
+			'title'    => __( 'Company Logo', 'thessnest' ),
+			'subtitle' => __( 'Logo displayed on invoices. Defaults to site logo if not set.', 'thessnest' ),
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_bank_details',
+			'type'     => 'textarea',
+			'title'    => __( 'Bank Details', 'thessnest' ),
+			'subtitle' => __( 'Bank account information for payout purposes. Displayed on invoices.', 'thessnest' ),
+			'default'  => '',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_payment_terms',
+			'type'     => 'textarea',
+			'title'    => __( 'Payment Terms', 'thessnest' ),
+			'subtitle' => __( 'Default payment terms text shown on invoices.', 'thessnest' ),
+			'default'  => 'Payment due within 30 days.',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_tax_info',
+			'type'     => 'text',
+			'title'    => __( 'Tax Information', 'thessnest' ),
+			'subtitle' => __( 'Tax ID or VAT number displayed on invoices.', 'thessnest' ),
+			'default'  => '',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_prefix',
+			'type'     => 'text',
+			'title'    => __( 'Invoice Prefix', 'thessnest' ),
+			'subtitle' => __( 'Prefix for invoice numbers (e.g., "INV-").', 'thessnest' ),
+			'default'  => 'INV-',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'invoice_next_number',
+			'type'     => 'text',
+			'title'    => __( 'Next Invoice Number', 'thessnest' ),
+			'subtitle' => __( 'Auto-incrementing. The next invoice will use this number.', 'thessnest' ),
+			'default'  => '1',
+			'validate' => 'numeric',
+			'required' => array( 'invoice_enabled', '=', true ),
+		),
+	),
+) );
+
+
+// ═══════════════════════════════════════════════════
 //  SECTION: Email Management
 // ═══════════════════════════════════════════════════
 

@@ -945,53 +945,99 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* ----------------------------------------------------
 	 * 16. Homepage Date Range Picker (Booking Style)
 	 * ---------------------------------------------------- */
-	const homeRangePicker = document.getElementById('home_date_range_picker');
-	const homeMoveInVal = document.getElementById('val-move-in');
-	const homeMoveOutVal = document.getElementById('val-move-out');
-	const homeMoveInInput = document.getElementById('home_move_in');
-	const homeMoveOutInput = document.getElementById('home_move_out');
-	const homeDateTrigger = document.getElementById('home-dates-trigger');
-	const homeDateTriggerOut = document.querySelector('.date-trigger-out');
+	const homeDateInPicker = document.getElementById('home_date_in_picker');
+	const homeDateOutPicker = document.getElementById('home_date_out_picker');
 
-	if (homeRangePicker && typeof flatpickr !== 'undefined') {
-		const fp = flatpickr(homeRangePicker, {
-			mode: 'range',
-			minDate: 'today',
-			showMonths: window.innerWidth >= 768 ? 2 : 1, // Double calendar on desktop
-			altInput: false,
-			dateFormat: 'Y-m-d',
-			onChange: function(selectedDates, dateStr, instance) {
-				if (selectedDates.length > 0) {
-					// Set Move in
-					const moveInStr = instance.formatDate(selectedDates[0], 'M j, Y');
-					homeMoveInVal.textContent = moveInStr;
-					homeMoveInInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
-					homeMoveInVal.style.color = 'var(--color-primary)';
-				} else {
-					homeMoveInVal.textContent = 'Add dates';
-					homeMoveInInput.value = '';
-					homeMoveInVal.style.color = '';
-				}
+	let fpIn, fpOut;
 
-				if (selectedDates.length > 1) {
-					// Set Move out
-					const moveOutStr = instance.formatDate(selectedDates[1], 'M j, Y');
-					homeMoveOutVal.textContent = moveOutStr;
-					homeMoveOutInput.value = instance.formatDate(selectedDates[1], 'Y-m-d');
-					homeMoveOutVal.style.color = 'var(--color-primary)';
-				} else {
-					homeMoveOutVal.textContent = 'Add dates';
-					homeMoveOutInput.value = '';
-					homeMoveOutVal.style.color = '';
+	if (typeof flatpickr !== 'undefined') {
+		if (homeDateInPicker) {
+			fpIn = flatpickr(homeDateInPicker, {
+				minDate: 'today',
+				disableMobile: true,
+				onChange: function(selectedDates, dateStr, instance) {
+					if (selectedDates.length > 0) {
+						homeMoveInVal.textContent = instance.formatDate(selectedDates[0], 'M j, Y');
+						homeMoveInInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+						homeMoveInVal.style.color = 'var(--color-primary)';
+						
+						// Update Move-out minimum date
+						if (fpOut) {
+							fpOut.set('minDate', selectedDates[0]);
+							setTimeout(() => fpOut.open(), 100);
+						}
+					}
 				}
+			});
+			if (homeDateTrigger) {
+				homeDateTrigger.addEventListener('click', () => fpIn.open());
+			}
+		}
+
+		if (homeDateOutPicker) {
+			fpOut = flatpickr(homeDateOutPicker, {
+				minDate: 'today',
+				disableMobile: true,
+				onChange: function(selectedDates, dateStr, instance) {
+					if (selectedDates.length > 0) {
+						homeMoveOutVal.textContent = instance.formatDate(selectedDates[0], 'M j, Y');
+						homeMoveOutInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+						homeMoveOutVal.style.color = 'var(--color-primary)';
+					}
+				}
+			});
+			if (homeDateTriggerOut) {
+				homeDateTriggerOut.addEventListener('click', () => fpOut.open());
+			}
+		}
+	}
+
+	/* ----------------------------------------------------
+	 * 17. Guest Selector Modal
+	 * ---------------------------------------------------- */
+	const guestTrigger = document.getElementById('trigger-guest-modal');
+	const guestModal = document.getElementById('guest-selector-modal');
+	const guestVal = document.getElementById('val-guests');
+	const guestInput = document.getElementById('home_guests');
+	const btnDec = document.getElementById('guest-dec');
+	const btnInc = document.getElementById('guest-inc');
+	const countDisplay = document.getElementById('guest-count-display');
+
+	if (guestTrigger && guestModal) {
+		guestTrigger.addEventListener('click', (e) => {
+			// Prevent triggering if clicked on inner elements we want to handle separately
+			if (e.target.closest('#guest-selector-modal')) return;
+			guestModal.style.display = guestModal.style.display === 'none' ? 'block' : 'none';
+		});
+
+		// Close modal when clicking outside
+		document.addEventListener('click', (e) => {
+			if (!guestTrigger.contains(e.target)) {
+				guestModal.style.display = 'none';
 			}
 		});
 
-		// Focus the date picker when the out field is clicked
-		if (homeDateTriggerOut) {
-			homeDateTriggerOut.addEventListener('click', function() {
-				fp.open();
+		let guestCount = 1;
+		if (btnInc && btnDec && countDisplay && guestInput && guestVal) {
+			btnInc.addEventListener('click', () => {
+				if (guestCount < 10) {
+					guestCount++;
+					updateGuests();
+				}
 			});
+			btnDec.addEventListener('click', () => {
+				if (guestCount > 1) {
+					guestCount--;
+					updateGuests();
+				}
+			});
+
+			function updateGuests() {
+				countDisplay.textContent = guestCount;
+				guestInput.value = guestCount;
+				guestVal.textContent = guestCount + (guestCount === 1 ? ' Guest' : ' Guests');
+				guestVal.style.color = 'var(--color-primary)';
+			}
 		}
 	}
 
