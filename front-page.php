@@ -51,16 +51,16 @@ if ( have_posts() ) {
 				<?php echo wp_kses_post( get_theme_mod( 'hero_subtitle', __( 'Browse verified listings with transparent pricing. No hidden fees, instant booking.', 'thessnest' ) ) ); ?>
 			</p>
 
-			<!-- ── Search Bar (Booking Style) ───────────────── -->
+			<!-- ── Search Bar (Homey-Inspired Booking Style) ───────────────── -->
 			<form class="search-bar search-bar--booking-style" role="search" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
 
-				<!-- Real form inputs -->
+				<!-- Real form inputs (hidden) -->
 				<input type="hidden" name="move_in_date" id="home_move_in">
 				<input type="hidden" name="move_out_date" id="home_move_out">
 				<input type="hidden" name="guests" id="home_guests" value="1">
 
-				<!-- Move-in Trigger Wrapper -->
-				<div class="search-field date-trigger" id="home-dates-trigger">
+				<!-- Move-in Trigger -->
+				<div class="search-field search-field--date" id="trigger-move-in">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
 					</svg>
@@ -68,11 +68,13 @@ if ( have_posts() ) {
 						<span class="field-label"><?php esc_html_e( 'Move in', 'thessnest' ); ?></span>
 						<span class="field-value" id="val-move-in"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
 					</div>
-					<input type="text" id="home_date_in_picker" class="invisible-date-picker" placeholder="">
+					<svg class="field-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+					<!-- Flatpickr hidden anchor -->
+					<input type="text" id="home_date_in_picker" class="sr-only-picker" tabindex="-1" aria-hidden="true">
 				</div>
 
-				<!-- Move-out Trigger Wrapper -->
-				<div class="search-field date-trigger date-trigger-out">
+				<!-- Move-out Trigger -->
+				<div class="search-field search-field--date" id="trigger-move-out">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
 					</svg>
@@ -80,11 +82,13 @@ if ( have_posts() ) {
 						<span class="field-label"><?php esc_html_e( 'Move out', 'thessnest' ); ?></span>
 						<span class="field-value" id="val-move-out"><?php esc_html_e( 'Add dates', 'thessnest' ); ?></span>
 					</div>
-					<input type="text" id="home_date_out_picker" class="invisible-date-picker" placeholder="">
+					<svg class="field-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+					<!-- Flatpickr hidden anchor -->
+					<input type="text" id="home_date_out_picker" class="sr-only-picker" tabindex="-1" aria-hidden="true">
 				</div>
 
-				<!-- Guests Modal Trigger -->
-				<div class="search-field" id="trigger-guest-modal" style="cursor: pointer; position: relative;">
+				<!-- Guests Trigger -->
+				<div class="search-field search-field--guests" id="trigger-guest-modal">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 					</svg>
@@ -92,25 +96,50 @@ if ( have_posts() ) {
 						<span class="field-label"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
 						<span class="field-value" id="val-guests">1 <?php esc_html_e( 'Guest', 'thessnest' ); ?></span>
 					</div>
+					<svg class="field-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
 
-					<!-- Glassmorphism Guest Selector Modal -->
-					<div id="guest-selector-modal" style="display:none; position:absolute; top:calc(100% + 15px); right:0; width:280px; background:rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); border-radius:12px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); z-index:100; cursor:default;">
-						<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-							<div>
-								<h4 style="margin:0; font-size:16px; color:#333;"><?php esc_html_e( 'Adults', 'thessnest' ); ?></h4>
-								<span style="font-size:12px; color:#777;"><?php esc_html_e( 'Age 18+', 'thessnest' ); ?></span>
+					<!-- iOS Glassmorphism Guest Dropdown -->
+					<div id="guest-selector-modal" class="glass-dropdown">
+						<div class="glass-dropdown__header">
+							<span class="glass-dropdown__title"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
+							<button type="button" class="glass-dropdown__close" id="guest-modal-close" aria-label="<?php esc_attr_e( 'Close', 'thessnest' ); ?>">
+								<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+							</button>
+						</div>
+
+						<!-- Adults -->
+						<div class="glass-dropdown__row">
+							<div class="glass-dropdown__row-info">
+								<span class="glass-dropdown__row-label"><?php esc_html_e( 'Adults', 'thessnest' ); ?></span>
+								<span class="glass-dropdown__row-hint"><?php esc_html_e( 'Age 18+', 'thessnest' ); ?></span>
 							</div>
-							<div style="display:flex; align-items:center; gap:10px;">
-								<button type="button" id="guest-dec" style="width:32px; height:32px; border-radius:50%; border:1px solid #ccc; background:transparent; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer;">-</button>
-								<span id="guest-count-display" style="font-weight:600; width:15px; text-align:center; color:#333;">1</span>
-								<button type="button" id="guest-inc" style="width:32px; height:32px; border-radius:50%; border:1px solid #aaa; color:#333; background:transparent; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer;">+</button>
+							<div class="glass-dropdown__stepper">
+								<button type="button" class="glass-stepper-btn" id="adults-dec" aria-label="<?php esc_attr_e( 'Decrease adults', 'thessnest' ); ?>">−</button>
+								<span class="glass-stepper-count" id="adults-count">1</span>
+								<button type="button" class="glass-stepper-btn" id="adults-inc" aria-label="<?php esc_attr_e( 'Increase adults', 'thessnest' ); ?>">+</button>
 							</div>
 						</div>
+
+						<!-- Children -->
+						<div class="glass-dropdown__row">
+							<div class="glass-dropdown__row-info">
+								<span class="glass-dropdown__row-label"><?php esc_html_e( 'Children', 'thessnest' ); ?></span>
+								<span class="glass-dropdown__row-hint"><?php esc_html_e( 'Ages 2–17', 'thessnest' ); ?></span>
+							</div>
+							<div class="glass-dropdown__stepper">
+								<button type="button" class="glass-stepper-btn" id="children-dec" aria-label="<?php esc_attr_e( 'Decrease children', 'thessnest' ); ?>">−</button>
+								<span class="glass-stepper-count" id="children-count">0</span>
+								<button type="button" class="glass-stepper-btn" id="children-inc" aria-label="<?php esc_attr_e( 'Increase children', 'thessnest' ); ?>">+</button>
+							</div>
+						</div>
+
+						<button type="button" class="glass-dropdown__apply" id="guest-apply"><?php esc_html_e( 'Apply', 'thessnest' ); ?></button>
 					</div>
 				</div>
 
 				<!-- Search CTA -->
 				<button type="submit" class="btn-search">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 					<?php esc_html_e( 'Search', 'thessnest' ); ?>
 				</button>
 			</form>

@@ -943,102 +943,247 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	/* ----------------------------------------------------
-	 * 16. Homepage Date Range Picker (Booking Style)
+	 * 16. Homepage Date Range Picker (Homey-Inspired)
 	 * ---------------------------------------------------- */
-	const homeDateInPicker = document.getElementById('home_date_in_picker');
-	const homeDateOutPicker = document.getElementById('home_date_out_picker');
+	const triggerMoveIn    = document.getElementById('trigger-move-in');
+	const triggerMoveOut   = document.getElementById('trigger-move-out');
+	const valMoveIn        = document.getElementById('val-move-in');
+	const valMoveOut       = document.getElementById('val-move-out');
+	const homeMoveInInput  = document.getElementById('home_move_in');
+	const homeMoveOutInput = document.getElementById('home_move_out');
+	const homeDateInEl     = document.getElementById('home_date_in_picker');
+	const homeDateOutEl    = document.getElementById('home_date_out_picker');
 
 	let fpIn, fpOut;
 
-	if (typeof flatpickr !== 'undefined') {
-		if (homeDateInPicker) {
-			fpIn = flatpickr(homeDateInPicker, {
-				minDate: 'today',
-				disableMobile: true,
-				onChange: function(selectedDates, dateStr, instance) {
-					if (selectedDates.length > 0) {
-						homeMoveInVal.textContent = instance.formatDate(selectedDates[0], 'M j, Y');
+	if (typeof flatpickr !== 'undefined' && homeDateInEl && homeDateOutEl) {
+		// Move-In Flatpickr
+		fpIn = flatpickr(homeDateInEl, {
+			minDate: 'today',
+			disableMobile: true,
+			onChange: function(selectedDates, dateStr, instance) {
+				if (selectedDates.length > 0) {
+					const formatted = instance.formatDate(selectedDates[0], 'M j, Y');
+					if (valMoveIn) {
+						valMoveIn.textContent = formatted;
+						valMoveIn.classList.add('has-value');
+					}
+					if (homeMoveInInput) {
 						homeMoveInInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
-						homeMoveInVal.style.color = 'var(--color-primary)';
-						
-						// Update Move-out minimum date
-						if (fpOut) {
-							fpOut.set('minDate', selectedDates[0]);
-							setTimeout(() => fpOut.open(), 100);
-						}
+					}
+					// Set active state
+					if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
+
+					// Update Move-out minimum and auto-open it (Homey behavior)
+					if (fpOut) {
+						let minOut = new Date(selectedDates[0]);
+						minOut.setDate(minOut.getDate() + 1);
+						fpOut.set('minDate', minOut);
+						setTimeout(() => {
+							if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
+							fpOut.open();
+						}, 150);
 					}
 				}
-			});
-			if (homeDateTrigger) {
-				homeDateTrigger.addEventListener('click', () => fpIn.open());
+			},
+			onOpen: function() {
+				if (triggerMoveIn) triggerMoveIn.classList.add('is-active');
+				if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
+			},
+			onClose: function() {
+				if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
 			}
+		});
+
+		// Move-Out Flatpickr
+		let initialMinOut = new Date();
+		initialMinOut.setDate(initialMinOut.getDate() + 1);
+
+		fpOut = flatpickr(homeDateOutEl, {
+			minDate: initialMinOut,
+			disableMobile: true,
+			appendTo: triggerMoveOut || undefined,
+			positionElement: triggerMoveOut || undefined,
+			onChange: function(selectedDates, dateStr, instance) {
+				if (selectedDates.length > 0) {
+					const formatted = instance.formatDate(selectedDates[0], 'M j, Y');
+					if (valMoveOut) {
+						valMoveOut.textContent = formatted;
+						valMoveOut.classList.add('has-value');
+					}
+					if (homeMoveOutInput) {
+						homeMoveOutInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+					}
+					if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
+				}
+			},
+			onOpen: function() {
+				if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
+				if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
+			},
+			onClose: function() {
+				if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
+			}
+		});
+
+		// Click handlers for trigger divs
+		if (triggerMoveIn) {
+			triggerMoveIn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (fpOut) fpOut.close();
+				fpIn.open();
+			});
 		}
 
-		if (homeDateOutPicker) {
-			fpOut = flatpickr(homeDateOutPicker, {
-				minDate: 'today',
-				disableMobile: true,
-				onChange: function(selectedDates, dateStr, instance) {
-					if (selectedDates.length > 0) {
-						homeMoveOutVal.textContent = instance.formatDate(selectedDates[0], 'M j, Y');
-						homeMoveOutInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
-						homeMoveOutVal.style.color = 'var(--color-primary)';
-					}
-				}
+		if (triggerMoveOut) {
+			triggerMoveOut.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (fpIn) fpIn.close();
+				fpOut.open();
 			});
-			if (homeDateTriggerOut) {
-				homeDateTriggerOut.addEventListener('click', () => fpOut.open());
-			}
 		}
 	}
 
 	/* ----------------------------------------------------
-	 * 17. Guest Selector Modal
+	 * 17. Guest Selector — iOS Glassmorphism Dropdown
 	 * ---------------------------------------------------- */
-	const guestTrigger = document.getElementById('trigger-guest-modal');
-	const guestModal = document.getElementById('guest-selector-modal');
-	const guestVal = document.getElementById('val-guests');
-	const guestInput = document.getElementById('home_guests');
-	const btnDec = document.getElementById('guest-dec');
-	const btnInc = document.getElementById('guest-inc');
-	const countDisplay = document.getElementById('guest-count-display');
+	const guestTrigger     = document.getElementById('trigger-guest-modal');
+	const guestModal       = document.getElementById('guest-selector-modal');
+	const guestModalClose  = document.getElementById('guest-modal-close');
+	const guestApplyBtn    = document.getElementById('guest-apply');
+	const guestVal         = document.getElementById('val-guests');
+	const guestInput       = document.getElementById('home_guests');
+
+	const adultsCountEl    = document.getElementById('adults-count');
+	const childrenCountEl  = document.getElementById('children-count');
+	const adultsInc        = document.getElementById('adults-inc');
+	const adultsDec        = document.getElementById('adults-dec');
+	const childrenInc      = document.getElementById('children-inc');
+	const childrenDec      = document.getElementById('children-dec');
+
+	let adultsCount   = 1;
+	let childrenCount = 0;
+
+	function updateGuestDisplay() {
+		const total = adultsCount + childrenCount;
+		if (adultsCountEl) adultsCountEl.textContent = adultsCount;
+		if (childrenCountEl) childrenCountEl.textContent = childrenCount;
+		if (guestInput) guestInput.value = total;
+
+		// Update stepper disabled states
+		if (adultsDec) adultsDec.disabled = adultsCount <= 1;
+		if (adultsInc) adultsInc.disabled = adultsCount >= 16;
+		if (childrenDec) childrenDec.disabled = childrenCount <= 0;
+		if (childrenInc) childrenInc.disabled = childrenCount >= 8;
+
+		// Build display text
+		let parts = [];
+		if (adultsCount > 0) parts.push(adultsCount + (adultsCount === 1 ? ' Adult' : ' Adults'));
+		if (childrenCount > 0) parts.push(childrenCount + (childrenCount === 1 ? ' Child' : ' Children'));
+
+		if (guestVal) {
+			guestVal.textContent = parts.join(', ') || '1 Guest';
+			if (total > 1 || childrenCount > 0) {
+				guestVal.classList.add('has-value');
+			}
+		}
+	}
+
+	function openGuestModal() {
+		if (!guestModal) return;
+		guestModal.classList.add('is-open');
+		if (guestTrigger) guestTrigger.classList.add('is-active');
+	}
+
+	function closeGuestModal() {
+		if (!guestModal) return;
+		guestModal.classList.remove('is-open');
+		if (guestTrigger) guestTrigger.classList.remove('is-active');
+	}
 
 	if (guestTrigger && guestModal) {
 		guestTrigger.addEventListener('click', (e) => {
-			// Prevent triggering if clicked on inner elements we want to handle separately
+			// Don't toggle if clicking inside the modal itself
 			if (e.target.closest('#guest-selector-modal')) return;
-			guestModal.style.display = guestModal.style.display === 'none' ? 'block' : 'none';
+			e.stopPropagation();
+
+			// Close date pickers
+			if (fpIn) fpIn.close();
+			if (fpOut) fpOut.close();
+
+			if (guestModal.classList.contains('is-open')) {
+				closeGuestModal();
+			} else {
+				openGuestModal();
+			}
 		});
 
-		// Close modal when clicking outside
+		// Close button
+		if (guestModalClose) {
+			guestModalClose.addEventListener('click', (e) => {
+				e.stopPropagation();
+				closeGuestModal();
+			});
+		}
+
+		// Apply button
+		if (guestApplyBtn) {
+			guestApplyBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				updateGuestDisplay();
+				closeGuestModal();
+			});
+		}
+
+		// Close when clicking outside
 		document.addEventListener('click', (e) => {
 			if (!guestTrigger.contains(e.target)) {
-				guestModal.style.display = 'none';
+				closeGuestModal();
 			}
 		});
 
-		let guestCount = 1;
-		if (btnInc && btnDec && countDisplay && guestInput && guestVal) {
-			btnInc.addEventListener('click', () => {
-				if (guestCount < 10) {
-					guestCount++;
-					updateGuests();
+		// Stepper buttons — Adults
+		if (adultsInc) {
+			adultsInc.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (adultsCount < 16) {
+					adultsCount++;
+					updateGuestDisplay();
 				}
 			});
-			btnDec.addEventListener('click', () => {
-				if (guestCount > 1) {
-					guestCount--;
-					updateGuests();
-				}
-			});
-
-			function updateGuests() {
-				countDisplay.textContent = guestCount;
-				guestInput.value = guestCount;
-				guestVal.textContent = guestCount + (guestCount === 1 ? ' Guest' : ' Guests');
-				guestVal.style.color = 'var(--color-primary)';
-			}
 		}
+		if (adultsDec) {
+			adultsDec.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (adultsCount > 1) {
+					adultsCount--;
+					updateGuestDisplay();
+				}
+			});
+		}
+
+		// Stepper buttons — Children
+		if (childrenInc) {
+			childrenInc.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (childrenCount < 8) {
+					childrenCount++;
+					updateGuestDisplay();
+				}
+			});
+		}
+		if (childrenDec) {
+			childrenDec.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (childrenCount > 0) {
+					childrenCount--;
+					updateGuestDisplay();
+				}
+			});
+		}
+
+		// Initialize display
+		updateGuestDisplay();
 	}
 
 });
