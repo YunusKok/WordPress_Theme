@@ -1053,6 +1053,228 @@ Redux::set_section( $opt_name, array(
 //  SECTION 20: Email Management
 // ═══════════════════════════════════════════════════
 
+// Main Email Management Parent
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Email Management', 'thessnest' ),
+	'id'     => 'emails',
+	'icon'   => 'el el-envelope',
+) );
+
+// General Styling
+Redux::set_section( $opt_name, array(
+	'title'      => __( 'General & Styling', 'thessnest' ),
+	'id'         => 'email_general',
+	'subsection' => true,
+	'fields'     => array(
+		array( 'id' => 'email_from_name', 'type' => 'text', 'title' => 'From Name', 'subtitle' => 'Sender name for all outgoing emails.', 'default' => 'ThessNest' ),
+		array( 'id' => 'email_from_address', 'type' => 'text', 'title' => 'From Email', 'default' => 'noreply@thessnest.com', 'validate' => 'email' ),
+		array( 'id' => 'email_logo', 'type' => 'media', 'title' => 'Email Logo', 'subtitle' => 'Upload a specific logo for emails. Defaults to main logo if not set.' ),
+		array( 'id' => 'email_bg_color', 'type' => 'color', 'title' => 'Email Background Color', 'default' => '#f7f9fc', 'transparent' => false ),
+		array( 'id' => 'email_header_bg', 'type' => 'color', 'title' => 'Header Background Color', 'default' => '#ffffff', 'transparent' => false ),
+		array( 'id' => 'email_body_bg', 'type' => 'color', 'title' => 'Body Context Background Color', 'default' => '#ffffff', 'transparent' => false ),
+		array( 'id' => 'email_footer_bg', 'type' => 'color', 'title' => 'Footer Background Color', 'default' => '#f8fafc', 'transparent' => false ),
+		array( 'id' => 'email_text_color', 'type' => 'color', 'title' => 'Text Color', 'default' => '#334155', 'transparent' => false ),
+		array( 'id' => 'email_btn_color', 'type' => 'color', 'title' => 'Button Color', 'default' => '#2563eb', 'transparent' => false ),
+		array( 'id' => 'email_footer_text', 'type' => 'textarea', 'title' => 'Footer Text', 'subtitle' => 'Custom footer text for emails. Defaults to the main site copyright text.', 'default' => '' ),
+	),
+) );
+
+// New Register
+Redux::set_section( $opt_name, array(
+	'title'      => __( 'New Register', 'thessnest' ),
+	'id'         => 'email_new_register',
+	'subsection' => true,
+	'fields'     => array(
+		array( 'id' => 'email_reg_renter_info', 'type' => 'info', 'title' => 'New Registered User Notification Renter', 'desc' => '{user_login_register}, {user_email_register}, {profile_url}', 'style' => 'info' ),
+		array( 'id' => 'email_reg_renter_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Welcome to {site_title}!' ),
+		array( 'id' => 'email_reg_renter_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Welcome to {site_title}! 🏡' ),
+		array( 'id' => 'email_reg_host_info', 'type' => 'info', 'title' => 'New Registered User Notification Host', 'desc' => '{user_login_register}, {user_email_register}, {profile_url}', 'style' => 'info' ),
+		array( 'id' => 'email_reg_host_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Welcome to {site_title}!' ),
+		array( 'id' => 'email_reg_host_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Welcome to {site_title}! 🎉' ),
+		array( 'id' => 'email_reg_admin_info', 'type' => 'info', 'title' => 'New Registered Admin Notification', 'desc' => '{user_login_register}, {user_email_register}, {profile_url}', 'style' => 'info' ),
+		array( 'id' => 'email_reg_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New User Registration' ),
+		array( 'id' => 'email_reg_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'New user registered on {site_title}.' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Reservation', 'thessnest' ),
+	'id'     => 'email_reservation',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'reservation_new_admin_recv_info', 'type' => 'info', 'title' => 'New Reservation Created By Admin Received', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_new_admin_recv_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Reservation Created By Admin Received [{booking_id}]' ),
+		array( 'id' => 'reservation_new_admin_recv_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'You have a new reservation [{booking_id}].
+
+Check details: [booking_link]' ),
+		array( 'id' => 'reservation_new_admin_sent_info', 'type' => 'info', 'title' => 'New Reservation Sent By Admin', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_new_admin_sent_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Reservation Sent By Admin [{booking_id}]' ),
+		array( 'id' => 'reservation_new_admin_sent_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Thank You! Your reservation is confirmed. [{booking_id}]
+
+View details: [booking_link]' ),
+		array( 'id' => 'reservation_new_recv_info', 'type' => 'info', 'title' => 'New Reservation Received', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_new_recv_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Reservation Received [{booking_id}]' ),
+		array( 'id' => 'reservation_new_recv_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'You have a new reservation! [{booking_id}]
+
+Check details: [booking_link]' ),
+		array( 'id' => 'reservation_new_sent_info', 'type' => 'info', 'title' => 'New Reservation Sent', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_new_sent_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Reservation Sent [{booking_id}]' ),
+		array( 'id' => 'reservation_new_sent_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Thank You! Your reservation was received. [{booking_id}]
+
+Wait for host approval or pay now.' ),
+		array( 'id' => 'reservation_confirm_info', 'type' => 'info', 'title' => 'Confirm Reservation', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_confirm_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Reservation Confirmed [{booking_id}]' ),
+		array( 'id' => 'reservation_confirm_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Congratulations! Your reservation confirmed. [{booking_id}]
+
+Complete the payment: [pay_link]' ),
+		array( 'id' => 'reservation_booked_user_info', 'type' => 'info', 'title' => 'Reservation Booked User', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_booked_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Reservation Booked! [{booking_id}]' ),
+		array( 'id' => 'reservation_booked_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Well done! Your reservation is successfully booked. [{booking_id}]
+
+View details: [booking_link]' ),
+		array( 'id' => 'reservation_booked_admin_info', 'type' => 'info', 'title' => 'Reservation Booked Admin', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_booked_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Reservation Booked! [{booking_id}]' ),
+		array( 'id' => 'reservation_booked_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'A new reservation was successfully booked! [{booking_id}]
+
+View details: [booking_link]' ),
+		array( 'id' => 'reservation_declined_info', 'type' => 'info', 'title' => 'Reservation Declined', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_declined_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Reservation Declined [{booking_id}]' ),
+		array( 'id' => 'reservation_declined_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Sorry, your reservation has been declined by the host. [{booking_id}]' ),
+		array( 'id' => 'reservation_cancelled_info', 'type' => 'info', 'title' => 'Reservation Cancelled', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_cancelled_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Reservation Cancelled [{booking_id}]' ),
+		array( 'id' => 'reservation_cancelled_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your reservation has been cancelled. [{booking_id}]' ),
+		array( 'id' => 'reservation_local_pay_recv_info', 'type' => 'info', 'title' => 'Local Payment Received', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_local_pay_recv_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Local Payment Received [{booking_id}]' ),
+		array( 'id' => 'reservation_local_pay_recv_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Local payment information for reservation. [{booking_id}]' ),
+		array( 'id' => 'reservation_local_pay_sent_info', 'type' => 'info', 'title' => 'Local Payment Sent', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'reservation_local_pay_sent_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Local Payment Sent [{booking_id}]' ),
+		array( 'id' => 'reservation_local_pay_sent_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your payment information was sent. [{booking_id}]' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'No Login (Guest) Reservation', 'thessnest' ),
+	'id'     => 'email_guest_reservation',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'guest_reservation_new_recv_info', 'type' => 'info', 'title' => 'New (Guest) Reservation Received', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_new_recv_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New (Guest) Reservation Received [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_new_recv_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'You have a new guest reservation! [{booking_id}]
+
+Check details: [booking_link]' ),
+		array( 'id' => 'guest_reservation_new_sent_info', 'type' => 'info', 'title' => 'New (Guest) Reservation Sent', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_new_sent_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New (Guest) Reservation Sent [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_new_sent_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Thank You! Your guest reservation was received. [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_confirm_info', 'type' => 'info', 'title' => 'Confirm (Guest) Reservation', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_confirm_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Reservation Confirmed [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_confirm_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Congratulations! Your reservation confirmed. [{booking_id}]
+
+Complete the payment: [pay_link]' ),
+		array( 'id' => 'guest_reservation_booked_user_info', 'type' => 'info', 'title' => '(Guest) Reservation Booked User', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_booked_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Reservation Booked! [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_booked_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Well done! Your reservation is successfully booked. [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_booked_admin_info', 'type' => 'info', 'title' => '(Guest) Reservation Booked Admin', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_booked_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Reservation Booked! [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_booked_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'A new guest reservation was successfully booked! [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_declined_info', 'type' => 'info', 'title' => '(Guest) Reservation Declined', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_declined_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Reservation Declined [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_declined_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Sorry, your reservation has been declined by the host. [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_cancelled_info', 'type' => 'info', 'title' => '(Guest) Reservation Cancelled', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_cancelled_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Reservation Cancelled [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_cancelled_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your reservation has been cancelled. [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_local_pay_recv_info', 'type' => 'info', 'title' => '(Guest) Local Payment Received', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_local_pay_recv_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Local Payment Received [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_local_pay_recv_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Local payment information for guest reservation. [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_local_pay_sent_info', 'type' => 'info', 'title' => '(Guest) Local Payment Sent', 'desc' => '{booking_id}, {property_title}, {check_in}, {check_out}, {guest_name}', 'style' => 'info' ),
+		array( 'id' => 'guest_reservation_local_pay_sent_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => '(Guest) Local Payment Sent [{booking_id}]' ),
+		array( 'id' => 'guest_reservation_local_pay_sent_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your payment information was sent. [{booking_id}]' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Submission of Listings', 'thessnest' ),
+	'id'     => 'email_listings',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'listing_new_sub_host_info', 'type' => 'info', 'title' => 'New Submission of Listing (Host)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_new_sub_host_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Listing on {site_url}' ),
+		array( 'id' => 'listing_new_sub_host_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, You have a new submission of listing on {site_url}! Listing Title: {listing_title}' ),
+		array( 'id' => 'listing_new_sub_admin_info', 'type' => 'info', 'title' => 'New Submission of Listing (Admin)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_new_sub_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Listing on {site_url}' ),
+		array( 'id' => 'listing_new_sub_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, You have a new submission of listing on {site_url}! Listing Title: {listing_title}' ),
+		array( 'id' => 'listing_update_sub_host_info', 'type' => 'info', 'title' => 'Update Submission of Listing (Host)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_update_sub_host_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update Listing on {site_url}' ),
+		array( 'id' => 'listing_update_sub_host_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, You have an update submission of listing on {site_url}! Listing Title: {listing_title}' ),
+		array( 'id' => 'listing_update_sub_admin_info', 'type' => 'info', 'title' => 'Update Submission of Listing (Admin)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_update_sub_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update Listing on {site_url}' ),
+		array( 'id' => 'listing_update_sub_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, You have an update submission of listing on {site_url}! Listing Title: {listing_title}' ),
+		array( 'id' => 'listing_approved_host_info', 'type' => 'info', 'title' => 'Listing Approved (Host)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_approved_host_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Listing Approved on {site_url}' ),
+		array( 'id' => 'listing_approved_host_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, Your listing is approved. Listing Title: {listing_title}' ),
+		array( 'id' => 'listing_approved_admin_info', 'type' => 'info', 'title' => 'Listing Approved (Admin)', 'desc' => '{site_url}, {listing_title}, {listing_id}, {listing_url}, {post_status_user}', 'style' => 'info' ),
+		array( 'id' => 'listing_approved_admin_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Listing Approved on {site_url}' ),
+		array( 'id' => 'listing_approved_admin_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Hi there, Your listing is approved. Listing Title: {listing_title}' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Submission of Experiences', 'thessnest' ),
+	'id'     => 'email_experiences',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'experience_new_info', 'type' => 'info', 'title' => 'New Submission of Experience', 'desc' => '{experience_title}, {experience_id}', 'style' => 'info' ),
+		array( 'id' => 'experience_new_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'New Experience on {site_url}' ),
+		array( 'id' => 'experience_new_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'New Experience Submitted: {experience_title}' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Upgrade to Featured', 'thessnest' ),
+	'id'     => 'email_upgrade_feat',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'email_upgrade_feat_user_info', 'type' => 'info', 'title' => 'Upgrade to Featured (User Notification)', 'desc' => 'Notification about Upgrade to Featured', 'style' => 'info' ),
+		array( 'id' => 'email_upgrade_feat_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update on Upgrade to Featured' ),
+		array( 'id' => 'email_upgrade_feat_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your request for Upgrade to Featured has been processed.' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Upgrade Experience to Featured', 'thessnest' ),
+	'id'     => 'email_upgrade_exp_feat',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'email_upgrade_exp_feat_user_info', 'type' => 'info', 'title' => 'Upgrade Experience to Featured (User Notification)', 'desc' => 'Notification about Upgrade Experience to Featured', 'style' => 'info' ),
+		array( 'id' => 'email_upgrade_exp_feat_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update on Upgrade Experience to Featured' ),
+		array( 'id' => 'email_upgrade_exp_feat_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your request for Upgrade Experience to Featured has been processed.' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Verification', 'thessnest' ),
+	'id'     => 'email_verification',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'email_verification_user_info', 'type' => 'info', 'title' => 'Verification (User Notification)', 'desc' => 'Notification about Verification', 'style' => 'info' ),
+		array( 'id' => 'email_verification_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update on Verification' ),
+		array( 'id' => 'email_verification_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your request for Verification has been processed.' ),
+	),
+) );
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Wallet', 'thessnest' ),
+	'id'     => 'email_wallet',
+	'subsection' => true,
+	'fields' => array(
+		array( 'id' => 'email_wallet_user_info', 'type' => 'info', 'title' => 'Wallet (User Notification)', 'desc' => 'Notification about Wallet', 'style' => 'info' ),
+		array( 'id' => 'email_wallet_user_sub', 'type' => 'text', 'title' => 'Email Subject', 'default' => 'Update on Wallet' ),
+		array( 'id' => 'email_wallet_user_content', 'type' => 'editor', 'title' => 'Email Content', 'default' => 'Your request for Wallet has been processed.' ),
+	),
+) );
+
+
+// ═══════════════════════════════════════════════════
+
 Redux::set_section( $opt_name, array(
 	'title'  => __( 'Email Management', 'thessnest' ),
 	'id'     => 'emails',
@@ -1312,7 +1534,24 @@ Redux::set_section( $opt_name, array(
 			'type'     => 'textarea',
 			'title'    => __( 'Lease Template', 'thessnest' ),
 			'subtitle' => __( 'Use placeholders: {{landlord_name}}, {{tenant_name}}, {{property_title}}, {{property_address}}, {{checkin}}, {{checkout}}, {{rent_total}}, {{deposit}}, {{lease_number}}', 'thessnest' ),
-			'default'  => "RESIDENTIAL LEASE AGREEMENT\n\nRef: {{lease_number}}\nDate: {{generated_date}}\n\nLANDLORD: {{landlord_name}} ({{landlord_email}})\nTENANT: {{tenant_name}} ({{tenant_email}})\n\nPROPERTY: {{property_title}}\nADDRESS: {{property_address}}\n\nLEASE TERM: {{checkin}} to {{checkout}}\nTOTAL RENT: €{{rent_total}}\nSECURITY DEPOSIT: €{{deposit}}\n\nTERMS: The tenant agrees to pay the above rent for the lease period. The security deposit will be refunded within 14 days of checkout, subject to property inspection.\n\nBoth parties agree to the terms above by signing below.",
+			'default'  => "RESIDENTIAL LEASE AGREEMENT
+
+Ref: {{lease_number}}
+Date: {{generated_date}}
+
+LANDLORD: {{landlord_name}} ({{landlord_email}})
+TENANT: {{tenant_name}} ({{tenant_email}})
+
+PROPERTY: {{property_title}}
+ADDRESS: {{property_address}}
+
+LEASE TERM: {{checkin}} to {{checkout}}
+TOTAL RENT: €{{rent_total}}
+SECURITY DEPOSIT: €{{deposit}}
+
+TERMS: The tenant agrees to pay the above rent for the lease period. The security deposit will be refunded within 14 days of checkout, subject to property inspection.
+
+Both parties agree to the terms above by signing below.",
 			'required' => array( 'enable_digital_lease', '=', true ),
 		),
 	),
@@ -1403,8 +1642,6 @@ Redux::set_section( $opt_name, array(
 ) );
 
 
-// ═══════════════════════════════════════════════════
-//  SECTION: Email Management
 // ═══════════════════════════════════════════════════
 
 Redux::set_section( $opt_name, array(

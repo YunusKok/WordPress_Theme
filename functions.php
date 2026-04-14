@@ -196,6 +196,14 @@ function thessnest_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'thessnest_enqueue_assets' );
 
+/**
+ * Enqueue Admin Scripts for Custom Redux Styling auto-fill.
+ */
+function thessnest_admin_scripts( $hook ) {
+	wp_enqueue_script( 'thessnest-admin-styling', get_template_directory_uri() . '/js/admin-styling.js', array('jquery'), THESSNEST_VERSION, true );
+}
+add_action( 'admin_enqueue_scripts', 'thessnest_admin_scripts' );
+
 
 /**
  * Add preconnect hints for Google Fonts & jsDelivr CDN.
