@@ -187,48 +187,46 @@ if ( have_posts() ) {
 	     ================================================================ -->
 	<?php
 	$archive_url = get_post_type_archive_link( 'property' );
+	if ( get_theme_mod( 'quickcat_show', true ) ) :
 	?>
 	<section class="quick-categories" aria-label="<?php esc_attr_e( 'Quick categories', 'thessnest' ); ?>">
 		<div class="quick-categories-inner">
+		<?php
+		$cats = array(
+			1 => '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+			2 => '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+			3 => '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/>',
+			4 => '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+			5 => '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'
+		);
+		$cat_defaults = array(
+			1 => array( 'label' => __( 'Instant Book', 'thessnest' ),     'url' => '?instant_book=1' ),
+			2 => array( 'label' => __( 'No Agency Fee', 'thessnest' ),    'url' => '?no_agency_fee=1' ),
+			3 => array( 'label' => __( 'Student Housing', 'thessnest' ),  'url' => '?target_group=student' ),
+			4 => array( 'label' => __( 'Nomad Workspace', 'thessnest' ),  'url' => '?target_group=digital-nomad' ),
+			5 => array( 'label' => __( 'Verified Only', 'thessnest' ),    'url' => '?verified=1' ),
+		);
 
-			<a href="<?php echo esc_url( add_query_arg( 'instant_book', '1', $archive_url ) ); ?>" class="category-pill">
-				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-				</svg>
-				<?php esc_html_e( 'Instant Book', 'thessnest' ); ?>
-			</a>
-
-			<a href="<?php echo esc_url( add_query_arg( 'no_agency_fee', '1', $archive_url ) ); ?>" class="category-pill">
-				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-				</svg>
-				<?php esc_html_e( 'No Agency Fee', 'thessnest' ); ?>
-			</a>
-
-			<a href="<?php echo esc_url( add_query_arg( 'target_group', 'student', $archive_url ) ); ?>" class="category-pill">
-				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/>
-				</svg>
-				<?php esc_html_e( 'Student Housing', 'thessnest' ); ?>
-			</a>
-
-			<a href="<?php echo esc_url( add_query_arg( 'target_group', 'digital-nomad', $archive_url ) ); ?>" class="category-pill">
-				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-				</svg>
-				<?php esc_html_e( 'Nomad Workspace', 'thessnest' ); ?>
-			</a>
-
-			<a href="<?php echo esc_url( add_query_arg( 'verified', '1', $archive_url ) ); ?>" class="category-pill">
-				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-					<path d="M9 12l2 2 4-4"/>
-				</svg>
-				<?php esc_html_e( 'Verified Only', 'thessnest' ); ?>
-			</a>
-
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$raw_url = get_theme_mod( 'quickcat_' . $i . '_url', $cat_defaults[$i]['url'] );
+			// If it's a URL query parameter starting with '?', append to archive, otherwise use raw
+			$final_url = ( strpos( $raw_url, '?' ) === 0 ) ? $archive_url . $raw_url : $raw_url;
+			$label = get_theme_mod( 'quickcat_' . $i . '_label', $cat_defaults[$i]['label'] );
+			
+			if ( ! $label ) continue;
+			
+			$is_link   = ! empty( $raw_url ) && '#' !== $raw_url;
+			$tag_open  = $is_link ? '<a href="' . esc_url( $final_url ) . '" class="category-pill">' : '<div class="category-pill" style="cursor:default;">';
+			$tag_close = $is_link ? '</a>' : '</div>';
+			?>
+			<?php echo $tag_open; ?>
+				<svg class="cat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?php echo $cats[$i]; ?></svg>
+				<?php echo esc_html( $label ); ?>
+			<?php echo $tag_close; ?>
+		<?php } ?>
 		</div>
 	</section>
+	<?php endif; ?>
 
 
 	<!-- ================================================================

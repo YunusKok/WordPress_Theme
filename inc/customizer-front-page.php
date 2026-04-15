@@ -111,7 +111,55 @@ function thessnest_front_page_customize_register( $wp_customize ) {
 		) );
 	}
 
+	// =========================================================
+	// SECTION: QUICK CATEGORIES
+	// =========================================================
+	$wp_customize->add_section( 'thessnest_quickcat_section', array(
+		'title'       => __( 'Quick Categories (Tags)', 'thessnest' ),
+		'panel'       => 'thessnest_homepage_panel',
+		'priority'    => 17,
+	) );
 
+	$wp_customize->add_setting( 'quickcat_show', array(
+		'default'           => true,
+		'sanitize_callback' => 'thessnest_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'quickcat_show', array(
+		'label'       => __( 'Show Quick Categories', 'thessnest' ),
+		'section'     => 'thessnest_quickcat_section',
+		'type'        => 'checkbox',
+	) );
+
+	$cat_defaults = array(
+		1 => array( 'label' => __( 'Instant Book', 'thessnest' ),     'url' => '?instant_book=1' ),
+		2 => array( 'label' => __( 'No Agency Fee', 'thessnest' ),    'url' => '?no_agency_fee=1' ),
+		3 => array( 'label' => __( 'Student Housing', 'thessnest' ),  'url' => '?target_group=student' ),
+		4 => array( 'label' => __( 'Nomad Workspace', 'thessnest' ),  'url' => '?target_group=digital-nomad' ),
+		5 => array( 'label' => __( 'Verified Only', 'thessnest' ),    'url' => '?verified=1' ),
+	);
+
+	for ( $i = 1; $i <= 5; $i++ ) {
+		$wp_customize->add_setting( 'quickcat_' . $i . '_label', array(
+			'default'           => $cat_defaults[ $i ]['label'],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'quickcat_' . $i . '_label', array(
+			'label'       => sprintf( __( 'Tag %d Label', 'thessnest' ), $i ),
+			'section'     => 'thessnest_quickcat_section',
+			'type'        => 'text',
+		) );
+
+		$wp_customize->add_setting( 'quickcat_' . $i . '_url', array(
+			'default'           => $cat_defaults[ $i ]['url'],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'quickcat_' . $i . '_url', array(
+			'label'       => sprintf( __( 'Tag %d URL/Query', 'thessnest' ), $i ),
+			'description' => __( 'Enter full URL or just the query part (e.g. ?instant_book=1)', 'thessnest' ),
+			'section'     => 'thessnest_quickcat_section',
+			'type'        => 'text',
+		) );
+	}
 	// =========================================================
 	// SECTION: FEATURED PROPERTIES
 	// =========================================================
