@@ -70,61 +70,94 @@ function thessnest_wrap_email_in_html( $args ) {
 		if ( ! empty( $opt['email_btn_color'] ) ) $btn_color = $opt['email_btn_color'];
 	}
 
+	// 1. Build Header Block
+	$header_block = '';
+	if ( class_exists( 'Redux' ) && ! empty( $opt['email_enable_custom_header'] ) ) {
+		$header_block = '<div class="email-header custom-header" style="background-color: ' . esc_attr( $header_bg ) . ';">' . do_shortcode( $opt['email_custom_header_content'] ) . '</div>';
+	} else {
+		$header_block = '
+					<div class="email-header">
+						<a href="' . esc_url( $site_url ) . '">
+							<img src="' . esc_url( $logo_url ) . '" alt="' . esc_attr( $site_name ) . '">
+						</a>
+					</div>';
+	}
+
+	// 2. Build Footer Block
+	$footer_block = '';
+	if ( class_exists( 'Redux' ) && ! empty( $opt['email_enable_custom_footer'] ) ) {
+		$footer_block = '<div class="email-footer custom-footer" style="background-color: ' . esc_attr( $footer_bg ) . ';">' . do_shortcode( $opt['email_custom_footer_content'] ) . '</div>';
+	} else {
+		$footer_block = '
+					<div class="email-footer">
+						<p>' . wp_kses_post( $footer_text ) . '</p>
+						<p style="margin-top: 8px;">
+							<a href="' . esc_url( $site_url ) . '">' . esc_html__( 'Visit Website', 'thessnest' ) . '</a>
+						</p>
+					</div>';
+	}
+
 	// Format line breaks for HTML
 	$formatted_message = wpautop( $message );
 
-	// Build the Premium HTML Wrapper
-	$html = '
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>' . esc_html( $subject ) . '</title>
-		<style>
-			body { margin: 0; padding: 0; background-color: ' . esc_attr( $bg_color ) . '; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-			.email-wrapper { width: 100%; table-layout: fixed; background-color: ' . esc_attr( $bg_color ) . '; padding-top: 40px; padding-bottom: 40px; }
-			.email-container { max-width: 600px; margin: 0 auto; background-color: ' . esc_attr( $body_bg ) . '; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
-			.email-header { padding: 32px 40px; text-align: center; border-bottom: 1px solid #e2e8f0; background-color: ' . esc_attr( $header_bg ) . '; }
-			.email-header img { max-height: 48px; width: auto; }
-			.email-body { padding: 40px; color: ' . esc_attr( $text_color ) . '; font-size: 16px; line-height: 1.6; background-color: ' . esc_attr( $body_bg ) . '; }
-			.email-body h1, .email-body h2, .email-body h3 { color: ' . esc_attr( $text_color ) . '; margin-top: 0; margin-bottom: 20px; font-weight: 600; }
-			.email-body p { margin-top: 0; margin-bottom: 16px; }
-			.email-footer { background-color: ' . esc_attr( $footer_bg ) . '; padding: 24px 40px; text-align: center; border-top: 1px solid #e2e8f0; }
-			.email-footer p { margin: 0; font-size: 13px; color: ' . esc_attr( $text_color ) . '; line-height: 1.5; opacity: 0.8; }
-			.email-footer a { color: ' . esc_attr( $btn_color ) . '; text-decoration: none; }
-			.btn { display: inline-block; padding: 12px 24px; background-color: ' . esc_attr( $btn_color ) . '; color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: 600; margin-top: 16px; margin-bottom: 16px; }
-		</style>
-	</head>
-	<body>
-		<div class="email-wrapper">
-			<div class="email-container">
-				
-				<!-- Header -->
-				<div class="email-header">
-					<a href="' . esc_url( $site_url ) . '">
-						<img src="' . esc_url( $logo_url ) . '" alt="' . esc_attr( $site_name ) . '">
-					</a>
-				</div>
-				
-				<!-- Body Content -->
-				<div class="email-body">
-					' . $formatted_message . '
-				</div>
+	// Check for custom HTML wrapper template from Redux
+	$custom_wrapper = '';
+	if ( class_exists( 'Redux' ) && ! empty( $opt['email_custom_html_wrapper'] ) ) {
+		$custom_wrapper = $opt['email_custom_html_wrapper'];
+	}
 
-				<!-- Footer -->
-				<div class="email-footer">
-					<p>' . wp_kses_post( $footer_text ) . '</p>
-					<p style="margin-top: 8px;">
-						<a href="' . esc_url( $site_url ) . '">' . esc_html__( 'Visit Website', 'thessnest' ) . '</a>
-					</p>
-				</div>
+	if ( ! empty( $custom_wrapper ) ) {
+		// Use the custom wrapper provided by the user
+		$html = str_replace(
+			array( '{{CONTENT}}', '{{HEADER_BLOCK}}', '{{FOOTER_BLOCK}}', '{{LOGO_URL}}', '{{SITE_NAME}}', '{{SITE_URL}}', '{{FOOTER_TEXT}}' ),
+			array( $formatted_message, $header_block, $footer_block, esc_url( $logo_url ), esc_html( $site_name ), esc_url( $site_url ), wp_kses_post( $footer_text ) ),
+			$custom_wrapper
+		);
+	} else {
+		// Build the default Premium HTML Wrapper
+		$html = '
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>' . esc_html( $subject ) . '</title>
+			<style>
+				body { margin: 0; padding: 0; background-color: ' . esc_attr( $bg_color ) . '; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+				.email-wrapper { width: 100%; table-layout: fixed; background-color: ' . esc_attr( $bg_color ) . '; padding-top: 40px; padding-bottom: 40px; }
+				.email-container { max-width: 600px; margin: 0 auto; background-color: ' . esc_attr( $body_bg ) . '; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+				.email-header { padding: 32px 40px; text-align: center; border-bottom: 1px solid #e2e8f0; background-color: ' . esc_attr( $header_bg ) . '; }
+				.email-header img { max-height: 48px; width: auto; }
+				.email-body { padding: 40px; color: ' . esc_attr( $text_color ) . '; font-size: 16px; line-height: 1.6; background-color: ' . esc_attr( $body_bg ) . '; }
+				.email-body h1, .email-body h2, .email-body h3 { color: ' . esc_attr( $text_color ) . '; margin-top: 0; margin-bottom: 20px; font-weight: 600; }
+				.email-body p { margin-top: 0; margin-bottom: 16px; }
+				.email-footer { background-color: ' . esc_attr( $footer_bg ) . '; padding: 24px 40px; text-align: center; border-top: 1px solid #e2e8f0; }
+				.email-footer p { margin: 0; font-size: 13px; color: ' . esc_attr( $text_color ) . '; line-height: 1.5; opacity: 0.8; }
+				.email-footer a { color: ' . esc_attr( $btn_color ) . '; text-decoration: none; }
+				.btn { display: inline-block; padding: 12px 24px; background-color: ' . esc_attr( $btn_color ) . '; color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: 600; margin-top: 16px; margin-bottom: 16px; }
+			</style>
+		</head>
+		<body>
+			<div class="email-wrapper">
+				<div class="email-container">
+					
+					<!-- Header -->
+					' . $header_block . '
+					
+					<!-- Body Content -->
+					<div class="email-body">
+						' . $formatted_message . '
+					</div>
 
+					<!-- Footer -->
+					' . $footer_block . '
+
+				</div>
 			</div>
-		</div>
-	</body>
-	</html>
-	';
+		</body>
+		</html>
+		';
+	}
 
 	// Replace the original message with the wrapped HTML
 	$args['message'] = $html;

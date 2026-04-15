@@ -1030,16 +1030,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (triggerMoveIn) {
 			triggerMoveIn.addEventListener('click', (e) => {
 				e.stopPropagation();
-				if (fpOut) fpOut.close();
-				fpIn.open();
+			if (fpOut) {
+					if (Array.isArray(fpOut)) fpOut[0].close();
+					else if (fpOut.close) fpOut.close();
+				}
+				if (fpIn && !Array.isArray(fpIn) && fpIn.open) fpIn.open();
+				else if (fpIn && Array.isArray(fpIn) && fpIn[0].open) fpIn[0].open();
 			});
 		}
 
 		if (triggerMoveOut) {
 			triggerMoveOut.addEventListener('click', (e) => {
 				e.stopPropagation();
-				if (fpIn) fpIn.close();
-				fpOut.open();
+				if (fpIn) {
+					if (Array.isArray(fpIn)) fpIn[0].close();
+					else if (fpIn.close) fpIn.close();
+				}
+				if (fpOut && !Array.isArray(fpOut) && fpOut.open) fpOut.open();
+				else if (fpOut && Array.isArray(fpOut) && fpOut[0].open) fpOut[0].open();
 			});
 		}
 	}
@@ -1108,8 +1116,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			e.stopPropagation();
 
 			// Close date pickers
-			if (fpIn) fpIn.close();
-			if (fpOut) fpOut.close();
+			if (fpIn) {
+				if (Array.isArray(fpIn)) fpIn[0].close();
+				else if (fpIn.close) fpIn.close();
+			}
+			if (fpOut) {
+				if (Array.isArray(fpOut)) fpOut[0].close();
+				else if (fpOut.close) fpOut.close();
+			}
 
 			if (guestModal.classList.contains('is-open')) {
 				closeGuestModal();

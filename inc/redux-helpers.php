@@ -312,7 +312,8 @@ function thessnest_output_topbar() {
 	</div>
 	<?php
 }
-add_action( 'wp_body_open', 'thessnest_output_topbar', 1 );
+// Removed unhooked action so it can be called explicitly inside header.php
+// add_action( 'wp_body_open', 'thessnest_output_topbar', 1 );
 
 
 /* ==========================================================================

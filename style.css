@@ -199,14 +199,56 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition-slow);
 }
 
-.site-header.scrolled {
+/* --- Header Styles: Modern (Default) --- */
+.site-header.header-style-modern.scrolled {
   top: var(--space-4);
   width: 92%;
   max-width: 1000px;
   border-radius: var(--radius-full);
-  background: var(--glass-bg); /* Full transparent glass instead of solid card bg */
+  background: var(--glass-bg); /* Full transparent glass */
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow-lg), var(--glass-inner-glow-strong);
+}
+
+/* --- Header Styles: Classic --- */
+.site-header.header-style-classic {
+  background: var(--color-surface);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: none;
+}
+.site-header.header-style-classic.scrolled {
+  top: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: var(--color-surface);
+}
+
+/* --- Header Styles: Transparent --- */
+.site-header.header-style-transparent {
+  position: absolute;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+}
+.site-header.header-style-transparent.scrolled {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  background: var(--color-surface);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 /* Admin Bar Offset for Sticky Header */
@@ -898,7 +940,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-dropdown.is-open {
-  display: block;
+  display: block !important;
 }
 
 @keyframes glassDropdownIn {

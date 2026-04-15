@@ -26,8 +26,13 @@ if ( function_exists( 'wp_body_open' ) ) {
 }
 ?>
 
+<?php
+$header_style = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'header_style' ) : 'modern';
+$header_classes = 'site-header header-style-' . esc_attr( $header_style );
+?>
 <!-- ===== SITE HEADER ===== -->
-<header class="site-header" id="site-header" role="banner">
+<header class="<?php echo esc_attr( $header_classes ); ?>" id="site-header" role="banner">
+	<?php if ( function_exists( 'thessnest_output_topbar' ) ) { thessnest_output_topbar(); } ?>
 	<div class="header-inner">
 
 		<!-- Logo -->

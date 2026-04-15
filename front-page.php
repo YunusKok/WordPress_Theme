@@ -376,17 +376,34 @@ if ( have_posts() ) {
 		<div class="container">
 			<div class="stats-grid">
 				<?php
+				// Pull live data from the site
+				$prop_counts = wp_count_posts( 'property' );
+				$dyn_properties = isset( $prop_counts->publish ) ? (int) $prop_counts->publish : 0;
+				
+				$user_counts = count_users();
+				$dyn_tenants = isset( $user_counts['total_users'] ) ? (int) $user_counts['total_users'] : 0;
+				
+				$dyn_neighborhoods = wp_count_terms( array( 'taxonomy' => 'neighborhood', 'hide_empty' => false ) );
+				if ( is_wp_error( $dyn_neighborhoods ) ) {
+					$dyn_neighborhoods = 0;
+				}
+
+				$dyn_satisfaction = get_theme_mod( 'stat_4_number', '98' );
+
 				$stat_defaults = array(
-					1 => array( 'number' => '500',  'suffix' => '+', 'label' => __( 'Properties Listed', 'thessnest' ) ),
-					2 => array( 'number' => '1200', 'suffix' => '+', 'label' => __( 'Happy Tenants', 'thessnest' ) ),
-					3 => array( 'number' => '50',   'suffix' => '+', 'label' => __( 'Neighborhoods', 'thessnest' ) ),
-					4 => array( 'number' => '98',   'suffix' => '%', 'label' => __( 'Satisfaction Rate', 'thessnest' ) ),
+					1 => array( 'suffix' => '+', 'label' => __( 'Properties Listed', 'thessnest' ), 'dyn_val' => $dyn_properties ),
+					2 => array( 'suffix' => '+', 'label' => __( 'Happy Tenants', 'thessnest' ),     'dyn_val' => $dyn_tenants ),
+					3 => array( 'suffix' => '+', 'label' => __( 'Neighborhoods', 'thessnest' ),     'dyn_val' => $dyn_neighborhoods ),
+					4 => array( 'suffix' => '%', 'label' => __( 'Satisfaction Rate', 'thessnest' ), 'dyn_val' => $dyn_satisfaction ),
 				);
+
 				for ( $i = 1; $i <= 4; $i++ ) :
-					$number = get_theme_mod( 'stat_' . $i . '_number', $stat_defaults[ $i ]['number'] );
+					// Bypass the Customizer static number logic and force real-time data
+					$number = $stat_defaults[ $i ]['dyn_val'];
 					$suffix = get_theme_mod( 'stat_' . $i . '_suffix', $stat_defaults[ $i ]['suffix'] );
 					$label  = get_theme_mod( 'stat_' . $i . '_label',  $stat_defaults[ $i ]['label'] );
-					if ( ! $number ) continue;
+					
+					if ( $number === '' || $number === false ) continue;
 				?>
 				<div class="stat-item">
 					<span class="stat-number" data-count="<?php echo esc_attr( $number ); ?>">0</span><span class="stat-suffix"><?php echo esc_html( $suffix ); ?></span>
