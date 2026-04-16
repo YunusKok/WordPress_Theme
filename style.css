@@ -558,14 +558,24 @@ h1, h2, h3, h4, h5, h6 {
   background-position: center;
   background-repeat: no-repeat;
   padding: var(--space-20) var(--space-4);
-  overflow: hidden;
+  /* overflow: hidden; Removed to allow search dropdowns to show over other sections */
+  z-index: 10;
 }
 
 @media (min-width: 768px) {
   .hero-section { min-height: 640px; padding: var(--space-24) var(--space-8); }
 }
 
-/* Dark overlay */
+/* New wrapper to contain background effects and prevent them from bleeding while allowing modals to overflow */
+.hero-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dark overlay moved to pseudo-element of the bg-wrapper or just keep it here but adjusted */
 .hero-section::before {
   content: '';
   position: absolute;
@@ -921,33 +931,35 @@ h1, h2, h3, h4, h5, h6 {
 .glass-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 15px);
   right: 0;
   left: auto;
-  width: 320px;
-  background: rgba(255, 255, 255, 0.82);
-  -webkit-backdrop-filter: blur(40px) saturate(2);
-  backdrop-filter: blur(40px) saturate(2);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  width: 360px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(50px) saturate(210%);
+  backdrop-filter: blur(50px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--radius-2xl);
   padding: 0;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
-              0 4px 16px rgba(0, 0, 0, 0.06),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-  z-index: 200;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.15),
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  z-index: 10000; /* Ensure it stays on top of everything */
   cursor: default;
   overflow: hidden;
-  animation: glassDropdownIn 250ms var(--ease-out-expo) forwards;
+  transform-origin: top right;
+  animation: modalScaleIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .glass-dropdown.is-open {
   display: block !important;
 }
 
-@keyframes glassDropdownIn {
+@keyframes modalScaleIn {
   from {
     opacity: 0;
-    transform: translateY(-8px) scale(0.96);
+    transform: translateY(-10px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -1102,21 +1114,27 @@ h1, h2, h3, h4, h5, h6 {
 /* Mobile: full-width dropdown centered */
 @media (max-width: 767px) {
   .glass-dropdown {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: calc(100vw - 40px);
-    max-width: 360px;
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+    width: calc(100% - 30px);
+    max-width: none;
+    transform: none;
+    transform-origin: bottom center;
+    animation: modalSlideUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    border-radius: 24px;
   }
 
-  @keyframes glassDropdownIn {
+  @keyframes modalSlideUp {
     from {
       opacity: 0;
-      transform: translateX(-50%) translateY(-8px) scale(0.96);
+      transform: translateY(100%) scale(0.95);
     }
     to {
       opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
+      transform: translateY(0) scale(1);
     }
   }
 }
@@ -1134,16 +1152,18 @@ h1, h2, h3, h4, h5, h6 {
 
 .flatpickr-calendar {
   background: rgba(255, 255, 255, 0.88) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(2) !important;
-  backdrop-filter: blur(40px) saturate(2) !important;
+  -webkit-backdrop-filter: blur(50px) saturate(210%) !important;
+  backdrop-filter: blur(50px) saturate(210%) !important;
   border-radius: var(--radius-2xl) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12),
-              0 4px 16px rgba(0, 0, 0, 0.06),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.15),
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
   padding: var(--space-4) !important;
   font-family: var(--font-family) !important;
-  animation: glassDropdownIn 250ms var(--ease-out-expo) forwards !important;
+  animation: modalScaleIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  z-index: 10000 !important;
 }
 
 .flatpickr-months {

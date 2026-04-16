@@ -956,11 +956,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let fpIn, fpOut;
 
+	// Helper to close all modals/pickers except the current one
+	const closeAllSearchModals = (exclude = null) => {
+		if (fpIn && fpIn !== exclude) fpIn.close();
+		if (fpOut && fpOut !== exclude) fpOut.close();
+		if (typeof window.closeGuestModal === 'function' && exclude !== 'guest') {
+			window.closeGuestModal();
+		}
+		
+		// Only remove active from those NOT being opened
+		document.querySelectorAll('.search-field').forEach(el => {
+			if (!exclude || !el.contains(exclude.element || document.querySelector('#null'))) {
+				// el.classList.remove('is-active'); // We handle active state in onOpen/onClose
+			}
+		});
+	};
+
 	if (typeof flatpickr !== 'undefined' && homeDateInEl && homeDateOutEl) {
-		// Move-In Flatpickr
-		fpIn = flatpickr(homeDateInEl, {
+		const fpConfig = {
 			minDate: 'today',
 			disableMobile: true,
+			appendTo: document.body, // Solve z-index and clipping issues
+			onOpen: function(selectedDates, dateStr, instance) {
+				closeAllSearchModals(instance); // Close others before opening
+				if (instance.element.id === 'home_date_in_picker') {
+					if (triggerMoveIn) triggerMoveIn.classList.add('is-active');
+				} else {
+					if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
+				}
+			},
+			onClose: function(selectedDates, dateStr, instance) {
+				if (instance.element.id === 'home_date_in_picker') {
+					if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
+				} else {
+					if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
+				}
+			}
+		};
+
+		// Move-In Flatpickr
+		fpIn = flatpickr(homeDateInEl, {
+			...fpConfig,
 			onChange: function(selectedDates, dateStr, instance) {
 				if (selectedDates.length > 0) {
 					const formatted = instance.formatDate(selectedDates[0], 'M j, Y');
@@ -971,27 +1007,15 @@ document.addEventListener('DOMContentLoaded', () => {
 					if (homeMoveInInput) {
 						homeMoveInInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
 					}
-					// Set active state
-					if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
 
 					// Update Move-out minimum and auto-open it (Homey behavior)
 					if (fpOut) {
 						let minOut = new Date(selectedDates[0]);
 						minOut.setDate(minOut.getDate() + 1);
 						fpOut.set('minDate', minOut);
-						setTimeout(() => {
-							if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
-							fpOut.open();
-						}, 150);
+						setTimeout(() => fpOut.open(), 100);
 					}
 				}
-			},
-			onOpen: function() {
-				if (triggerMoveIn) triggerMoveIn.classList.add('is-active');
-				if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
-			},
-			onClose: function() {
-				if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
 			}
 		});
 
@@ -1000,10 +1024,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		initialMinOut.setDate(initialMinOut.getDate() + 1);
 
 		fpOut = flatpickr(homeDateOutEl, {
+			...fpConfig,
 			minDate: initialMinOut,
-			disableMobile: true,
-			appendTo: triggerMoveOut || undefined,
-			positionElement: triggerMoveOut || undefined,
 			onChange: function(selectedDates, dateStr, instance) {
 				if (selectedDates.length > 0) {
 					const formatted = instance.formatDate(selectedDates[0], 'M j, Y');
@@ -1014,15 +1036,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					if (homeMoveOutInput) {
 						homeMoveOutInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
 					}
-					if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
 				}
-			},
-			onOpen: function() {
-				if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
-				if (triggerMoveIn) triggerMoveIn.classList.remove('is-active');
-			},
-			onClose: function() {
-				if (triggerMoveOut) triggerMoveOut.classList.remove('is-active');
 			}
 		});
 
@@ -1030,24 +1044,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (triggerMoveIn) {
 			triggerMoveIn.addEventListener('click', (e) => {
 				e.stopPropagation();
-			if (fpOut) {
-					if (Array.isArray(fpOut)) fpOut[0].close();
-					else if (fpOut.close) fpOut.close();
-				}
-				if (fpIn && !Array.isArray(fpIn) && fpIn.open) fpIn.open();
-				else if (fpIn && Array.isArray(fpIn) && fpIn[0].open) fpIn[0].open();
+				fpIn.open();
 			});
 		}
 
 		if (triggerMoveOut) {
 			triggerMoveOut.addEventListener('click', (e) => {
 				e.stopPropagation();
-				if (fpIn) {
-					if (Array.isArray(fpIn)) fpIn[0].close();
-					else if (fpIn.close) fpIn.close();
-				}
-				if (fpOut && !Array.isArray(fpOut) && fpOut.open) fpOut.open();
-				else if (fpOut && Array.isArray(fpOut) && fpOut[0].open) fpOut[0].open();
+				fpOut.open();
 			});
 		}
 	}
@@ -1072,58 +1076,48 @@ document.addEventListener('DOMContentLoaded', () => {
 	let adultsCount   = 1;
 	let childrenCount = 0;
 
-	function updateGuestDisplay() {
+	// Export these functions for global use in search bar
+	window.updateGuestDisplay = function() {
 		const total = adultsCount + childrenCount;
 		if (adultsCountEl) adultsCountEl.textContent = adultsCount;
 		if (childrenCountEl) childrenCountEl.textContent = childrenCount;
 		if (guestInput) guestInput.value = total;
 
-		// Update stepper disabled states
 		if (adultsDec) adultsDec.disabled = adultsCount <= 1;
 		if (adultsInc) adultsInc.disabled = adultsCount >= 16;
 		if (childrenDec) childrenDec.disabled = childrenCount <= 0;
 		if (childrenInc) childrenInc.disabled = childrenCount >= 8;
 
-		// Build display text
 		let parts = [];
-		if (adultsCount > 0) parts.push(adultsCount + (adultsCount === 1 ? ' Adult' : ' Adults'));
-		if (childrenCount > 0) parts.push(childrenCount + (childrenCount === 1 ? ' Child' : ' Children'));
+		if (adultsCount > 1) parts.push(adultsCount + ' Adults');
+		else if (adultsCount === 1) parts.push('1 Adult');
+		
+		if (childrenCount > 1) parts.push(childrenCount + ' Children');
+		else if (childrenCount === 1) parts.push('1 Child');
 
 		if (guestVal) {
 			guestVal.textContent = parts.join(', ') || '1 Guest';
-			if (total > 1 || childrenCount > 0) {
-				guestVal.classList.add('has-value');
-			}
+			if (total > 1 || childrenCount > 0) guestVal.classList.add('has-value');
 		}
-	}
+	};
 
-	function openGuestModal() {
+	window.openGuestModal = function() {
 		if (!guestModal) return;
+		closeAllSearchModals('guest'); // Close others before opening
 		guestModal.classList.add('is-open');
 		if (guestTrigger) guestTrigger.classList.add('is-active');
-	}
+	};
 
-	function closeGuestModal() {
+	window.closeGuestModal = function() {
 		if (!guestModal) return;
 		guestModal.classList.remove('is-open');
 		if (guestTrigger) guestTrigger.classList.remove('is-active');
-	}
+	};
 
 	if (guestTrigger && guestModal) {
 		guestTrigger.addEventListener('click', (e) => {
-			// Don't toggle if clicking inside the modal itself
 			if (e.target.closest('#guest-selector-modal')) return;
 			e.stopPropagation();
-
-			// Close date pickers
-			if (fpIn) {
-				if (Array.isArray(fpIn)) fpIn[0].close();
-				else if (fpIn.close) fpIn.close();
-			}
-			if (fpOut) {
-				if (Array.isArray(fpOut)) fpOut[0].close();
-				else if (fpOut.close) fpOut.close();
-			}
 
 			if (guestModal.classList.contains('is-open')) {
 				closeGuestModal();
@@ -1132,7 +1126,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		// Close button
 		if (guestModalClose) {
 			guestModalClose.addEventListener('click', (e) => {
 				e.stopPropagation();
@@ -1140,7 +1133,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 
-		// Apply button
 		if (guestApplyBtn) {
 			guestApplyBtn.addEventListener('click', (e) => {
 				e.stopPropagation();
@@ -1149,54 +1141,28 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 
-		// Close when clicking outside
+		// Close search modals on escape
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') closeAllSearchModals();
+		});
+
+		// Close search modals when clicking outside
 		document.addEventListener('click', (e) => {
-			if (!guestTrigger.contains(e.target)) {
-				closeGuestModal();
+			// If clicking outside the search bar area or active flatpickr
+			const isInsideSearchBar = e.target.closest('.search-bar--booking-style');
+			const isInsideFlatpickr = e.target.closest('.flatpickr-calendar');
+			
+			if (!isInsideSearchBar && !isInsideFlatpickr) {
+				closeAllSearchModals();
 			}
 		});
 
-		// Stepper buttons — Adults
-		if (adultsInc) {
-			adultsInc.addEventListener('click', (e) => {
-				e.stopPropagation();
-				if (adultsCount < 16) {
-					adultsCount++;
-					updateGuestDisplay();
-				}
-			});
-		}
-		if (adultsDec) {
-			adultsDec.addEventListener('click', (e) => {
-				e.stopPropagation();
-				if (adultsCount > 1) {
-					adultsCount--;
-					updateGuestDisplay();
-				}
-			});
-		}
+		// Stepper listeners...
+		adultsInc?.addEventListener('click', (e) => { e.stopPropagation(); if (adultsCount < 16) { adultsCount++; updateGuestDisplay(); } });
+		adultsDec?.addEventListener('click', (e) => { e.stopPropagation(); if (adultsCount > 1) { adultsCount--; updateGuestDisplay(); } });
+		childrenInc?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount < 8) { childrenCount++; updateGuestDisplay(); } });
+		childrenDec?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount > 0) { childrenCount--; updateGuestDisplay(); } });
 
-		// Stepper buttons — Children
-		if (childrenInc) {
-			childrenInc.addEventListener('click', (e) => {
-				e.stopPropagation();
-				if (childrenCount < 8) {
-					childrenCount++;
-					updateGuestDisplay();
-				}
-			});
-		}
-		if (childrenDec) {
-			childrenDec.addEventListener('click', (e) => {
-				e.stopPropagation();
-				if (childrenCount > 0) {
-					childrenCount--;
-					updateGuestDisplay();
-				}
-			});
-		}
-
-		// Initialize display
 		updateGuestDisplay();
 	}
 

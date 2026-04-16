@@ -37,10 +37,12 @@ if ( have_posts() ) {
 	?>
 	<section class="hero-section" style="background-image:url('<?php echo esc_url( $hero_bg_image ); ?>');" aria-label="<?php esc_attr_e( 'Search for housing', 'thessnest' ); ?>">
 
-		<!-- Animated Gradient Orbs -->
-		<div class="hero-orb hero-orb--1" aria-hidden="true"></div>
-		<div class="hero-orb hero-orb--2" aria-hidden="true"></div>
-		<div class="hero-orb hero-orb--3" aria-hidden="true"></div>
+		<!-- Background & Animated Gradient Orbs -->
+		<div class="hero-bg-wrapper" aria-hidden="true">
+			<div class="hero-orb hero-orb--1"></div>
+			<div class="hero-orb hero-orb--2"></div>
+			<div class="hero-orb hero-orb--3"></div>
+		</div>
 
 		<div class="hero-content">
 
