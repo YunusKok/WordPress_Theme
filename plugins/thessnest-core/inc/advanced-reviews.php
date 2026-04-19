@@ -42,6 +42,7 @@ class ThessNest_Advanced_Reviews {
 			'communication' => __( 'Communication', 'thessnest' ),
 			'location'      => __( 'Location', 'thessnest' ),
 			'value'         => __( 'Value', 'thessnest' ),
+			'checkin'       => __( 'Check-in', 'thessnest' ),
 		];
 
 		echo '<div class="thessnest-rating-fields" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:25px; padding:20px; background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg);">';
@@ -105,7 +106,7 @@ class ThessNest_Advanced_Reviews {
 	 * Save Meta
 	 */
 	public function save_rating_meta( $comment_id ) {
-		$keys = ['cleanliness', 'communication', 'location', 'value'];
+		$keys = ['cleanliness', 'communication', 'location', 'value', 'checkin'];
 		$total = 0;
 
 		foreach ( $keys as $key ) {

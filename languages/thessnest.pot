@@ -1,8 +1,12 @@
+# ThessNest Translation Template
+# Copyright (C) 2026 ThessNest Team
+# This file is distributed under the same license as the ThessNest package.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: ThessNest 1.0.0\n"
+"Project-Id-Version: ThessNest 2.0.0\n"
 "Report-Msgid-Bugs-To: https://thessnest.com/support\n"
-"POT-Creation-Date: 2026-04-01 21:00:00+00:00\n"
+"POT-Creation-Date: 2026-04-19 00:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,3 +15,3295 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_attr__;esc_html_e;esc_attr_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Generator: ThessNest Build Script 2.0\n"
+
+#: template-dashboard.php
+msgid "— Select —"
+msgstr ""
+
+#: template-dashboard.php
+msgid "-- Select a Property --"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "\"No Platform Fees\" Badge"
+msgstr ""
+
+#: front-page.php
+msgid "%d out of 5 stars"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "%d Pending"
+msgstr ""
+
+#: archive-property.php
+msgid "%s Properties"
+msgstr ""
+
+#: inc/redux-config.php
+#: inc/redux-helpers.php
+msgid "/ month"
+msgstr ""
+
+#: inc/redux-config.php
+#: inc/redux-helpers.php
+msgid "/ night"
+msgstr ""
+
+#: inc/redux-config.php
+#: inc/redux-helpers.php
+msgid "/ week"
+msgstr ""
+
+#: archive-property.php
+msgid "+ 1 km"
+msgstr ""
+
+#: archive-property.php
+msgid "+ 10 km"
+msgstr ""
+
+#: archive-property.php
+msgid "+ 5 km"
+msgstr ""
+
+#: template-dashboard.php
+msgid "+ Add New Property"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "1 Column"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "2 Columns"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "3 Columns"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "4 Columns"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "404 Image"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "404 Message"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "404 Page Title"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "A short description of your platform."
+msgstr ""
+
+#: functions.php
+msgid "About"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Accent Color"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Accept"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Accept Button Text"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Accommodation Proof"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Active"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Active Listings"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Add Custom Price Period"
+msgstr ""
+
+#: front-page.php
+msgid "Add dates"
+msgstr ""
+
+#: header.php
+msgid "Add Listing"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Add New Listing"
+msgstr ""
+
+#: inc/admin-menu.php
+#: template-add-listing.php
+msgid "Add New Property"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Add Seasonal Rate"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Add your own CSS rules. No &lt;style&gt; tags needed."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Additional Service Fee (€)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Address"
+msgstr ""
+
+#: front-page.php
+msgid "Adults"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Advanced Pricing Rules"
+msgstr ""
+
+#: inc/ocdi-config.php
+msgid "After importing this demo, wait a few moments. All properties, menus, and Redux settings will be configured automatically."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "After Login Redirect URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "After price (100€)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Age"
+msgstr ""
+
+#: front-page.php
+msgid "Age 18+"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Age Range"
+msgstr ""
+
+#: front-page.php
+msgid "Ages 2–17"
+msgstr ""
+
+#: archive-property.php
+msgid "All Groups"
+msgstr ""
+
+#: archive-property.php
+msgid "All Neighborhoods"
+msgstr ""
+
+#: inc/admin-menu.php
+#: archive-property.php
+#: footer.php
+msgid "All Properties"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Allow Registration"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Allow tenants to book immediately without landlord approval."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Allow users to close the top bar."
+msgstr ""
+
+#: inc/admin-menu.php
+#: archive-property.php
+#: single-property.php
+#: template-add-listing.php
+msgid "Amenities"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Amenities Filter"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Amount"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Amount to Withdraw"
+msgstr ""
+
+#: archive-property.php
+msgid "Any Distance"
+msgstr ""
+
+#: archive-property.php
+msgid "Appliances"
+msgstr ""
+
+#: front-page.php
+msgid "Apply"
+msgstr ""
+
+#: archive-property.php
+msgid "Apply Filters"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Are you a Smoker?"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Arrive at your destination and settle into your new home. Welcome!"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Arrive in your destination and settle into your new home. Welcome!"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto Approve"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto Generate"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto Publish"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto-generate lease agreements when bookings are confirmed."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto-generate sends password via email. Custom lets user choose."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Auto-incrementing. The next invoice will use this number."
+msgstr ""
+
+#: archive-property.php
+msgid "Availability"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Available Balance"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Available Status"
+msgstr ""
+
+#: 404.php
+msgid "Back to Home"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Background Image"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Bank account information for payout purposes. Displayed on invoices."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Bank Details"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Bank Transfer (IBAN)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Before price (€100)"
+msgstr ""
+
+#: index.php
+msgid "Blog"
+msgstr ""
+
+#: functions.php
+msgid "Blog Sidebar"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Body Content Background Color"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Body Font"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Book"
+msgstr ""
+
+#: single-property.php
+msgid "Book Instantly"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Book Now Button"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Book Securely"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Booking"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Booking Approval"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Booking Notification"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Booking Type"
+msgstr ""
+
+#: inc/admin-menu.php
+#: template-dashboard.php
+msgid "Bookings"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Bookings & Trips"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Browse verified listings filtered by location, budget, amenities, and more."
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Browse verified listings near Aristotle University or grocery stores. Filter by high-speed Wi-Fi, budget, and amenities."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Browse verified listings with transparent pricing. No hidden fees, instant booking."
+msgstr ""
+
+#: functions.php
+msgid "Bu Uyarıyı Kapat"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Button Color"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Button Link"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Button Text"
+msgstr ""
+
+#: comments.php
+msgid "Cancel reply"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Cancel Trip"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Card Border Radius"
+msgstr ""
+
+#: inc/customizer.php
+msgid "Chatbot / Live Chat Embed Code"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Chatbot Embed Code"
+msgstr ""
+
+#: archive-property.php
+#: single-property.php
+msgid "Check-in"
+msgstr ""
+
+#: template-checkout.php
+msgid "Check-in:"
+msgstr ""
+
+#: archive-property.php
+#: single-property.php
+msgid "Check-out"
+msgstr ""
+
+#: template-checkout.php
+msgid "Check-out:"
+msgstr ""
+
+#: front-page.php
+msgid "Children"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Choose how new bookings are handled."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Choose Payment Gateway Type"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Choose Safe Rooms"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Choose the visual style for the footer."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Classic (Solid Full-width)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Cleaning Fee (€)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Cleaning Fee Type"
+msgstr ""
+
+#: archive-property.php
+msgid "Clear Filters"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Click \"Find Matches\" to see who shares your lifestyle preferences."
+msgstr ""
+
+#: inc/redux-helpers.php
+#: front-page.php
+msgid "Close"
+msgstr ""
+
+#: header.php
+msgid "Close Menu"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Comma separated list of target renter types (e.g. Erasmus students, Digital Nomads)."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Company Address"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Company Logo"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Company Name"
+msgstr ""
+
+#: template-checkout.php
+msgid "Complete Your Booking"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Consent Message"
+msgstr ""
+
+#: inc/redux-config.php
+#: functions.php
+msgid "Contact"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Contact Landlord Button"
+msgstr ""
+
+#: footer.php
+msgid "Contact Us"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Cookie Consent Banner"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Copyright Text"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Corner roundness of property cards and UI elements."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Create New"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "CTA Banner"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "CTA Subtitle"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "CTA Title"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Currency"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Currency Position"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Currency Symbol"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom Code"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom CSS"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom Footer Content"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom footer text for emails. Defaults to the main site copyright text."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom Header Content"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom HTML Email Wrapper (Advanced)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom illustration for the 404 page."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Custom Map Marker"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Custom Period Pricing"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Customize"
+msgstr ""
+
+#: functions.php
+msgid "Çöpe Taşı"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Daily Rate (€)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Dark"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Dark Mode"
+msgstr ""
+
+#: header.php
+msgid "Dashboard"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Date"
+msgstr ""
+
+#: front-page.php
+msgid "Decrease adults"
+msgstr ""
+
+#: front-page.php
+msgid "Decrease children"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Deposit Rate (%)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Language"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Latitude"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Layout"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Longitude"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Map Latitude"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Map Longitude"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default payment terms text shown on invoices."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Registration Role"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Sort Order"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Default Zoom Level"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Defer loading of off-screen images."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Define specific nightly rates for certain periods (e.g. High Season, Holidays). These override the base rate."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Deposit Label"
+msgstr ""
+
+#: single-property.php
+msgid "Deposit per person"
+msgstr ""
+
+#: template-checkout.php
+msgid "Deposit to Pay:"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Describe yourself..."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Description *"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Design & Styling"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Digital Lease Agreements"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Disable oEmbed"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Disable WP Emoji Scripts"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Disabled"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Discounts"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Dismissible"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Do you have Pets?"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Draft"
+msgstr ""
+
+#: functions.php
+msgid "Düzenle"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "e.g. \"List Your Property\". Leave empty to hide."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "e.g. €, $, £"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "e.g. https://wa.me/30123456789"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Early Bird: Days in Advance"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Early Bird: Discount (%)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Earnings & Payouts"
+msgstr ""
+
+#: inc/admin-front-page.php
+msgid "Edit Homepage Settings (Customizer)"
+msgstr ""
+
+#: comments.php
+msgid "Email"
+msgstr ""
+
+#: inc/redux-config.php
+#: template-dashboard.php
+msgid "Email Address"
+msgstr ""
+
+#: footer.php
+msgid "Email address"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Email Background Color"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Email Content (Visual / HTML)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Email Logo"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Email Management"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Email Subject"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Emergency Contact"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Custom Footer Box"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Custom Header Box"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Enable Instant Book"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Invoicing"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Live Chat Widget"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Native PayPal Payments via REST API."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Native Stripe API Checkout. Runs without WooCommerce."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable PayPal"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable reCaptcha"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable Stripe"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable the interactive map for location selection."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable the roommate finder feature in user dashboards."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/disable the dark colour scheme on the frontend."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/disable the search bar in the navigation."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/Disable the social media icons in the footer."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/disable the sticky header on scroll."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/disable the widget columns above the copyright bar."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/disable user registration on the frontend."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enable/Disable user roles on the register form"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enabled"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Encrypted & required for visa documents"
+msgstr ""
+
+#: template-add-listing.php
+#: template-dashboard.php
+msgid "End Date"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Enter full URL or just the query part (e.g. ?instant_book=1)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Enter new checkout date (YYYY-MM-DD):"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Enter the copyright text for the footer."
+msgstr ""
+
+#: functions.php
+msgid "Eski Tema Sayfaları Tespit Edildi"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Essential pages, navigation menu, taxonomies, and dummy properties have been successfully created. Your theme is now ready to use."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Every landlord undergoes identity and property ownership verification before listing."
+msgstr ""
+
+#: footer.php
+msgid "Explore"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Explore the most sought-after neighborhoods and areas."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Extend Stay"
+msgstr ""
+
+#: template-add-listing.php
+msgid "External iCal Import URL (.ics) - Optional"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Facebook URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Fallback latitude when a property has no coordinates."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Fallback longitude when a property has no coordinates."
+msgstr ""
+
+#: footer.php
+msgid "FAQs"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Favicon"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Feature %d Description"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Feature %d Title"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Featured Properties"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Fill out the form below to list your property. It will be reviewed by our team before going live."
+msgstr ""
+
+#: archive-property.php
+msgid "Filter properties"
+msgstr ""
+
+#: archive-property.php
+msgid "Filters"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Find Matches"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Find student accommodation no agency fee and digital nomad apartments. Verified landlords, instant booking."
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Find Your Home Anywhere"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Find Your Perfect Home"
+msgstr ""
+
+#: template-dashboard.php
+msgid "First Name"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Font for all headings (h1–h6)."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Font for paragraphs and general text."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer"
+msgstr ""
+
+#: inc/customizer.php
+msgid "Footer (Alt Bilgi) Telif Metni"
+msgstr ""
+
+#: functions.php
+msgid "Footer Area %d"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer Background Color"
+msgstr ""
+
+#: functions.php
+msgid "Footer column %d — drag widgets here."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer Columns"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer JS"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer Logo"
+msgstr ""
+
+#: functions.php
+msgid "Footer Menu"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer Style"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Footer Text"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "From Email"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "From Name"
+msgstr ""
+
+#: inc/admin-front-page.php
+msgid "Front Page Content"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Full company address for the invoice header."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Funding Source"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Gallery Lightbox"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "GDPR Agreement"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "General"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "General & Sender"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Generate invoices for confirmed bookings."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Get keys at google.com/recaptcha"
+msgstr ""
+
+#: footer.php
+msgid "Get the latest listings and housing tips delivered to your inbox."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Global Community"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Google Maps API Key"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Google reCaptcha"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Grid"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Grid Columns"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Grid Settings"
+msgstr ""
+
+#: front-page.php
+msgid "Guest"
+msgstr ""
+
+#: archive-property.php
+#: front-page.php
+#: single-property.php
+msgid "Guests"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Hand-picked properties with verified landlords, ready for move-in."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Happy Tenants"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header Background Color"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header CTA Button Text"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header CTA Button URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header JS"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header Nav"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Header Style"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Heading Font"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Hero Background Image"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Hero Content"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Hero Search (ThessNest)"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Hero Section"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Hero Subtitle"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Hero Title"
+msgstr ""
+
+#: functions.php
+msgid "Home"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Homepage Settings"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Host Identification"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Host Role"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Host Verification"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Hosts must accumulate this amount before requesting a payout."
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/customizer-front-page.php
+#: footer.php
+#: front-page.php
+msgid "How It Works"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "How It Works (ThessNest)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "How prices are labelled on listings."
+msgstr ""
+
+#: template-dashboard.php
+msgid "I am a student"
+msgstr ""
+
+#: template-dashboard.php
+msgid "I need quiet hours (Strict)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "ID Card Number"
+msgstr ""
+
+#: template-add-listing.php
+msgid "If unchecked, tenants will send a booking request that you approve manually."
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "If you are installing this theme on a fresh WordPress install, click the button below to automatically generate the required pages (Home, Dashboard, Add Listing), create the main menu, set up taxonomies, and import sample properties."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Inactive"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Inbox"
+msgstr ""
+
+#: front-page.php
+msgid "Increase adults"
+msgstr ""
+
+#: front-page.php
+msgid "Increase children"
+msgstr ""
+
+#: inc/customizer.php
+msgid "Instagram Bağlantısı"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Instagram URL"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+#: single-property.php
+msgid "Instant Book"
+msgstr ""
+
+#: archive-property.php
+msgid "Instant Book Only"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Instant Booking"
+msgstr ""
+
+#: template-parts/property-card.php
+msgid "Internet speed: %s Mbps"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Invoice Prefix"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Invoice Settings"
+msgstr ""
+
+#: inc/customizer.php
+msgid "İletişim E-Posta Adresi"
+msgstr ""
+
+#: inc/customizer.php
+msgid "İletişim Telefon Numarası"
+msgstr ""
+
+#: functions.php
+msgid "İpucu: ThessNest ile kullanacağınız sayfaları Kurulum Rehberine (setup_instructions.md) göre sıfırdan oluşturun."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "JavaScript injected before &lt;/body&gt;. Include &lt;script&gt; tags."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "JavaScript injected into &lt;head&gt;. Include &lt;script&gt; tags."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Labels"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Landlord"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Landlords must verify identity before listing."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Languages Spoken"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Large (12px)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Last Name"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Lazy Load Images"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Lease Template"
+msgstr ""
+
+#: comments.php
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: comments.php
+msgid "Leave a Review"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Lifetime Earnings"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Link to your Privacy Policy."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "LinkedIn URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "List"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "List Your Property"
+msgstr ""
+
+#: front-page.php
+msgid "List your property"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "List your space and reach thousands of tenants looking for their next home."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Listing Detail Page"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Listings"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Listings Per Page"
+msgstr ""
+
+#: functions.php
+msgid "Listings Sidebar"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Live Chat"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+#: single-property.php
+msgid "Location"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Location & SEO"
+msgstr ""
+
+#: archive-property.php
+msgid "Location Radius"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Log Out"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Login & Register"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Logo %d Alt Text"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Logo (Dark Background)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Logo (Light Background)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Logo displayed on invoices. Defaults to site logo if not set."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Logos & Favicon"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Main accent colour used across the theme."
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Main Subtitle"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Main Title"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Manage the content, titles, images, and sections on the front page."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Manage your upcoming trips and property reservations."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Manual Approval"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Map Settings"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Map Style"
+msgstr ""
+
+#: archive-property.php
+msgid "Max"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Max Budget (€)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Max Images per Listing"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Max Price Filter"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Max Tenants"
+msgstr ""
+
+#: archive-property.php
+msgid "Maximum price"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Maximum rental period allowed."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Maximum Stay (days)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Medium (8px)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Message Notification"
+msgstr ""
+
+#: single-property.php
+msgid "Message to landlord (Optional)..."
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Messages"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Method"
+msgstr ""
+
+#: archive-property.php
+msgid "Min"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Min Budget (€)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Min Price Filter"
+msgstr ""
+
+#: archive-property.php
+msgid "Min WiFi (Mbps)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minify CSS"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimal"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimum average rating to qualify for Superhost badge."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimum number of reviews to qualify for Superhost badge."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimum Payout Amount (€)"
+msgstr ""
+
+#: archive-property.php
+msgid "Minimum price"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimum rental period allowed."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Minimum Stay (days)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Minimum Stay (Nights)"
+msgstr ""
+
+#: header.php
+msgid "Mobile Navigation"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Modern (Liquid Glass Pill)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Monthly (Charged per month)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Monthly Discount (%) - 28+ days"
+msgstr ""
+
+#: single-property.php
+msgid "Monthly Rent"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Monthly Rent (€) *"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Move In"
+msgstr ""
+
+#: front-page.php
+msgid "Move in"
+msgstr ""
+
+#: front-page.php
+msgid "Move out"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Move to Trash"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Move-in date"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Move-in Date"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Multilingual support, instant booking, and map navigation for international tenants."
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Dashboard"
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Match Preferences"
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Profile"
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Properties"
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Properties & Analytics"
+msgstr ""
+
+#: template-dashboard.php
+msgid "My Trips"
+msgstr ""
+
+#: comments.php
+msgid "Name"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Name for host role"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Name for renter role"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Name of the hosting company/platform displayed on invoices."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Nationality"
+msgstr ""
+
+#: single-property.php
+msgid "Navigate with Apple Maps"
+msgstr ""
+
+#: single-property.php
+msgid "Navigate with Google Maps"
+msgstr ""
+
+#: archive-property.php
+msgid "Neighborhood"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Neighborhood *"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Neighborhood Filter"
+msgstr ""
+
+#: inc/admin-menu.php
+#: inc/customizer-front-page.php
+#: footer.php
+#: front-page.php
+#: functions.php
+msgid "Neighborhoods"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Listing Alert"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Listing Approval"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Register"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Registered User — Host (Landlord)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Registered User — Renter (Tenant)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "New Registration — Admin Notification"
+msgstr ""
+
+#: comments.php
+msgid "Newer Reviews"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Newest First"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Next Invoice Number"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "No"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "No Agency Fee"
+msgstr ""
+
+#: index.php
+msgid "No content found."
+msgstr ""
+
+#: template-checkout.php
+msgid "No deposit required for this booking."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "No Hidden Fees"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "No Login (Guest) Reservation"
+msgstr ""
+
+#: template-dashboard.php
+msgid "No messages yet."
+msgstr ""
+
+#: template-checkout.php
+msgid "No native payment gateways are enabled. Please contact support."
+msgstr ""
+
+#: template-dashboard.php
+msgid "No payout requests found."
+msgstr ""
+
+#: single-property.php
+msgid "No platform fees — what you see is what you pay"
+msgstr ""
+
+#: archive-property.php
+msgid "No properties found"
+msgstr ""
+
+#: search.php
+msgid "No Results Found"
+msgstr ""
+
+#: template-dashboard.php
+msgid "No saved properties found. Start exploring!"
+msgstr ""
+
+#: footer.php
+msgid "Nomad Stays"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Nomad Workspace"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "None (Sharp corners)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Not enough data to display analytics."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Notify admin when a new listing is submitted."
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Number of Destinations to Show"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Number of Properties"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Number of Similar Listings"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Number of widget columns in the footer. Configure widgets in Appearance → Widgets."
+msgstr ""
+
+#: comments.php
+msgid "Older Reviews"
+msgstr ""
+
+#: template-add-listing.php
+msgid "On-Demand (Per request, not in total)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Open images in fullscreen lightbox on click."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Optimizations"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Optional. Makes the bar clickable."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Optional. Upload a logo for the footer (e.g. white version)."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Optional. Used when header is transparent over a dark image."
+msgstr ""
+
+#: template-checkout.php
+msgid "Order Summary"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Other"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Override the default email HTML wrapper. Use {{CONTENT}} as a placeholder for the email body. Leave empty to use the default template. Available: {{LOGO_URL}}, {{SITE_NAME}}, {{SITE_URL}}, {{FOOTER_TEXT}}, {{CONTENT}}."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Own a Property?"
+msgstr ""
+
+#: functions.php
+msgid "Önceki temanızdan kalan aşağıdaki sayfalar ThessNest ile uyumsuz olabilir. Bu sayfalar page builder (Elementor, WPBakery vb.) içeriği barındırıyor ve bozuk görünebilir."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Page 404"
+msgstr ""
+
+#: 404.php
+msgid "Page Not Found"
+msgstr ""
+
+#: functions.php
+msgid "Page Sidebar"
+msgstr ""
+
+#: page.php
+#: singular.php
+#: template-about.php
+msgid "Pages:"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Partner Logo %d"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Passport Number"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Password Changed Confirmation"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Password on Register"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Password Reset"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Password Reset Request"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Paste the embed code from Tidio, Tawk.to, or any chat widget."
+msgstr ""
+
+#: inc/customizer.php
+msgid "Paste the embed code from Tidio, Tawk.to, or any chat widget. It will appear on all pages."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Paste your Airbnb or Booking.com calendar sync link here to prevent double bookings."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Pay Listing Fee to Publish"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Pay to Publish"
+msgstr ""
+
+#: template-checkout.php
+msgid "Pay via PayPal"
+msgstr ""
+
+#: template-checkout.php
+msgid "Pay via Stripe"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Payment Details (IBAN or PayPal Email)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Payment Gateways"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Payment Terms"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Payout History"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Payout Method"
+msgstr ""
+
+#: template-dashboard.php
+msgid "PayPal"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "PayPal Client ID"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "PayPal Sandbox Mode"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "PayPal Secret Key"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Pending Review (Awaiting Payment)"
+msgstr ""
+
+#: single-property.php
+msgid "Per person / month"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Percentage fee the platform takes from each booking. Set to 0 for no commission."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Percentage of total rent required as deposit."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Performance Overview"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Phone Number"
+msgstr ""
+
+#: template-parts/property-card.php
+#: single-property.php
+msgid "Physically verified by ThessNest team"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Platform & Monetization"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Platform Commission (%)"
+msgstr ""
+
+#: front-page.php
+msgid "Platform statistics"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Popular Destinations"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Preferred Gender"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Preferred Neighborhood"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Prefix for invoice numbers (e.g., \"INV-\")."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Price & Currency"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Price Display"
+msgstr ""
+
+#: archive-property.php
+msgid "Price Range (â‚¬/month)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Price Range Slider"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Price: High to Low"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Price: Low to High"
+msgstr ""
+
+#: single-property.php
+msgid "Pricing"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Pricing Calendar"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Primary Country"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Primary Focus City"
+msgstr ""
+
+#: functions.php
+msgid "Primary Menu"
+msgstr ""
+
+#: header.php
+msgid "Primary Navigation"
+msgstr ""
+
+#: inc/redux-helpers.php
+#: footer.php
+msgid "Privacy Policy"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Privacy Policy Page"
+msgstr ""
+
+#: inc/admin-menu.php
+#: functions.php
+msgid "Properties"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+#: front-page.php
+msgid "Properties coming soon. Check back shortly!"
+msgstr ""
+
+#: archive-property.php
+msgid "Properties in %s"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Properties Listed"
+msgstr ""
+
+#: archive-property.php
+msgid "Properties Map"
+msgstr ""
+
+#: archive-property.php
+msgid "Properties with %s"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Property Grid (ThessNest)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Property Images (First image will be cover) *"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Property Title *"
+msgstr ""
+
+#: template-checkout.php
+msgid "Property:"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Protect login, registration, and contact forms."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Published"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Quarterly Discount (%) - 90+ days"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Quick Actions"
+msgstr ""
+
+#: front-page.php
+msgid "Quick categories"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Quick Categories (Tags)"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Rate (€)"
+msgstr ""
+
+#: index.php
+msgid "Read More"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Real experiences from real people who found their home through our platform."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Receiving University"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Registered Users"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Reject"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Remove"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Remove the embed scripts if you do not use embeds."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Remove the emoji scripts for faster loading."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Remove whitespace from CSS output."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Rent Label"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Renter Role"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Replaces the default footer with your custom visual/HTML content."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Replaces the default logo header with your custom visual/HTML content."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Request Payout"
+msgstr ""
+
+#: single-property.php
+msgid "Request to Book"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Require Admin Approval"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Require KYC Verification"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Require Terms & Conditions"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Required for map features. Get one at console.cloud.google.com"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Required for verifying incoming payments securely."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Reservation"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Reservations on your properties"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Reserve your place online with transparent pricing. No hidden fees, no surprises."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Retro"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Reviews"
+msgstr ""
+
+#: comments.php
+msgid "Reviews are closed."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Role assigned when role selection is disabled."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Roommate Finder"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Roommate Matching"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Run Auto-Setup"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Satisfaction Rate"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Save Changes"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Save Match Profile"
+msgstr ""
+
+#: template-parts/property-card.php
+msgid "Save property"
+msgstr ""
+
+#: archive-property.php
+msgid "Save Search"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Saved Properties"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Scholarship"
+msgstr ""
+
+#: footer.php
+msgid "Scroll to top"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+#: front-page.php
+msgid "Search"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Search & Discover"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+#: front-page.php
+msgid "Search for housing"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Search keywords"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Search Listings"
+msgstr ""
+
+#: search.php
+msgid "Search Results for: \"%s\""
+msgstr ""
+
+#: template-dashboard.php
+msgid "Search Status:"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Seasonal Rates"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Secret Key"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Section Image"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Section Label"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/elementor/widgets/widget-property-grid.php
+#: inc/customizer-front-page.php
+msgid "Section Subtitle"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/elementor/widgets/widget-property-grid.php
+#: inc/customizer-front-page.php
+msgid "Section Title"
+msgstr ""
+
+#: template-checkout.php
+msgid "Secure Payment Gateway"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Secure your home in three simple steps."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Security Deposit (€)"
+msgstr ""
+
+#: single-property.php
+msgid "Security Deposit (one-time)"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Select a conversation to start messaging."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Select a property and define seasonal or custom date prices. These rates will override the base nightly rent."
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Select neighborhood"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Select Neighborhood"
+msgstr ""
+
+#: template-checkout.php
+msgid "Select Payment Method"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Select Property"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Select the currency to use for payments."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Select which engine to use to process bookings and features."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Self-Funded"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Send email to landlord on new booking."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Send email when a new message is received."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sender name for all outgoing emails."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Sending University"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sent after a user successfully changes their password.<br>Available tags: <code>{user_login}</code>, <code>{user_email}</code>, <code>{site_title}</code>, <code>{site_url}</code>"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sent to the host after successful registration.<br>Available tags: <code>{user_login_register}</code>, <code>{user_email_register}</code>, <code>{profile_url}</code>, <code>{site_title}</code>, <code>{site_url}</code>"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sent to the renter after successful registration.<br>Available tags: <code>{user_login_register}</code>, <code>{user_email_register}</code>, <code>{profile_url}</code>, <code>{site_title}</code>, <code>{site_url}</code>"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sent to the site admin when a new user registers.<br>Available tags: <code>{user_login_register}</code>, <code>{user_email_register}</code>, <code>{profile_url}</code>, <code>{site_title}</code>"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sent when a user requests a password reset.<br>Available tags: <code>{user_login}</code>, <code>{user_email}</code>, <code>{reset_link}</code>, <code>{site_title}</code>, <code>{site_url}</code>"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Share Buttons"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Short Bio"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show a GDPR cookie consent popup for EU visitors."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Footer Widget Area"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Map on Detail Page"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Map Picker on Form"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Show Only Featured?"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Show Popular Destinations"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Show Quick Categories"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show related properties below the listing."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Reviews Section"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Search in Header"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Sidebar Filters"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show social sharing buttons on listing pages."
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Show Stats Counter"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Show Testimonials"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show the chatbot widget on all pages."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show the WYSIWYP badge on property cards."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Show Top Bar"
+msgstr ""
+
+#: header.php
+msgid "Sign In"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Silver"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Similar Listings"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Single (Once per stay)"
+msgstr ""
+
+#: functions.php
+msgid "Single Listing"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Site Description"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Site Key"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Small (4px)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Social Media on Footer"
+msgstr ""
+
+#: search.php
+msgid "Sorry, no results were found for your search. Please try again with different keywords."
+msgstr ""
+
+#: single-property.php
+msgid "Split between %d tenants"
+msgstr ""
+
+#: template-add-listing.php
+#: template-dashboard.php
+msgid "Start Date"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Stat %d Label"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Stat %d Number"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Stat %d Suffix (+, %%, etc.)"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Stats Counter Bar"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Status"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Stay Duration"
+msgstr ""
+
+#: footer.php
+msgid "Stay Updated"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Step %d Description"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Step %d Title"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 1 Description"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 1 Title"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 2 Description"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 2 Title"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 3 Description"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Step 3 Title"
+msgstr ""
+
+#: inc/elementor/widgets/widget-how-it-works.php
+msgid "Steps Content"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Sticky Header"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Stripe Publishable Key"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Stripe Secret Key"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Stripe Webhook Secret"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: footer.php
+#: front-page.php
+msgid "Student Housing"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Student Information"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Styling"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Submission of Experiences"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Submission of Listings"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Submit for Verification"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Submit Listing"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Submit Request"
+msgstr ""
+
+#: comments.php
+msgid "Submit Review"
+msgstr ""
+
+#: footer.php
+msgid "Subscribe"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Subtitle"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Success!"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Superhost: Minimum Rating"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Superhost: Minimum Reviews"
+msgstr ""
+
+#: footer.php
+msgid "Support"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Tag %d Label"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Tag %d URL/Query"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Target Audience (SEO)"
+msgstr ""
+
+#: archive-property.php
+msgid "Target Group"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Target Group (Optional)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Target Group Filter"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Target Groups"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Tax ID (AFM)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Tax ID or VAT number displayed on invoices."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Tax Information"
+msgstr ""
+
+#: inc/customizer.php
+msgid "Temaya özel temel ayarlar (İletişim, Sosyal Medya, vb.)."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Tenant"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Terms & Conditions Page"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonial %d Name"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonial %d Photo"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonial %d Rating (1-5)"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonial %d Role / Title"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonial %d Text"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Testimonials"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Text Color"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Text shown next to the price on cards."
+msgstr ""
+
+#: inc/admin-front-page.php
+msgid "The content and design of the homepage is managed dynamically. To change texts, images, and other settings, please use the Theme Customizer."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "The country your platform operates in."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "The main city your platform operates in (used for SEO and defaults)."
+msgstr ""
+
+#: 404.php
+msgid "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Theme Settings"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "ThessNest"
+msgstr ""
+
+#: inc/customizer.php
+msgid "ThessNest Ayarları"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "ThessNest Dashboard"
+msgstr ""
+
+#: inc/ocdi-config.php
+msgid "ThessNest Default Demo"
+msgstr ""
+
+#: inc/elementor/class-thessnest-elementor.php
+msgid "ThessNest Elements"
+msgstr ""
+
+#: header.php
+msgid "ThessNest Home"
+msgstr ""
+
+#: inc/admin-menu.php
+#: inc/redux-config.php
+msgid "ThessNest Options"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "ThessNest Theme Options — Powered by Redux Framework"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "ThessNest Theme Settings"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Thin notification bar above the header."
+msgstr ""
+
+#: template-checkout.php
+msgid "This booking is not awaiting payment. It may have already been paid or cancelled."
+msgstr ""
+
+#: single-property.php
+msgid "This is your property. You cannot book it."
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "This will create pages, menus, and dummy properties. Proceed?"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "TikTok URL"
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "Title"
+msgstr ""
+
+#: header.php
+msgid "Toggle Menu"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Top Bar"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Top Bar Background"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Top Bar Link URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Top Bar Text"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Top Bar Text Color"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Top Matches"
+msgstr ""
+
+#: single-property.php
+msgid "Total"
+msgstr ""
+
+#: single-property.php
+msgid "Total / month"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Transparent (Hero Overlay)"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Transparent pricing — rent, utilities, and deposit displayed upfront."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Trust & Safety: ID Verification"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Trust Bar (Partner Logos)"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Trusted by leading organizations"
+msgstr ""
+
+#: front-page.php
+msgid "Trusted partners"
+msgstr ""
+
+#: archive-property.php
+msgid "Try adjusting your filters or check back later for new listings."
+msgstr ""
+
+#: functions.php
+msgid "Tüm Sayfaları Görüntüle"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Twitter / X URL"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Type your message..."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Typography"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Update your personal information below."
+msgstr ""
+
+#: archive-property.php
+msgid "Updating..."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upgrade Experience to Featured"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upgrade to Featured"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upload a 32x32 or 64x64 PNG icon."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upload a custom map pin icon (PNG, 32x32)."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upload a specific logo for emails. Defaults to main logo if not set."
+msgstr ""
+
+#: front-page.php
+msgid "Upload an image in Customizer → Why Choose Us"
+msgstr ""
+
+#: inc/customizer-front-page.php
+msgid "Upload partner/certification logos. Leave empty to hide this section entirely."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Upload the main logo. Recommended: PNG with transparency."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Upload valid ID (Passport/National ID)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Use placeholders: {{landlord_name}}, {{tenant_name}}, {{property_title}}, {{property_address}}, {{checkin}}, {{checkout}}, {{rent_total}}, {{deposit}}, {{lease_number}}"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "User Defined"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "User roles on the register form"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Users must accept T&C before registering."
+msgstr ""
+
+#: single-property.php
+msgid "Utilities"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Utilities Cost (€)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Utilities Label"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Verification"
+msgstr ""
+
+#: single-property.php
+msgid "Verified"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Verified Badge"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Verified landlord student apartments & digital nomad flats ready for move-in."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Verified Landlords"
+msgstr ""
+
+#: template-parts/property-card.php
+#: single-property.php
+msgid "Verified on %s by ThessNest"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Verified Only"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Verify your identity to get the \"Verified Landlord\" badge and build trust with tenants."
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "View All →"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+#: front-page.php
+msgid "View All Properties"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Wallet"
+msgstr ""
+
+#: template-add-listing.php
+msgid "Weekly Discount (%) - 7+ days"
+msgstr ""
+
+#: template-dashboard.php
+msgid "Welcome back, %s!"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "Welcome to your ThessNest control centre. Here is an overview of your platform."
+msgstr ""
+
+#: inc/elementor/widgets/widget-hero-search.php
+msgid "What are you looking for?"
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "What Our Users Say"
+msgstr ""
+
+#: inc/customizer.php
+msgid "WhatsApp Bağlantısı (Örn: https://wa.me/...)"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "WhatsApp Phone Number/URL"
+msgstr ""
+
+#: inc/redux-config.php
+msgid "When enabled, new hosts must submit ID verification before listing properties."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "Where users go after logging in. Leave empty for dashboard."
+msgstr ""
+
+#: inc/customizer-front-page.php
+#: front-page.php
+msgid "Why Choose Us"
+msgstr ""
+
+#: functions.php
+msgid "Widgets shown on blog posts and archives."
+msgstr ""
+
+#: functions.php
+msgid "Widgets shown on property archive pages."
+msgstr ""
+
+#: functions.php
+msgid "Widgets shown on single property pages."
+msgstr ""
+
+#: functions.php
+msgid "Widgets shown on standard pages."
+msgstr ""
+
+#: template-add-listing.php
+msgid "Wi-Fi Speed (Mbps)"
+msgstr ""
+
+#: inc/elementor/widgets/widget-property-grid.php
+msgid "Yes"
+msgstr ""
+
+#: functions.php
+msgid "Yetkisiz işlem."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You are a Verified Landlord."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You can request a payout for your available balance. Please provide your bank or PayPal details below."
+msgstr ""
+
+#: template-add-listing.php
+msgid "You can select multiple images (Max 5MB each)."
+msgstr ""
+
+#: template-checkout.php
+msgid "You do not have permission to view this checkout page."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You have no reservations on your properties."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You have no saved properties yet."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You have no upcoming trips."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You have not submitted any properties yet."
+msgstr ""
+
+#: template-dashboard.php
+msgid "You must reach a minimum balance of %s to request a payout."
+msgstr ""
+
+#: template-dashboard.php
+msgid "Your document is under review by admins."
+msgstr ""
+
+#: footer.php
+msgid "Your email"
+msgstr ""
+
+#: template-checkout.php
+msgid "Your payment data is fully encrypted and processed directly by the gateway. We do not store your card details."
+msgstr ""
+
+#: comments.php
+msgid "Your Rating *"
+msgstr ""
+
+#: footer.php
+msgid "Your trusted platform for mid-term housing in Thessaloniki."
+msgstr ""
+
+#: inc/redux-config.php
+msgid "YouTube URL"
+msgstr ""
+
+#: inc/admin-menu.php
+msgid "🚀 One-Click Theme Setup (Optional)"
+msgstr ""
+

@@ -180,6 +180,7 @@ function thessnest_custom_comment_callback( $comment, $args, $depth ) {
 				'communication' => __( 'Communication', 'thessnest' ),
 				'location'      => __( 'Location', 'thessnest' ),
 				'value'         => __( 'Value', 'thessnest' ),
+				'checkin'       => __( 'Check-in', 'thessnest' ),
 			);
 			
 			$has_breakdown = false;

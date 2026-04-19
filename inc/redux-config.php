@@ -81,8 +81,8 @@ Redux::set_section( $opt_name, array(
 			'title'    => __( 'Default Language', 'thessnest' ),
 			'options'  => array(
 				'en' => 'English',
-				'tr' => 'Türkçe',
-				'el' => 'Ελληνικά',
+				'tr' => 'Turkish',
+				'el' => 'Greek',
 			),
 			'default'  => 'en',
 		),

@@ -1,0 +1,23 @@
+# Files excluded from the distribution/release ZIP
+# These are development/internal files and must NOT be included
+# in the ThemeForest submission package.
+
+# Internal planning & analysis docs
+AddListingPlan.md
+competitor-themes.md
+troubleshooting.md
+recommended-plugins.md
+
+# Setup guide (goes to documentation, not theme ZIP)
+setup_instructions.md
+
+# Dev tooling
+.distignore
+.gitignore
+.git/
+.vscode/
+package/
+*.log
+
+# README is for GitHub only — ThemeForest has its own item description
+README.md

@@ -17,18 +17,17 @@ function thessnest_ocdi_import_files() {
 	return array(
 		array(
 			'import_file_name'             => esc_html__( 'ThessNest Default Demo', 'thessnest' ),
-			// To be replaced with actual raw URLs when the theme is hosted:
-			// 'local_import_file'            => trailingslashit( get_template_directory() ) . 'demo-data/demo-content.xml',
-			// 'local_import_widget_file'     => trailingslashit( get_template_directory() ) . 'demo-data/widgets.json',
-			// 'local_import_redux'           => array(
-			// 	array(
-			// 		'file_path'   => trailingslashit( get_template_directory() ) . 'demo-data/redux-options.json',
-			// 		'option_name' => 'thessnest_opt',
-			// 	),
-			// ),
+			'local_import_file'            => trailingslashit( get_template_directory() ) . 'demo-data/demo-content.xml',
+			'local_import_widget_file'     => trailingslashit( get_template_directory() ) . 'demo-data/widgets.json',
+			'local_import_redux'           => array(
+				array(
+					'file_path'   => trailingslashit( get_template_directory() ) . 'demo-data/redux-options.json',
+					'option_name' => 'thessnest_opt',
+				),
+			),
 			'import_preview_image_url'     => get_template_directory_uri() . '/screenshot.png',
 			'import_notice'                => esc_html__( 'After importing this demo, wait a few moments. All properties, menus, and Redux settings will be configured automatically.', 'thessnest' ),
-			'preview_url'                  => 'https://example.com/thessnest-demo',
+			'preview_url'                  => 'https://thessnest.com/demo',
 		),
 	);
 }

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ThessNest Demo Content — WordPress eXtended RSS -->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/"
+>
+<channel>
+	<title>ThessNest Demo</title>
+	<link>https://thessnest.com</link>
+	<description>ThessNest Demo Content</description>
+	<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+	<language>en-US</language>
+	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:base_site_url>https://thessnest.com</wp:base_site_url>
+	<wp:base_blog_url>https://thessnest.com</wp:base_blog_url>
+
+	<!-- ── Neighborhoods ── -->
+	<wp:term>
+		<wp:term_id>101</wp:term_id>
+		<wp:term_taxonomy>neighborhood</wp:term_taxonomy>
+		<wp:term_slug>kalamaria</wp:term_slug>
+		<wp:term_name><![CDATA[Kalamaria]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>102</wp:term_id>
+		<wp:term_taxonomy>neighborhood</wp:term_taxonomy>
+		<wp:term_slug>toumba</wp:term_slug>
+		<wp:term_name><![CDATA[Toumba]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>103</wp:term_id>
+		<wp:term_taxonomy>neighborhood</wp:term_taxonomy>
+		<wp:term_slug>center</wp:term_slug>
+		<wp:term_name><![CDATA[Center]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>104</wp:term_id>
+		<wp:term_taxonomy>neighborhood</wp:term_taxonomy>
+		<wp:term_slug>pylaia</wp:term_slug>
+		<wp:term_name><![CDATA[Pylaia]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>105</wp:term_id>
+		<wp:term_taxonomy>neighborhood</wp:term_taxonomy>
+		<wp:term_slug>panorama</wp:term_slug>
+		<wp:term_name><![CDATA[Panorama]]></wp:term_name>
+	</wp:term>
+
+	<!-- ── Amenities ── -->
+	<wp:term>
+		<wp:term_id>201</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>wifi</wp:term_slug>
+		<wp:term_name><![CDATA[Wi-Fi]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>202</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>balcony</wp:term_slug>
+		<wp:term_name><![CDATA[Balcony]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>203</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>washing-machine</wp:term_slug>
+		<wp:term_name><![CDATA[Washing Machine]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>204</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>air-conditioning</wp:term_slug>
+		<wp:term_name><![CDATA[Air Conditioning]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>205</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>furnished</wp:term_slug>
+		<wp:term_name><![CDATA[Furnished]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>206</wp:term_id>
+		<wp:term_taxonomy>amenity</wp:term_taxonomy>
+		<wp:term_slug>dishwasher</wp:term_slug>
+		<wp:term_name><![CDATA[Dishwasher]]></wp:term_name>
+	</wp:term>
+
+	<!-- ── Target Groups ── -->
+	<wp:term>
+		<wp:term_id>301</wp:term_id>
+		<wp:term_taxonomy>target_group</wp:term_taxonomy>
+		<wp:term_slug>students</wp:term_slug>
+		<wp:term_name><![CDATA[Students]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>302</wp:term_id>
+		<wp:term_taxonomy>target_group</wp:term_taxonomy>
+		<wp:term_slug>erasmus</wp:term_slug>
+		<wp:term_name><![CDATA[Erasmus]]></wp:term_name>
+	</wp:term>
+	<wp:term>
+		<wp:term_id>303</wp:term_id>
+		<wp:term_taxonomy>target_group</wp:term_taxonomy>
+		<wp:term_slug>digital-nomads</wp:term_slug>
+		<wp:term_name><![CDATA[Digital Nomads]]></wp:term_name>
+	</wp:term>
+
+	<!-- ── Pages ── -->
+	<item>
+		<title>Home</title>
+		<link>https://thessnest.com/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<wp:post_name><![CDATA[home]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+	</item>
+	<item>
+		<title>Dashboard</title>
+		<link>https://thessnest.com/dashboard/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<wp:post_name><![CDATA[dashboard]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[template-dashboard.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>Add Listing</title>
+		<link>https://thessnest.com/add-listing/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<wp:post_name><![CDATA[add-listing]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[template-add-listing.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+	<item>
+		<title>About Us</title>
+		<link>https://thessnest.com/about-us/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[Welcome to ThessNest — your trusted platform for mid-term housing in Thessaloniki.]]></content:encoded>
+		<wp:post_name><![CDATA[about-us]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[template-about.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<!-- ── Demo Properties ── -->
+	<item>
+		<title>Modern Studio in City Center</title>
+		<link>https://thessnest.com/property/modern-studio-city-center/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[Bright and modern studio apartment in the heart of Thessaloniki. Walking distance to Aristotle University, cafes, and public transport. Fully furnished and ready to move in.]]></content:encoded>
+		<wp:post_name><![CDATA[modern-studio-city-center]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[property]]></wp:post_type>
+		<category domain="neighborhood" nicename="center"><![CDATA[Center]]></category>
+		<category domain="amenity" nicename="wifi"><![CDATA[Wi-Fi]]></category>
+		<category domain="amenity" nicename="furnished"><![CDATA[Furnished]]></category>
+		<category domain="target_group" nicename="erasmus"><![CDATA[Erasmus]]></category>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_rent]]></wp:meta_key><wp:meta_value><![CDATA[450]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_utilities]]></wp:meta_key><wp:meta_value><![CDATA[50]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_deposit]]></wp:meta_key><wp:meta_value><![CDATA[450]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_wifi_speed]]></wp:meta_key><wp:meta_value><![CDATA[200]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_max_tenants]]></wp:meta_key><wp:meta_value><![CDATA[1]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_latitude]]></wp:meta_key><wp:meta_value><![CDATA[40.6300]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_longitude]]></wp:meta_key><wp:meta_value><![CDATA[22.9500]]></wp:meta_value></wp:postmeta>
+	</item>
+	<item>
+		<title>Sea-View Apartment in Kalamaria</title>
+		<link>https://thessnest.com/property/sea-view-kalamaria/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[Stunning sea-view apartment in the upscale Kalamaria district. Spacious living area, modern kitchen, and a large balcony overlooking the Thermaic Gulf.]]></content:encoded>
+		<wp:post_name><![CDATA[sea-view-kalamaria]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[property]]></wp:post_type>
+		<category domain="neighborhood" nicename="kalamaria"><![CDATA[Kalamaria]]></category>
+		<category domain="amenity" nicename="wifi"><![CDATA[Wi-Fi]]></category>
+		<category domain="amenity" nicename="balcony"><![CDATA[Balcony]]></category>
+		<category domain="amenity" nicename="air-conditioning"><![CDATA[Air Conditioning]]></category>
+		<category domain="target_group" nicename="digital-nomads"><![CDATA[Digital Nomads]]></category>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_rent]]></wp:meta_key><wp:meta_value><![CDATA[600]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_utilities]]></wp:meta_key><wp:meta_value><![CDATA[80]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_deposit]]></wp:meta_key><wp:meta_value><![CDATA[600]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_wifi_speed]]></wp:meta_key><wp:meta_value><![CDATA[300]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_max_tenants]]></wp:meta_key><wp:meta_value><![CDATA[2]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_latitude]]></wp:meta_key><wp:meta_value><![CDATA[40.5841]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_longitude]]></wp:meta_key><wp:meta_value><![CDATA[22.9547]]></wp:meta_value></wp:postmeta>
+	</item>
+	<item>
+		<title>Cozy Toumba Flat for Erasmus Students</title>
+		<link>https://thessnest.com/property/cozy-toumba-flat/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[Affordable and cozy flat in Toumba, close to PAOK stadium and public transport links. Perfect for Erasmus students on a budget.]]></content:encoded>
+		<wp:post_name><![CDATA[cozy-toumba-flat]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[property]]></wp:post_type>
+		<category domain="neighborhood" nicename="toumba"><![CDATA[Toumba]]></category>
+		<category domain="amenity" nicename="wifi"><![CDATA[Wi-Fi]]></category>
+		<category domain="amenity" nicename="washing-machine"><![CDATA[Washing Machine]]></category>
+		<category domain="target_group" nicename="erasmus"><![CDATA[Erasmus]]></category>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_rent]]></wp:meta_key><wp:meta_value><![CDATA[380]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_utilities]]></wp:meta_key><wp:meta_value><![CDATA[40]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_deposit]]></wp:meta_key><wp:meta_value><![CDATA[380]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_wifi_speed]]></wp:meta_key><wp:meta_value><![CDATA[100]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_max_tenants]]></wp:meta_key><wp:meta_value><![CDATA[2]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_latitude]]></wp:meta_key><wp:meta_value><![CDATA[40.6133]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_longitude]]></wp:meta_key><wp:meta_value><![CDATA[22.9736]]></wp:meta_value></wp:postmeta>
+	</item>
+	<item>
+		<title>Luxury Nomad Nest in Panorama</title>
+		<link>https://thessnest.com/property/luxury-nomad-panorama/</link>
+		<pubDate>Sat, 19 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<content:encoded><![CDATA[Premium apartment in the prestigious Panorama neighbourhood with panoramic city views. Dedicated workspace, ultra-fast fibre internet, and luxury finishes throughout.]]></content:encoded>
+		<wp:post_name><![CDATA[luxury-nomad-panorama]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_type><![CDATA[property]]></wp:post_type>
+		<category domain="neighborhood" nicename="panorama"><![CDATA[Panorama]]></category>
+		<category domain="amenity" nicename="wifi"><![CDATA[Wi-Fi]]></category>
+		<category domain="amenity" nicename="balcony"><![CDATA[Balcony]]></category>
+		<category domain="amenity" nicename="air-conditioning"><![CDATA[Air Conditioning]]></category>
+		<category domain="amenity" nicename="dishwasher"><![CDATA[Dishwasher]]></category>
+		<category domain="target_group" nicename="digital-nomads"><![CDATA[Digital Nomads]]></category>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_rent]]></wp:meta_key><wp:meta_value><![CDATA[950]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_utilities]]></wp:meta_key><wp:meta_value><![CDATA[120]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_deposit]]></wp:meta_key><wp:meta_value><![CDATA[950]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_wifi_speed]]></wp:meta_key><wp:meta_value><![CDATA[500]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_max_tenants]]></wp:meta_key><wp:meta_value><![CDATA[2]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_latitude]]></wp:meta_key><wp:meta_value><![CDATA[40.5878]]></wp:meta_value></wp:postmeta>
+		<wp:postmeta><wp:meta_key><![CDATA[_thessnest_longitude]]></wp:meta_key><wp:meta_value><![CDATA[23.0305]]></wp:meta_value></wp:postmeta>
+	</item>
+
+</channel>
+</rss>

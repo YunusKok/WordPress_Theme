@@ -225,17 +225,21 @@ add_action( 'wp_head', 'thessnest_preconnect_hints', 1 );
    ========================================================================== */
 function thessnest_add_hreflang_tags() {
 	// If WPML or Polylang is active, they handle this. We provide a basic fallback.
-	if ( function_exists('pll_the_languages') || function_exists('icl_get_languages') ) {
+	if ( function_exists( 'pll_the_languages' ) || function_exists( 'icl_get_languages' ) ) {
 		return;
 	}
-	
+
 	$locale = get_locale(); // e.g. en_US, tr_TR, el
-	$lang = substr($locale, 0, 2); // e.g. en, tr, el
-	
-	$url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	
-	echo '<link rel="alternate" hreflang="' . esc_attr($lang) . '" href="' . esc_url($url) . '" />' . "\n";
-	echo '<link rel="alternate" hreflang="x-default" href="' . esc_url($url) . '" />' . "\n";
+	$lang   = substr( $locale, 0, 2 ); // e.g. en, tr, el
+
+	// Use WordPress's own permalink for the current page — safe and sanitized.
+	$url = get_permalink();
+	if ( ! $url ) {
+		$url = home_url( '/' );
+	}
+
+	echo '<link rel="alternate" hreflang="' . esc_attr( $lang ) . '" href="' . esc_url( $url ) . '" />' . "\n";
+	echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $url ) . '" />' . "\n";
 }
 add_action( 'wp_head', 'thessnest_add_hreflang_tags', 1 );
 
@@ -425,12 +429,14 @@ add_filter( 'script_loader_tag', 'thessnest_defer_scripts', 10, 2 );
 
 /**
  * Flush rewrite rules when theme is activated so CPT archives work.
+ *
+ * CPT/taxonomy registration is handled by the thessnest-core plugin.
+ * We simply flush here after the plugin has already registered them.
  */
 function thessnest_rewrite_flush() {
-	thessnest_register_property_cpt();
-	thessnest_register_neighborhood_taxonomy();
-	thessnest_register_amenity_taxonomy();
-	thessnest_register_target_group_taxonomy();
+	// CPTs and taxonomies are registered by the thessnest-core plugin.
+	// do_action allows the plugin to hook in before we flush.
+	do_action( 'thessnest_before_flush_rewrite_rules' );
 	flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'thessnest_rewrite_flush' );
@@ -514,26 +520,26 @@ function thessnest_old_pages_admin_notice() {
 	$pages_url = admin_url( 'edit.php?post_type=page' );
 	?>
 	<div class="notice notice-warning is-dismissible thessnest-old-pages-notice">
-		<h3 style="margin-top:12px;">🏠 ThessNest — <?php esc_html_e( 'Eski Tema Sayfaları Tespit Edildi', 'thessnest' ); ?></h3>
+		<h3 style="margin-top:12px;">🏠 ThessNest — <?php esc_html_e( 'Legacy Theme Pages Detected', 'thessnest' ); ?></h3>
 		<p>
-			<?php esc_html_e( 'Önceki temanızdan kalan aşağıdaki sayfalar ThessNest ile uyumsuz olabilir. Bu sayfalar page builder (Elementor, WPBakery vb.) içeriği barındırıyor ve bozuk görünebilir.', 'thessnest' ); ?>
+			<?php esc_html_e( 'The following pages left over from your previous theme may be incompatible with ThessNest. They contain page builder content (Elementor, WPBakery, etc.) and may appear broken.', 'thessnest' ); ?>
 		</p>
 		<ul style="list-style:disc;margin-left:20px;">
 			<?php foreach ( $old_pages as $p ) : ?>
 				<li>
 					<strong><?php echo esc_html( $p['title'] ); ?></strong>
 					<code>/<?php echo esc_html( $p['slug'] ); ?>/</code>
-					— <a href="<?php echo esc_url( get_edit_post_link( $p['id'] ) ); ?>"><?php esc_html_e( 'Düzenle', 'thessnest' ); ?></a>
-					| <a href="<?php echo esc_url( get_delete_post_link( $p['id'] ) ); ?>" style="color:#d63638;"><?php esc_html_e( 'Çöpe Taşı', 'thessnest' ); ?></a>
+					— <a href="<?php echo esc_url( get_edit_post_link( $p['id'] ) ); ?>"><?php esc_html_e( 'Edit', 'thessnest' ); ?></a>
+					| <a href="<?php echo esc_url( get_delete_post_link( $p['id'] ) ); ?>" style="color:#d63638;"><?php esc_html_e( 'Move to Trash', 'thessnest' ); ?></a>
 				</li>
 			<?php endforeach; ?>
 		</ul>
 		<p>
-			<a href="<?php echo esc_url( $pages_url ); ?>" class="button button-primary"><?php esc_html_e( 'Tüm Sayfaları Görüntüle', 'thessnest' ); ?></a>
-			<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=thessnest_dismiss_old_pages' ), 'thessnest_dismiss_notice' ) ); ?>" class="button" style="margin-left:8px;"><?php esc_html_e( 'Bu Uyarıyı Kapat', 'thessnest' ); ?></a>
+			<a href="<?php echo esc_url( $pages_url ); ?>" class="button button-primary"><?php esc_html_e( 'View All Pages', 'thessnest' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=thessnest_dismiss_old_pages' ), 'thessnest_dismiss_notice' ) ); ?>" class="button" style="margin-left:8px;"><?php esc_html_e( 'Dismiss This Notice', 'thessnest' ); ?></a>
 		</p>
 		<p style="color:#666;font-size:12px;">
-			<?php esc_html_e( 'İpucu: ThessNest ile kullanacağınız sayfaları Kurulum Rehberine (setup_instructions.md) göre sıfırdan oluşturun.', 'thessnest' ); ?>
+			<?php esc_html_e( 'Tip: Create all pages used with ThessNest from scratch as described in the Setup Guide (setup_instructions.md).', 'thessnest' ); ?>
 		</p>
 	</div>
 	<?php
@@ -545,7 +551,7 @@ add_action( 'admin_notices', 'thessnest_old_pages_admin_notice' );
  */
 function thessnest_dismiss_old_pages_notice() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'Yetkisiz işlem.', 'thessnest' ) );
+		wp_die( esc_html__( 'Unauthorized action.', 'thessnest' ) );
 	}
 	check_admin_referer( 'thessnest_dismiss_notice' );
 	update_option( 'thessnest_old_pages_notice_dismissed', true );

@@ -1,9 +1,9 @@
 <?php
 /**
  * ThessNest Theme Customizer
- * 
- * Bu dosya, WordPress'in kendi yerleşik "Özelleştir" (Customizer) panelini
- * kullanarak temaya özel basit bir ayar sayfası ekler.
+ *
+ * Registers theme-specific settings in the WordPress Customizer panel,
+ * providing a lightweight alternative to Redux for simple options.
  *
  * @package ThessNest
  */
@@ -17,64 +17,64 @@ defined( 'ABSPATH' ) || exit;
  */
 function thessnest_customize_register( $wp_customize ) {
 
-	// Yeni bir Ayar Sekmesi oluşturalım: "ThessNest Ayarları"
+	// Register a new Customizer section: "ThessNest Settings"
 	$wp_customize->add_section( 'thessnest_theme_options', array(
-		'title'       => __( 'ThessNest Ayarları', 'thessnest' ),
-		'description' => __( 'Temaya özel temel ayarlar (İletişim, Sosyal Medya, vb.).', 'thessnest' ),
-		'priority'    => 130, // "Ek CSS" sekmesinden hemen önce gösterir
+		'title'       => __( 'ThessNest Settings', 'thessnest' ),
+		'description' => __( 'Theme-specific basic settings (Contact, Social Media, etc.).', 'thessnest' ),
+		'priority'    => 130, // Appears just before "Additional CSS"
 	) );
 
-	// 1. İletişim: Telefon Numarası
+	// 1. Contact: Phone Number
 	$wp_customize->add_setting( 'thessnest_contact_phone', array(
 		'default'           => '+30 123 456 789',
 		'sanitize_callback' => 'sanitize_text_field',
 	) );
 	$wp_customize->add_control( 'thessnest_contact_phone', array(
-		'label'       => __( 'İletişim Telefon Numarası', 'thessnest' ),
+		'label'       => __( 'Contact Phone Number', 'thessnest' ),
 		'section'     => 'thessnest_theme_options',
 		'type'        => 'text',
 	) );
 
-	// 2. İletişim: E-Posta
+	// 2. Contact: Email Address
 	$wp_customize->add_setting( 'thessnest_contact_email', array(
 		'default'           => 'hello@thessnest.com',
 		'sanitize_callback' => 'sanitize_email',
 	) );
 	$wp_customize->add_control( 'thessnest_contact_email', array(
-		'label'       => __( 'İletişim E-Posta Adresi', 'thessnest' ),
+		'label'       => __( 'Contact Email Address', 'thessnest' ),
 		'section'     => 'thessnest_theme_options',
 		'type'        => 'email',
 	) );
 
-	// 3. Sosyal Medya: Instagram
+	// 3. Social Media: Instagram
 	$wp_customize->add_setting( 'thessnest_social_instagram', array(
 		'default'           => 'https://instagram.com/thessnest',
 		'sanitize_callback' => 'esc_url_raw',
 	) );
 	$wp_customize->add_control( 'thessnest_social_instagram', array(
-		'label'       => __( 'Instagram Bağlantısı', 'thessnest' ),
+		'label'       => __( 'Instagram URL', 'thessnest' ),
 		'section'     => 'thessnest_theme_options',
 		'type'        => 'url',
 	) );
 
-	// 4. Sosyal Medya: WhatsApp
+	// 4. Social Media: WhatsApp
 	$wp_customize->add_setting( 'thessnest_social_whatsapp', array(
 		'default'           => 'https://wa.me/30123456789',
 		'sanitize_callback' => 'esc_url_raw',
 	) );
 	$wp_customize->add_control( 'thessnest_social_whatsapp', array(
-		'label'       => __( 'WhatsApp Bağlantısı (Örn: https://wa.me/...)', 'thessnest' ),
+		'label'       => __( 'WhatsApp Phone Number/URL', 'thessnest' ),
 		'section'     => 'thessnest_theme_options',
 		'type'        => 'url',
 	) );
 
-	// 5. Alt Bilgi (Footer) Metni
+	// 5. Footer Copyright Text
 	$wp_customize->add_setting( 'thessnest_footer_text', array(
-		'default'           => '&copy; ' . date('Y') . ' ThessNest. Tüm hakları saklıdır.',
-		'sanitize_callback' => 'wp_kses_post', // Basit HTML etiketlerine izin verir (örn. <a>, <strong>)
+		'default'           => '&copy; ' . date( 'Y' ) . ' ThessNest. All rights reserved.',
+		'sanitize_callback' => 'wp_kses_post', // Allows basic HTML tags (e.g. <a>, <strong>)
 	) );
 	$wp_customize->add_control( 'thessnest_footer_text', array(
-		'label'       => __( 'Footer (Alt Bilgi) Telif Metni', 'thessnest' ),
+		'label'       => __( 'Footer Copyright Text', 'thessnest' ),
 		'section'     => 'thessnest_theme_options',
 		'type'        => 'textarea',
 	) );
