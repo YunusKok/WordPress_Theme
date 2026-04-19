@@ -1076,6 +1076,41 @@ document.addEventListener('DOMContentLoaded', () => {
 	let adultsCount   = 1;
 	let childrenCount = 0;
 
+	// Move guest modal to body so it escapes hero stacking context
+	if (guestModal && guestModal.parentElement !== document.body) {
+		document.body.appendChild(guestModal);
+	}
+
+	// Position the guest modal below the trigger element
+	const positionGuestModal = () => {
+		if (!guestTrigger || !guestModal) return;
+		const rect = guestTrigger.getBoundingClientRect();
+		const modalWidth = Math.min(360, window.innerWidth - 30);
+
+		guestModal.style.position = 'fixed';
+		guestModal.style.width    = modalWidth + 'px';
+		guestModal.style.zIndex   = '99999';
+
+		// Align right edge with trigger right edge, but keep within viewport
+		let left = rect.right - modalWidth;
+		if (left < 15) left = 15;
+		if (left + modalWidth > window.innerWidth - 15) left = window.innerWidth - modalWidth - 15;
+
+		// On mobile show as bottom sheet (handled by CSS media query)
+		if (window.innerWidth <= 767) {
+			guestModal.style.top    = 'auto';
+			guestModal.style.bottom = '20px';
+			guestModal.style.left   = '15px';
+			guestModal.style.right  = '15px';
+			guestModal.style.width  = 'calc(100% - 30px)';
+		} else {
+			guestModal.style.top    = (rect.bottom + 12) + 'px';
+			guestModal.style.bottom = 'auto';
+			guestModal.style.left   = left + 'px';
+			guestModal.style.right  = 'auto';
+		}
+	};
+
 	// Export these functions for global use in search bar
 	window.updateGuestDisplay = function() {
 		const total = adultsCount + childrenCount;
@@ -1091,7 +1126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		let parts = [];
 		if (adultsCount > 1) parts.push(adultsCount + ' Adults');
 		else if (adultsCount === 1) parts.push('1 Adult');
-		
+
 		if (childrenCount > 1) parts.push(childrenCount + ' Children');
 		else if (childrenCount === 1) parts.push('1 Child');
 
@@ -1103,7 +1138,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	window.openGuestModal = function() {
 		if (!guestModal) return;
-		closeAllSearchModals('guest'); // Close others before opening
+		closeAllSearchModals('guest');
+		positionGuestModal();
 		guestModal.classList.add('is-open');
 		if (guestTrigger) guestTrigger.classList.add('is-active');
 	};
@@ -1120,50 +1156,58 @@ document.addEventListener('DOMContentLoaded', () => {
 			e.stopPropagation();
 
 			if (guestModal.classList.contains('is-open')) {
-				closeGuestModal();
+				window.closeGuestModal();
 			} else {
-				openGuestModal();
+				window.openGuestModal();
 			}
 		});
 
 		if (guestModalClose) {
 			guestModalClose.addEventListener('click', (e) => {
 				e.stopPropagation();
-				closeGuestModal();
+				window.closeGuestModal();
 			});
 		}
 
 		if (guestApplyBtn) {
 			guestApplyBtn.addEventListener('click', (e) => {
 				e.stopPropagation();
-				updateGuestDisplay();
-				closeGuestModal();
+				window.updateGuestDisplay();
+				window.closeGuestModal();
 			});
 		}
 
-		// Close search modals on escape
+		// Reposition on scroll/resize
+		window.addEventListener('scroll', () => {
+			if (guestModal.classList.contains('is-open')) positionGuestModal();
+		}, { passive: true });
+		window.addEventListener('resize', () => {
+			if (guestModal.classList.contains('is-open')) positionGuestModal();
+		}, { passive: true });
+
+		// Close on Escape
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') closeAllSearchModals();
 		});
 
-		// Close search modals when clicking outside
+		// Close when clicking outside
 		document.addEventListener('click', (e) => {
-			// If clicking outside the search bar area or active flatpickr
 			const isInsideSearchBar = e.target.closest('.search-bar--booking-style');
 			const isInsideFlatpickr = e.target.closest('.flatpickr-calendar');
-			
-			if (!isInsideSearchBar && !isInsideFlatpickr) {
+			const isInsideGuestModal = e.target.closest('#guest-selector-modal');
+
+			if (!isInsideSearchBar && !isInsideFlatpickr && !isInsideGuestModal) {
 				closeAllSearchModals();
 			}
 		});
 
-		// Stepper listeners...
-		adultsInc?.addEventListener('click', (e) => { e.stopPropagation(); if (adultsCount < 16) { adultsCount++; updateGuestDisplay(); } });
-		adultsDec?.addEventListener('click', (e) => { e.stopPropagation(); if (adultsCount > 1) { adultsCount--; updateGuestDisplay(); } });
-		childrenInc?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount < 8) { childrenCount++; updateGuestDisplay(); } });
-		childrenDec?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount > 0) { childrenCount--; updateGuestDisplay(); } });
+		// Stepper listeners
+		adultsInc?.addEventListener('click',   (e) => { e.stopPropagation(); if (adultsCount < 16)   { adultsCount++;   window.updateGuestDisplay(); } });
+		adultsDec?.addEventListener('click',   (e) => { e.stopPropagation(); if (adultsCount > 1)    { adultsCount--;   window.updateGuestDisplay(); } });
+		childrenInc?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount < 8)  { childrenCount++; window.updateGuestDisplay(); } });
+		childrenDec?.addEventListener('click', (e) => { e.stopPropagation(); if (childrenCount > 0)  { childrenCount--; window.updateGuestDisplay(); } });
 
-		updateGuestDisplay();
+		window.updateGuestDisplay();
 	}
 
 });

@@ -236,6 +236,13 @@ Redux::set_section( $opt_name, array(
 			'subtitle' => __( 'Allow tenants to book immediately without landlord approval.', 'thessnest' ),
 			'default'  => false,
 		),
+		array(
+			'id'       => 'search_show_guests',
+			'type'     => 'switch',
+			'title'    => __( 'Show Guest Field in Search Bar', 'thessnest' ),
+			'subtitle' => __( 'Display the Guests selector in the homepage search bar. Disable if your platform does not require guest counts.', 'thessnest' ),
+			'default'  => true,
+		),
 	),
 ) );
 

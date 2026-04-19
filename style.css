@@ -930,26 +930,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .glass-dropdown {
   display: none;
-  position: absolute;
-  top: calc(100% + 15px);
-  right: 0;
-  left: auto;
+  /* Position is set dynamically by JS (fixed, appended to body) */
   width: 360px;
-  background: rgba(255, 255, 255, 0.88);
-  -webkit-backdrop-filter: blur(50px) saturate(210%);
-  backdrop-filter: blur(50px) saturate(210%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(50px) saturate(200%);
+  backdrop-filter: blur(50px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-2xl);
   padding: 0;
-  box-shadow: 
-    0 25px 80px rgba(0, 0, 0, 0.15),
-    0 10px 30px rgba(0, 0, 0, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-  z-index: 10000; /* Ensure it stays on top of everything */
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.18),
+    0 10px 30px rgba(0, 0, 0, 0.10),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  z-index: 99999;
   cursor: default;
   overflow: hidden;
   transform-origin: top right;
-  animation: modalScaleIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: modalScaleIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .glass-dropdown.is-open {
@@ -1150,20 +1147,23 @@ h1, h2, h3, h4, h5, h6 {
   display: none !important;
 }
 
+/* Base calendar — appended to body, so no hero context needed */
 .flatpickr-calendar {
-  background: rgba(255, 255, 255, 0.88) !important;
-  -webkit-backdrop-filter: blur(50px) saturate(210%) !important;
-  backdrop-filter: blur(50px) saturate(210%) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  -webkit-backdrop-filter: blur(50px) saturate(200%) !important;
+  backdrop-filter: blur(50px) saturate(200%) !important;
   border-radius: var(--radius-2xl) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 
-    0 25px 80px rgba(0, 0, 0, 0.15),
-    0 10px 30px rgba(0, 0, 0, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.18),
+    0 10px 30px rgba(0, 0, 0, 0.10),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4) !important;
   padding: var(--space-4) !important;
   font-family: var(--font-family) !important;
-  animation: modalScaleIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-  z-index: 10000 !important;
+  animation: modalScaleIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  z-index: 99999 !important;
+  /* Ensure it renders above everything including sticky header */
+  position: absolute !important;
 }
 
 .flatpickr-months {

@@ -90,6 +90,13 @@ if ( have_posts() ) {
 				</div>
 
 				<!-- Guests Trigger -->
+				<?php
+				$show_guests = true;
+				if ( function_exists( 'thessnest_opt' ) ) {
+					$show_guests = (bool) thessnest_opt( 'search_show_guests', true );
+				}
+				if ( $show_guests ) :
+				?>
 				<div class="search-field search-field--guests" id="trigger-guest-modal">
 					<svg class="field-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -101,7 +108,7 @@ if ( have_posts() ) {
 					<svg class="field-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
 
 					<!-- iOS Glassmorphism Guest Dropdown -->
-					<div id="guest-selector-modal" class="glass-dropdown">
+					<div id="guest-selector-modal" class="glass-dropdown" role="dialog" aria-label="<?php esc_attr_e( 'Guests', 'thessnest' ); ?>">
 						<div class="glass-dropdown__header">
 							<span class="glass-dropdown__title"><?php esc_html_e( 'Guests', 'thessnest' ); ?></span>
 							<button type="button" class="glass-dropdown__close" id="guest-modal-close" aria-label="<?php esc_attr_e( 'Close', 'thessnest' ); ?>">
@@ -138,6 +145,7 @@ if ( have_posts() ) {
 						<button type="button" class="glass-dropdown__apply" id="guest-apply"><?php esc_html_e( 'Apply', 'thessnest' ); ?></button>
 					</div>
 				</div>
+				<?php endif; // show_guests ?>
 
 				<!-- Search CTA -->
 				<button type="submit" class="btn-search">
