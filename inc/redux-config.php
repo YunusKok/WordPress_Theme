@@ -33,7 +33,7 @@ Redux::set_args( $opt_name, array(
 	'page_slug'            => 'thessnest-options',
 	'menu_title'           => __( 'ThessNest Options', 'thessnest' ),
 	'page_title'           => __( 'ThessNest Options', 'thessnest' ),
-	'admin_bar'            => true,
+	'admin_bar'            => false, // Disabled: custom admin bar item registered in inc/admin-menu.php
 	'admin_bar_icon'       => 'dashicons-admin-home',
 	'admin_bar_priority'   => 40,
 	'global_variable'      => 'thessnest_opts',
