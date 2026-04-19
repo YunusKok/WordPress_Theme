@@ -928,6 +928,17 @@ h1, h2, h3, h4, h5, h6 {
    5a. GLASS DROPDOWN — iOS Glassmorphism Modal (Dates & Guests)
    ========================================================================== */
 
+/* Prevent the guest modal from expanding the search bar before JS moves it to body */
+.search-field--guests .glass-dropdown {
+  position: absolute !important;
+  top: 100%;
+  right: 0;
+  pointer-events: none;
+}
+.search-field--guests .glass-dropdown.is-open {
+  pointer-events: auto;
+}
+
 .glass-dropdown {
   display: none;
   /* Position is set dynamically by JS (fixed, appended to body) */

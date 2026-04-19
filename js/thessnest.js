@@ -973,16 +973,35 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 
 	if (typeof flatpickr !== 'undefined' && homeDateInEl && homeDateOutEl) {
+
+		// Helper: manually position a flatpickr calendar below a trigger element
+		const positionCalendarBelow = (instance, triggerEl) => {
+			if (!triggerEl || !instance.calendarContainer) return;
+			const rect = triggerEl.getBoundingClientRect();
+			const calElem = instance.calendarContainer;
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+			calElem.style.position = 'absolute';
+			calElem.style.top = (rect.bottom + scrollTop + 8) + 'px';
+			calElem.style.left = (rect.left + scrollLeft) + 'px';
+		};
+
 		const fpConfig = {
 			minDate: 'today',
 			disableMobile: true,
 			appendTo: document.body, // Solve z-index and clipping issues
+			position: 'below', // Force calendar to open below the trigger
 			onOpen: function(selectedDates, dateStr, instance) {
 				closeAllSearchModals(instance); // Close others before opening
 				if (instance.element.id === 'home_date_in_picker') {
 					if (triggerMoveIn) triggerMoveIn.classList.add('is-active');
+					// Manually position below the Move-In trigger
+					positionCalendarBelow(instance, triggerMoveIn);
 				} else {
 					if (triggerMoveOut) triggerMoveOut.classList.add('is-active');
+					// Manually position below the Move-Out trigger
+					positionCalendarBelow(instance, triggerMoveOut);
 				}
 			},
 			onClose: function(selectedDates, dateStr, instance) {
@@ -994,9 +1013,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		};
 
-		// Move-In Flatpickr
+		// Move-In Flatpickr (use positionElement to anchor calendar below trigger div)
 		fpIn = flatpickr(homeDateInEl, {
 			...fpConfig,
+			positionElement: triggerMoveIn, // Anchor below the visible trigger div, not the hidden input
 			onChange: function(selectedDates, dateStr, instance) {
 				if (selectedDates.length > 0) {
 					const formatted = instance.formatDate(selectedDates[0], 'M j, Y');
@@ -1025,6 +1045,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		fpOut = flatpickr(homeDateOutEl, {
 			...fpConfig,
+			positionElement: triggerMoveOut, // Anchor below the visible trigger div, not the hidden input
 			minDate: initialMinOut,
 			onChange: function(selectedDates, dateStr, instance) {
 				if (selectedDates.length > 0) {
@@ -1077,8 +1098,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	let childrenCount = 0;
 
 	// Move guest modal to body so it escapes hero stacking context
+	// Also ensure it stays hidden until moved to prevent search bar expansion bug
 	if (guestModal && guestModal.parentElement !== document.body) {
+		guestModal.style.display = 'none';
 		document.body.appendChild(guestModal);
+		// Remove inline display:none so the CSS class can control visibility
+		guestModal.style.display = '';
 	}
 
 	// Position the guest modal below the trigger element
