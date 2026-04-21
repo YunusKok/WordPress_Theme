@@ -37,41 +37,18 @@ function thessnest_admin_menu() {
 		2
 	);
 
-	// ── 2. Sub-menu: Properties ──
+	// ── 1.5. Sub-menu: Dashboard (Explicit) ──
 	add_submenu_page(
 		'thessnest-dashboard',
-		__( 'All Properties', 'thessnest' ),
-		__( 'Properties', 'thessnest' ),
-		'edit_posts',
-		'edit.php?post_type=property'
+		__( 'Dashboard', 'thessnest' ),
+		__( 'Dashboard', 'thessnest' ),
+		'manage_options',
+		'thessnest-dashboard',
+		'thessnest_dashboard_page'
 	);
 
-	// ── 3. Sub-menu: Add New Property ──
-	add_submenu_page(
-		'thessnest-dashboard',
-		__( 'Add New Property', 'thessnest' ),
-		__( 'Add New Property', 'thessnest' ),
-		'edit_posts',
-		'post-new.php?post_type=property'
-	);
-
-	// ── 4. Sub-menu: Bookings ──
-	add_submenu_page(
-		'thessnest-dashboard',
-		__( 'Bookings', 'thessnest' ),
-		__( 'Bookings', 'thessnest' ),
-		'edit_posts',
-		'edit.php?post_type=thessnest_booking'
-	);
-
-	// ── 5. Sub-menu: Messages ──
-	add_submenu_page(
-		'thessnest-dashboard',
-		__( 'Messages', 'thessnest' ),
-		__( 'Messages', 'thessnest' ),
-		'edit_posts',
-		'edit.php?post_type=thessnest_message'
-	);
+	// ── Removed redundant manual submenus for Properties, Bookings, Messages ──
+	// They are automatically registered by WordPress due to CPT `show_in_menu` argument.
 
 	// ── 6. Sub-menu: Reviews (Comments) ──
 	add_submenu_page(
@@ -107,7 +84,7 @@ function thessnest_admin_menu() {
 		'edit-tags.php?taxonomy=target_group&post_type=property'
 	);
 }
-add_action( 'admin_menu', 'thessnest_admin_menu' );
+add_action( 'admin_menu', 'thessnest_admin_menu', 8 );
 
 
 /**
