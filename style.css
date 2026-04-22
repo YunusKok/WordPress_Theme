@@ -252,6 +252,19 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: none;
 }
 
+/* ─── Inner Page Content Offset ───
+   On non-homepage pages the sticky/absolute header can overlap content.
+   Push #main-content down by the header height so nothing hides behind it. */
+body:not(.home) #main-content {
+  padding-top: var(--header-height);
+}
+
+/* When transparent header is active (position:absolute) on inner pages,
+   also account for the lack of document-flow space. */
+body:not(.home).header-transparent #main-content {
+  padding-top: var(--header-height);
+}
+
 /* Admin Bar Offset for Sticky Header */
 .admin-bar .site-header {
   top: 32px;
