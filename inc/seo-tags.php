@@ -123,3 +123,106 @@ function thessnest_native_seo_tags() {
 	echo "<!-- /ThessNest Native SEO -->\n";
 }
 add_action( 'wp_head', 'thessnest_native_seo_tags', 2 ); // Priority 2 to load early in head
+
+
+/* ==========================================================================
+   OpenGraph & Twitter Card Meta Tags
+   ========================================================================== */
+
+/**
+ * Add OpenGraph XML namespace to the <html> tag.
+ */
+function thessnest_add_opengraph_namespace( $output ) {
+	return $output . ' xmlns:og="http://opengraphprotocol.org/schema/"';
+}
+add_filter( 'language_attributes', 'thessnest_add_opengraph_namespace' );
+
+/**
+ * Output OpenGraph and Twitter Card meta tags in <head>.
+ * These are critical for social media sharing (Facebook, Twitter, LinkedIn, WhatsApp).
+ */
+function thessnest_opengraph_meta() {
+	global $post;
+
+	// Don't output on non-singular pages without a specific post
+	$og_title       = get_bloginfo( 'name' );
+	$og_description = get_bloginfo( 'description' );
+	$og_url         = home_url( '/' );
+	$og_type        = 'website';
+	$og_image       = '';
+
+	// Try to get a site-wide default image from Redux
+	if ( function_exists( 'thessnest_opt' ) ) {
+		$default_logo = thessnest_opt( 'site_logo', '' );
+		if ( is_array( $default_logo ) && ! empty( $default_logo['url'] ) ) {
+			$og_image = $default_logo['url'];
+		}
+	}
+
+	if ( is_singular() && isset( $post->ID ) ) {
+		$og_title = get_the_title( $post->ID );
+		$og_url   = get_permalink( $post->ID );
+		$og_type  = 'article';
+
+		// Use excerpt or trimmed content as description
+		$excerpt = get_the_excerpt( $post->ID );
+		if ( empty( $excerpt ) ) {
+			$excerpt = wp_trim_words( strip_shortcodes( $post->post_content ), 30, '...' );
+		}
+		if ( ! empty( $excerpt ) ) {
+			$og_description = $excerpt;
+		}
+
+		// Featured image
+		if ( has_post_thumbnail( $post->ID ) ) {
+			$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+			if ( is_array( $thumbnail_src ) && ! empty( $thumbnail_src[0] ) ) {
+				$og_image = $thumbnail_src[0];
+			}
+		}
+
+		// Property-specific: use Accommodation type
+		if ( 'property' === get_post_type( $post->ID ) ) {
+			$og_type = 'article'; // or 'place' but article works best for sharing
+
+			// Enrich description with price
+			$rent = get_post_meta( $post->ID, '_thessnest_rent', true );
+			if ( $rent && function_exists( 'thessnest_format_price' ) ) {
+				$og_description = thessnest_format_price( $rent ) . '/mo — ' . $og_description;
+			}
+		}
+	} elseif ( is_post_type_archive( 'property' ) ) {
+		$primary_city = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'primary_city', '' ) : '';
+		$og_title = sprintf( __( 'Properties in %s', 'thessnest' ), $primary_city );
+		$og_url   = get_post_type_archive_link( 'property' );
+	}
+
+	// === Output OpenGraph Tags ===
+	echo "\n<!-- ThessNest OpenGraph -->\n";
+	echo '<meta property="og:title" content="'       . esc_attr( $og_title ) . '" />' . "\n";
+	echo '<meta property="og:type" content="'         . esc_attr( $og_type ) . '" />' . "\n";
+	echo '<meta property="og:url" content="'          . esc_url( $og_url ) . '" />' . "\n";
+	echo '<meta property="og:site_name" content="'    . esc_attr( get_bloginfo( 'name' ) ) . '" />' . "\n";
+	echo '<meta property="og:description" content="'  . esc_attr( wp_strip_all_tags( $og_description ) ) . '" />' . "\n";
+
+	if ( ! empty( $og_image ) ) {
+		echo '<meta property="og:image" content="'    . esc_url( $og_image ) . '" />' . "\n";
+	}
+
+	// Locale
+	$locale = get_locale();
+	echo '<meta property="og:locale" content="' . esc_attr( $locale ) . '" />' . "\n";
+
+	// === Output Twitter Card Tags ===
+	echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+	echo '<meta name="twitter:title" content="'       . esc_attr( $og_title ) . '" />' . "\n";
+	echo '<meta name="twitter:description" content="'  . esc_attr( wp_strip_all_tags( $og_description ) ) . '" />' . "\n";
+
+	if ( ! empty( $og_image ) ) {
+		echo '<meta name="twitter:image" content="'   . esc_url( $og_image ) . '" />' . "\n";
+	}
+
+	echo "<!-- /ThessNest OpenGraph -->\n";
+}
+add_action( 'wp_head', 'thessnest_opengraph_meta', 5 );
+

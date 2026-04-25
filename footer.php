@@ -184,6 +184,16 @@ $s = isset( $style_map[ $footer_style ] ) ? $style_map[ $footer_style ] : $style
 </button>
 
 
+<?php
+// ── Login / Register / Forgot Password Modals (only for non-logged-in users) ──
+if ( ! is_user_logged_in() ) {
+	get_template_part( 'template-parts/modal-login' );
+	get_template_part( 'template-parts/modal-register' );
+	get_template_part( 'template-parts/modal-forgot-password' );
+}
+?>
+
 <?php wp_footer(); ?>
 </body>
 </html>
+

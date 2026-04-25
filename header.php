@@ -71,7 +71,7 @@ $header_classes = 'site-header header-style-' . esc_attr( $header_style );
 			<?php if ( is_user_logged_in() ) : ?>
 				<a href="<?php echo esc_url( home_url( '/add-listing/' ) ); ?>" class="btn btn-outline btn-add-listing">
 			<?php else : ?>
-				<a href="<?php echo esc_url( wp_login_url( home_url( '/add-listing/' ) ) ); ?>" class="btn btn-outline btn-add-listing">
+				<a href="#" class="btn btn-outline btn-add-listing" data-modal-open="modal-register">
 			<?php endif; ?>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 					<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -85,7 +85,7 @@ $header_classes = 'site-header header-style-' . esc_attr( $header_style );
 					<?php esc_html_e( 'Dashboard', 'thessnest' ); ?>
 				</a>
 			<?php else : ?>
-				<a href="<?php echo esc_url( wp_login_url( home_url( '/dashboard/' ) ) ); ?>" class="btn-signin">
+				<a href="#" class="btn-signin" data-modal-open="modal-login">
 					<?php esc_html_e( 'Sign In', 'thessnest' ); ?>
 				</a>
 			<?php endif; ?>
@@ -125,8 +125,8 @@ $header_classes = 'site-header header-style-' . esc_attr( $header_style );
 			<a href="<?php echo esc_url( home_url( '/add-listing/' ) ); ?>" class="btn btn-outline"><?php esc_html_e( 'Add Listing', 'thessnest' ); ?></a>
 			<a href="<?php echo esc_url( home_url( '/dashboard/' ) ); ?>" class="btn btn-primary"><?php esc_html_e( 'Dashboard', 'thessnest' ); ?></a>
 		<?php else : ?>
-			<a href="<?php echo esc_url( wp_login_url( home_url( '/add-listing/' ) ) ); ?>" class="btn btn-outline"><?php esc_html_e( 'Add Listing', 'thessnest' ); ?></a>
-			<a href="<?php echo esc_url( wp_login_url( home_url( '/dashboard/' ) ) ); ?>" class="btn btn-primary"><?php esc_html_e( 'Sign In', 'thessnest' ); ?></a>
+			<a href="#" class="btn btn-outline" data-modal-open="modal-register"><?php esc_html_e( 'Add Listing', 'thessnest' ); ?></a>
+			<a href="#" class="btn btn-primary" data-modal-open="modal-login"><?php esc_html_e( 'Sign In', 'thessnest' ); ?></a>
 		<?php endif; ?>
 	</div>
 </aside>

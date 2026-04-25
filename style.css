@@ -3195,3 +3195,146 @@ select {
   width: 26px;
   height: 26px;
 }
+
+/* ==========================================================================
+   30. MODALS (Login, Register, Forgot Password)
+   ========================================================================== */
+
+.thessnest-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9998;
+  opacity: 1;
+  transition: opacity var(--transition-base);
+}
+
+.thessnest-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--color-background);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  z-index: 9999;
+  padding: var(--space-8);
+  border: 1px solid var(--glass-border);
+}
+
+/* Modern scrollbar for modal */
+.thessnest-modal::-webkit-scrollbar { width: 6px; }
+.thessnest-modal::-webkit-scrollbar-track { background: transparent; }
+.thessnest-modal::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); }
+
+.thessnest-modal-close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: var(--color-surface);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.thessnest-modal-close:hover {
+  background: #f1f5f9;
+  color: var(--color-error);
+  transform: rotate(90deg);
+}
+
+.thessnest-modal-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.thessnest-modal-header h2 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.thessnest-modal-header p {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.thessnest-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.thessnest-form-group label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.thessnest-modal-form input[type="text"],
+.thessnest-modal-form input[type="email"],
+.thessnest-modal-form input[type="password"],
+.thessnest-modal-form select {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all var(--transition-fast);
+}
+
+.thessnest-modal-form input:focus,
+.thessnest-modal-form select:focus {
+  border-color: var(--color-accent);
+  background: var(--color-background);
+  box-shadow: 0 0 0 3px rgba(232, 145, 58, 0.15);
+  outline: none;
+}
+
+.thessnest-modal-submit {
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  font-size: var(--font-size-base);
+}
+
+.thessnest-modal-footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.thessnest-modal-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-left: var(--space-1);
+}
+
+.thessnest-modal-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.thessnest-modal-response {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-align: center;
+}

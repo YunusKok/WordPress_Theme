@@ -607,3 +607,237 @@ require_once THESSNEST_DIR . '/inc/customizer.php';
 // NOTE: All feature modules (Digital Lease, Payouts, Roommate Matching, etc.) 
 // have been moved to the `thessnest-core` plugin to comply with 
 // Envato ThemeForest "Plugin Territory" requirements.
+
+
+/* ==========================================================================
+   13. ADMIN BAR & ACCESS CONTROL
+   ========================================================================== */
+
+/**
+ * Hide the WordPress admin bar for non-administrator users.
+ * Non-admin users only interact via the frontend dashboard.
+ */
+if ( ! current_user_can( 'administrator' ) && ! is_admin() ) {
+	add_filter( 'show_admin_bar', '__return_false' );
+}
+
+/**
+ * Block non-admin users from accessing /wp-admin/ directly.
+ * Redirects them to the homepage instead.
+ */
+if ( ! function_exists( 'thessnest_block_admin_access' ) ) :
+	function thessnest_block_admin_access() {
+		if ( is_user_logged_in() && is_admin() && ! current_user_can( 'administrator' ) && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			wp_safe_redirect( home_url( '/' ) );
+			exit;
+		}
+	}
+	add_action( 'init', 'thessnest_block_admin_access' );
+endif;
+
+
+/* ==========================================================================
+   14. NON-ADMIN LOGIN REDIRECT
+   ========================================================================== */
+
+/**
+ * Redirect non-admin users to the frontend dashboard after login
+ * instead of /wp-admin/.
+ */
+if ( ! function_exists( 'thessnest_login_redirect' ) ) :
+	function thessnest_login_redirect( $redirect_to, $request, $user ) {
+		if ( isset( $user->roles ) && ! in_array( 'administrator', (array) $user->roles, true ) ) {
+			$dashboard_page = home_url( '/dashboard/' );
+			return $dashboard_page;
+		}
+		return $redirect_to;
+	}
+	add_filter( 'login_redirect', 'thessnest_login_redirect', 10, 3 );
+endif;
+
+
+/* ==========================================================================
+   15. CLASSIC WIDGETS — Disable Block Widget Editor
+   ========================================================================== */
+
+/**
+ * Keep the classic widget editor for better theme compatibility.
+ * The block widget editor can break custom sidebar layouts.
+ */
+add_filter( 'use_widgets_block_editor', '__return_false' );
+
+
+/* ==========================================================================
+   16. NON-LATIN USERNAME SUPPORT
+   ========================================================================== */
+
+/**
+ * Allow non-Latin characters (Turkish, Greek, Arabic, Cyrillic etc.)
+ * in WordPress usernames — critical for international students.
+ */
+if ( ! function_exists( 'thessnest_non_strict_login' ) ) :
+	function thessnest_non_strict_login( $username, $raw_username, $strict ) {
+		if ( ! $strict ) {
+			return $username;
+		}
+		return sanitize_user( stripslashes( $raw_username ), false );
+	}
+	add_filter( 'sanitize_user', 'thessnest_non_strict_login', 10, 3 );
+endif;
+
+
+/* ==========================================================================
+   17. SEARCH SCOPE — Limit to Blog Posts Only
+   ========================================================================== */
+
+/**
+ * Ensure the default WordPress search only returns blog posts,
+ * not property CPTs (which have their own archive/search UI).
+ */
+if ( ! function_exists( 'thessnest_limit_search_to_posts' ) ) :
+	function thessnest_limit_search_to_posts( $query ) {
+		if ( ! is_admin() && $query->is_search() && $query->is_main_query() ) {
+			$query->set( 'post_type', 'post' );
+		}
+	}
+	add_action( 'pre_get_posts', 'thessnest_limit_search_to_posts' );
+endif;
+
+
+/* ==========================================================================
+   18. MODAL AJAX HANDLERS (Login, Register, Forgot Password)
+   ========================================================================== */
+
+/**
+ * AJAX Login Handler
+ */
+add_action( 'wp_ajax_nopriv_thessnest_ajax_login', 'thessnest_ajax_login' );
+function thessnest_ajax_login() {
+	check_ajax_referer( 'thessnest-login-nonce', 'login_security' );
+
+	$username = isset( $_POST['username'] ) ? sanitize_text_field( wp_unslash( $_POST['username'] ) ) : '';
+	$password = isset( $_POST['password'] ) ? $_POST['password'] : '';
+	$remember = isset( $_POST['remember'] ) ? true : false;
+
+	if ( empty( $username ) || empty( $password ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please enter both username and password.', 'thessnest' ) ) );
+	}
+
+	$creds = array(
+		'user_login'    => $username,
+		'user_password' => $password,
+		'remember'      => $remember,
+	);
+
+	$user = wp_signon( $creds, is_ssl() );
+
+	if ( is_wp_error( $user ) ) {
+		wp_send_json_error( array( 'message' => $user->get_error_message() ) );
+	}
+
+	wp_send_json_success( array( 
+		'message'  => __( 'Login successful! Redirecting...', 'thessnest' ),
+		'redirect' => home_url( '/dashboard/' ) 
+	) );
+}
+
+/**
+ * AJAX Register Handler
+ */
+add_action( 'wp_ajax_nopriv_thessnest_ajax_register', 'thessnest_ajax_register' );
+function thessnest_ajax_register() {
+	check_ajax_referer( 'thessnest-register-nonce', 'register_security' );
+
+	$first_name = isset( $_POST['first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['first_name'] ) ) : '';
+	$last_name  = isset( $_POST['last_name'] ) ? sanitize_text_field( wp_unslash( $_POST['last_name'] ) ) : '';
+	$email      = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$username   = isset( $_POST['username'] ) ? sanitize_user( wp_unslash( $_POST['username'] ) ) : '';
+	$password   = isset( $_POST['password'] ) ? $_POST['password'] : '';
+	$role       = isset( $_POST['role'] ) && in_array( $_POST['role'], array( 'tenant', 'landlord' ) ) ? sanitize_text_field( $_POST['role'] ) : 'tenant';
+	
+	if ( empty( $email ) || empty( $username ) || empty( $password ) || empty( $first_name ) || empty( $last_name ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please fill in all required fields.', 'thessnest' ) ) );
+	}
+
+	if ( ! is_email( $email ) ) {
+		wp_send_json_error( array( 'message' => __( 'Invalid email address.', 'thessnest' ) ) );
+	}
+
+	if ( username_exists( $username ) ) {
+		wp_send_json_error( array( 'message' => __( 'This username is already taken.', 'thessnest' ) ) );
+	}
+
+	if ( email_exists( $email ) ) {
+		wp_send_json_error( array( 'message' => __( 'This email is already registered.', 'thessnest' ) ) );
+	}
+
+	$user_id = wp_insert_user( array(
+		'user_login' => $username,
+		'user_email' => $email,
+		'user_pass'  => $password,
+		'first_name' => $first_name,
+		'last_name  ' => $last_name,
+		'role'       => $role,
+	) );
+
+	if ( is_wp_error( $user_id ) ) {
+		wp_send_json_error( array( 'message' => $user_id->get_error_message() ) );
+	}
+
+	// Auto-login after registration
+	$creds = array(
+		'user_login'    => $username,
+		'user_password' => $password,
+		'remember'      => true,
+	);
+	wp_signon( $creds, is_ssl() );
+
+	wp_send_json_success( array( 
+		'message'  => __( 'Registration successful! Redirecting...', 'thessnest' ),
+		'redirect' => home_url( '/dashboard/' ) 
+	) );
+}
+
+/**
+ * AJAX Forgot Password Handler
+ */
+add_action( 'wp_ajax_nopriv_thessnest_ajax_forgot_password', 'thessnest_ajax_forgot_password' );
+function thessnest_ajax_forgot_password() {
+	check_ajax_referer( 'thessnest-forgot-nonce', 'forgot_security' );
+
+	$email = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+
+	if ( empty( $email ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please enter your email address.', 'thessnest' ) ) );
+	}
+
+	$user = get_user_by( 'email', $email );
+
+	if ( ! $user ) {
+		// Generic message to prevent user enumeration
+		wp_send_json_success( array( 'message' => __( 'If an account exists with this email, a reset link has been sent.', 'thessnest' ) ) );
+	}
+
+	$key = get_password_reset_key( $user );
+	if ( is_wp_error( $key ) ) {
+		wp_send_json_error( array( 'message' => __( 'Could not generate reset key. Please try again later.', 'thessnest' ) ) );
+	}
+
+	$reset_url = network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user->user_login ), 'login' );
+	
+	$message = __( 'Someone requested a password reset for your account:', 'thessnest' ) . "\r\n\r\n";
+	$message .= network_home_url( '/' ) . "\r\n\r\n";
+	$message .= __( 'Username:', 'thessnest' ) . ' ' . $user->user_login . "\r\n\r\n";
+	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'thessnest' ) . "\r\n\r\n";
+	$message .= __( 'To reset your password, visit the following address:', 'thessnest' ) . "\r\n\r\n";
+	$message .= $reset_url . "\r\n";
+
+	$subject = sprintf( __( '[%s] Password Reset', 'thessnest' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) );
+
+	if ( wp_mail( $email, $subject, $message ) ) {
+		wp_send_json_success( array( 'message' => __( 'If an account exists with this email, a reset link has been sent.', 'thessnest' ) ) );
+	} else {
+		wp_send_json_error( array( 'message' => __( 'The email could not be sent. Please contact the site administrator.', 'thessnest' ) ) );
+	}
+}
+

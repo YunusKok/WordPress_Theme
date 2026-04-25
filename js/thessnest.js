@@ -1235,4 +1235,137 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.updateGuestDisplay();
 	}
 
+	/* ----------------------------------------------------
+	 * 18. User Modals (Login, Register, Forgot Password)
+	 * ---------------------------------------------------- */
+	const modalTriggers = document.querySelectorAll('[data-modal-open]');
+	const modalCloseBtns = document.querySelectorAll('[data-modal-close]');
+	const modalSwitches = document.querySelectorAll('[data-modal-switch]');
+	const modalOverlays = document.querySelectorAll('.thessnest-modal-overlay');
+
+	function openModal(modalId) {
+		const modal = document.getElementById(modalId);
+		const overlay = document.getElementById(modalId + '-overlay');
+		if (modal && overlay) {
+			modal.style.display = 'block';
+			overlay.style.display = 'block';
+			document.body.style.overflow = 'hidden'; // Prevent background scrolling
+		}
+	}
+
+	function closeModal(modalId) {
+		const modal = document.getElementById(modalId);
+		const overlay = document.getElementById(modalId + '-overlay');
+		if (modal && overlay) {
+			modal.style.display = 'none';
+			overlay.style.display = 'none';
+			document.body.style.overflow = '';
+		}
+	}
+
+	function closeAllModals() {
+		document.querySelectorAll('.thessnest-modal').forEach(m => m.style.display = 'none');
+		modalOverlays.forEach(o => o.style.display = 'none');
+		document.body.style.overflow = '';
+	}
+
+	modalTriggers.forEach(trigger => {
+		trigger.addEventListener('click', function(e) {
+			e.preventDefault();
+			const modalId = this.getAttribute('data-modal-open');
+			closeAllModals(); // Ensure others are closed
+			openModal(modalId);
+		});
+	});
+
+	modalCloseBtns.forEach(btn => {
+		btn.addEventListener('click', function(e) {
+			e.preventDefault();
+			const modalId = this.getAttribute('data-modal-close');
+			closeModal(modalId);
+		});
+	});
+
+	modalOverlays.forEach(overlay => {
+		overlay.addEventListener('click', function() {
+			closeAllModals();
+		});
+	});
+
+	modalSwitches.forEach(switchBtn => {
+		switchBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			const targetModalId = this.getAttribute('data-modal-switch');
+			closeAllModals();
+			openModal(targetModalId);
+		});
+	});
+
+	// Escape key to close modals
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') {
+			closeAllModals();
+		}
+	});
+
+	// AJAX Form Submissions for Modals
+	function handleModalFormSubmit(formId, btnId, responseId) {
+		const form = document.getElementById(formId);
+		if (!form) return;
+
+		form.addEventListener('submit', function(e) {
+			e.preventDefault();
+			const btn = document.getElementById(btnId);
+			const responseDiv = document.getElementById(responseId);
+			const originalBtnText = btn.innerHTML;
+
+			btn.disabled = true;
+			btn.innerHTML = 'Processing...';
+			responseDiv.style.display = 'none';
+
+			const formData = new FormData(this);
+
+			fetch(thessnestAjax.ajaxurl, {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				responseDiv.style.display = 'block';
+				if (data.success) {
+					responseDiv.style.background = '#f0fdf4';
+					responseDiv.style.color = '#166534';
+					responseDiv.innerHTML = data.data.message;
+					if (data.data.redirect) {
+						setTimeout(() => {
+							window.location.href = data.data.redirect;
+						}, 1000);
+					} else {
+						btn.disabled = false;
+						btn.innerHTML = originalBtnText;
+					}
+				} else {
+					responseDiv.style.background = '#fef2f2';
+					responseDiv.style.color = '#991b1b';
+					responseDiv.innerHTML = data.data.message || 'An error occurred.';
+					btn.disabled = false;
+					btn.innerHTML = originalBtnText;
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				responseDiv.style.display = 'block';
+				responseDiv.style.background = '#fef2f2';
+				responseDiv.style.color = '#991b1b';
+				responseDiv.innerHTML = 'A server error occurred. Please try again.';
+				btn.disabled = false;
+				btn.innerHTML = originalBtnText;
+			});
+		});
+	}
+
+	handleModalFormSubmit('thessnest-login-form', 'login-submit-btn', 'login-response');
+	handleModalFormSubmit('thessnest-register-form', 'register-submit-btn', 'register-response');
+	handleModalFormSubmit('thessnest-forgot-form', 'forgot-submit-btn', 'forgot-response');
+
 });

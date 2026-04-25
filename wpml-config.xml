@@ -1,0 +1,72 @@
+<wpml-config>
+    <!-- Custom Post Types -->
+    <custom-types>
+        <custom-type translate="1">property</custom-type>
+    </custom-types>
+
+    <!-- Taxonomies -->
+    <taxonomies>
+        <taxonomy translate="1">property_type</taxonomy>
+        <taxonomy translate="1">property_status</taxonomy>
+        <taxonomy translate="1">property_label</taxonomy>
+        <taxonomy translate="1">neighborhood</taxonomy>
+        <taxonomy translate="1">amenity</taxonomy>
+        <taxonomy translate="1">target_group</taxonomy>
+    </taxonomies>
+
+    <!-- Custom Fields (Meta) -->
+    <custom-fields>
+        <!-- Property Pricing & Fees -->
+        <custom-field action="copy">_thessnest_rent</custom-field>
+        <custom-field action="copy">_thessnest_deposit</custom-field>
+        <custom-field action="copy">_thessnest_cleaning_fee</custom-field>
+        <custom-field action="copy">_thessnest_price_postfix</custom-field>
+
+        <!-- Property Details -->
+        <custom-field action="translate">_thessnest_size</custom-field>
+        <custom-field action="translate">_thessnest_size_unit</custom-field>
+        <custom-field action="copy">_thessnest_bedrooms</custom-field>
+        <custom-field action="copy">_thessnest_bathrooms</custom-field>
+        <custom-field action="copy">_thessnest_beds</custom-field>
+        <custom-field action="copy">_thessnest_guests</custom-field>
+
+        <!-- Location (Copied, not translated) -->
+        <custom-field action="copy">_thessnest_address</custom-field>
+        <custom-field action="copy">_thessnest_latitude</custom-field>
+        <custom-field action="copy">_thessnest_longitude</custom-field>
+        <custom-field action="copy">_thessnest_map_zoom</custom-field>
+
+        <!-- Media -->
+        <custom-field action="copy">_thessnest_gallery</custom-field>
+        <custom-field action="copy">_thessnest_video_url</custom-field>
+
+        <!-- Booking Settings -->
+        <custom-field action="copy">_thessnest_instant_booking</custom-field>
+        <custom-field action="copy">_thessnest_min_stay</custom-field>
+        <custom-field action="copy">_thessnest_max_stay</custom-field>
+
+        <!-- Miscellaneous -->
+        <custom-field action="translate">_thessnest_house_rules</custom-field>
+        <custom-field action="translate">_thessnest_cancellation_policy</custom-field>
+    </custom-fields>
+
+    <!-- Admin Texts (Redux Framework Options) -->
+    <admin-texts>
+        <key name="thessnest_options">
+            <!-- General -->
+            <key name="primary_city" />
+            <key name="primary_country" />
+            <key name="target_audience" />
+            
+            <!-- Contact -->
+            <key name="contact_email" />
+            <key name="contact_phone" />
+            <key name="contact_address" />
+            
+            <!-- Labels -->
+            <key name="label_property" />
+            <key name="label_properties" />
+            <key name="label_search_placeholder" />
+        </key>
+    </admin-texts>
+</wpml-config>
