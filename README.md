@@ -210,5 +210,3 @@ See [LICENSE](LICENSE) for the full license text.
 ## Support & Documentation
 
 - Full setup guide: `setup_instructions.md`
-- Support: [hello@thessnest.com](mailto:hello@thessnest.com)
-- Demo: [https://thessnest.com/demo](https://thessnest.com/demo)
