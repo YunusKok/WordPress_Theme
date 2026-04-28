@@ -41,8 +41,8 @@ function thessnest_enqueue_availability_calendar() {
 			),
 			array(
 				'key'     => '_booking_status',
-				'value'   => 'confirmed', // Only block dates if confirmed
-				'compare' => '='
+				'value'   => array( 'confirmed', 'ical_imported' ),
+				'compare' => 'IN',
 			)
 		)
 	) );

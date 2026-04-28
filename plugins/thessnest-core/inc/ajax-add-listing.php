@@ -101,9 +101,28 @@ function thessnest_submit_listing() {
 		update_post_meta( $post_id, '_thessnest_seasonal_rates', $seasonal_rates );
 	}
 
-	$ical_url = isset( $_POST['listing_ical_url'] ) ? esc_url_raw( $_POST['listing_ical_url'] ) : '';
-	if ( ! empty( $ical_url ) ) {
-		update_post_meta( $post_id, '_thessnest_ical_import_url', $ical_url );
+	// Save iCal Import Feeds (multiple feeds support)
+	$ical_feeds = array();
+	if ( isset( $_POST['listing_ical_feeds'] ) && is_array( $_POST['listing_ical_feeds'] ) ) {
+		foreach ( $_POST['listing_ical_feeds'] as $feed ) {
+			$url  = isset( $feed['url'] ) ? esc_url_raw( $feed['url'] ) : '';
+			$name = isset( $feed['name'] ) ? sanitize_text_field( $feed['name'] ) : '';
+			if ( ! empty( $url ) ) {
+				$ical_feeds[] = array( 'name' => $name, 'url' => $url );
+			}
+		}
+	}
+
+	// Legacy single URL support (backward compat)
+	if ( empty( $ical_feeds ) && isset( $_POST['listing_ical_url'] ) ) {
+		$legacy_url = esc_url_raw( $_POST['listing_ical_url'] );
+		if ( ! empty( $legacy_url ) ) {
+			$ical_feeds[] = array( 'name' => 'External Calendar', 'url' => $legacy_url );
+		}
+	}
+
+	if ( ! empty( $ical_feeds ) ) {
+		update_post_meta( $post_id, '_thessnest_ical_feeds', $ical_feeds );
 	}
 
 	// 4. Assign Taxonomies

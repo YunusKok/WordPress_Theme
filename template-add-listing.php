@@ -108,15 +108,51 @@ get_header();
 					</p>
 				</div>
 
-				<!-- iCal External Calendar Import -->
-				<div class="form-group">
-					<label for="listing_ical_url" style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
-						<?php esc_html_e( 'External iCal Import URL (.ics) - Optional', 'thessnest' ); ?>
+			<!-- iCal External Calendar Import (Multiple Feeds) -->
+				<div class="form-group" style="margin-bottom:var(--space-6);">
+					<label style="display:block; margin-bottom:var(--space-2); font-weight:600; color:var(--color-text);">
+						<?php esc_html_e( 'External iCal Import Feeds (.ics) - Optional', 'thessnest' ); ?>
 					</label>
-					<input type="url" id="listing_ical_url" name="listing_ical_url" placeholder="https://www.airbnb.com/calendar/ical/..." style="width:100%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text);">
-					<p style="font-size:12px;color:var(--color-text-muted);margin-top:var(--space-1);">
-						<?php esc_html_e( 'Paste your Airbnb or Booking.com calendar sync link here to prevent double bookings.', 'thessnest' ); ?>
+					<p style="font-size:12px;color:var(--color-text-muted);margin-bottom:var(--space-3);">
+						<?php esc_html_e( 'Paste your Airbnb, Booking.com, or HousingAnywhere calendar sync links here to prevent double bookings. You can add multiple feeds.', 'thessnest' ); ?>
 					</p>
+
+					<div id="ical-feeds-container">
+						<!-- Default first row -->
+						<div class="ical-feed-row" style="display:flex; gap:var(--space-2); margin-bottom:var(--space-2); align-items:flex-start;">
+							<input type="text" name="listing_ical_feeds[0][name]" placeholder="<?php esc_attr_e( 'e.g. Airbnb', 'thessnest' ); ?>" style="width:30%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text); font-size:var(--font-size-sm);">
+							<input type="url" name="listing_ical_feeds[0][url]" placeholder="https://www.airbnb.com/calendar/ical/..." style="flex:1; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text); font-size:var(--font-size-sm);">
+							<button type="button" class="btn-remove-ical-feed" style="background:#ef4444; color:white; border:none; border-radius:var(--radius-sm); padding:var(--space-3) 12px; cursor:pointer; font-size:14px;" title="<?php esc_attr_e( 'Remove', 'thessnest' ); ?>">✕</button>
+						</div>
+					</div>
+
+					<button type="button" id="btn-add-ical-feed" class="btn btn-outline" style="margin-top:var(--space-2); padding:var(--space-2) var(--space-4); font-size:var(--font-size-sm);">
+						+ <?php esc_html_e( 'Add Another Feed', 'thessnest' ); ?>
+					</button>
+
+					<script>
+					document.addEventListener('DOMContentLoaded', function() {
+						var icalContainer = document.getElementById('ical-feeds-container');
+						var icalBtnAdd = document.getElementById('btn-add-ical-feed');
+						var icalIndex = 1;
+
+						icalBtnAdd.addEventListener('click', function() {
+							var html = '<div class="ical-feed-row" style="display:flex; gap:var(--space-2); margin-bottom:var(--space-2); align-items:flex-start;">' +
+								'<input type="text" name="listing_ical_feeds[' + icalIndex + '][name]" placeholder="<?php echo esc_js( __( 'e.g. Booking.com', 'thessnest' ) ); ?>" style="width:30%; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text); font-size:var(--font-size-sm);">' +
+								'<input type="url" name="listing_ical_feeds[' + icalIndex + '][url]" placeholder="https://..." style="flex:1; padding:var(--space-3); border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-surface); color:var(--color-text); font-size:var(--font-size-sm);">' +
+								'<button type="button" class="btn-remove-ical-feed" style="background:#ef4444; color:white; border:none; border-radius:var(--radius-sm); padding:var(--space-3) 12px; cursor:pointer; font-size:14px;" title="<?php echo esc_js( __( 'Remove', 'thessnest' ) ); ?>">✕</button>' +
+								'</div>';
+							icalContainer.insertAdjacentHTML('beforeend', html);
+							icalIndex++;
+						});
+
+						icalContainer.addEventListener('click', function(e) {
+							if (e.target.classList.contains('btn-remove-ical-feed')) {
+								e.target.closest('.ical-feed-row').remove();
+							}
+						});
+					});
+					</script>
 				</div>
 
 				<!-- Neighborhood -->

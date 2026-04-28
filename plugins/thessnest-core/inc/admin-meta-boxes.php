@@ -81,6 +81,15 @@ class ThessNest_Admin_Meta_Boxes {
 			'normal',
 			'high'
 		);
+
+		add_meta_box(
+			'thessnest_ical_feeds',
+			__( 'iCalendar Feeds (Sync)', 'thessnest' ),
+			array( $this, 'render_ical_feeds_meta_box' ),
+			'property',
+			'side',
+			'default'
+		);
 	}
 
 	/**
@@ -215,6 +224,156 @@ class ThessNest_Admin_Meta_Boxes {
 	}
 
 	/**
+	 * Render the iCal Feeds meta box.
+	 */
+	public function render_ical_feeds_meta_box( $post ) {
+		wp_nonce_field( 'thessnest_save_ical_feeds', 'thessnest_ical_feeds_nonce' );
+
+		$feeds = get_post_meta( $post->ID, '_thessnest_ical_feeds', true );
+		if ( ! is_array( $feeds ) ) {
+			$feeds = array();
+		}
+
+		// Backward compat: show legacy single URL if no new feeds exist
+		if ( empty( $feeds ) ) {
+			$legacy_url = get_post_meta( $post->ID, '_thessnest_ical_import_url', true );
+			if ( ! empty( $legacy_url ) ) {
+				$feeds[] = array( 'name' => 'Airbnb', 'url' => $legacy_url );
+			}
+		}
+
+		$last_sync = get_post_meta( $post->ID, '_thessnest_ical_last_sync', true );
+		$export_url = get_permalink( $post->ID ) . 'ical/';
+		?>
+
+		<style>
+			.thessnest-ical-feed { background: #f9f9f9; border: 1px solid #ddd; border-radius: 4px; padding: 8px; margin-bottom: 8px; }
+			.thessnest-ical-feed input { width: 100%; margin-bottom: 4px; padding: 4px 6px; border: 1px solid #ccc; border-radius: 3px; font-size: 12px; }
+			.thessnest-ical-feed .btn-remove-ical { background: #d63638; color: #fff; border: none; padding: 2px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; float: right; }
+			.thessnest-ical-export { background: #f0f6fc; border: 1px solid #c3d9ed; border-radius: 4px; padding: 8px; margin-bottom: 10px; font-size: 11px; word-break: break-all; }
+			.thessnest-ical-sync-status { font-size: 11px; color: #646970; margin: 6px 0; }
+			#thessnest-sync-result { margin-top: 8px; padding: 6px 8px; border-radius: 3px; font-size: 11px; display: none; }
+		</style>
+
+		<!-- Export URL -->
+		<p style="margin:0 0 6px; font-weight:600; font-size:12px;"><?php esc_html_e( '📤 Export URL', 'thessnest' ); ?></p>
+		<div class="thessnest-ical-export">
+			<input type="text" value="<?php echo esc_url( $export_url ); ?>" readonly onclick="this.select()" style="width:100%;border:none;background:transparent;font-size:11px;">
+			<small><?php esc_html_e( 'Paste this URL into Airbnb / Booking.com to export ThessNest bookings.', 'thessnest' ); ?></small>
+		</div>
+
+		<!-- Import Feeds -->
+		<p style="margin:0 0 6px; font-weight:600; font-size:12px;"><?php esc_html_e( '📥 Import Feeds', 'thessnest' ); ?></p>
+		<div id="thessnest-ical-feeds-container">
+			<?php foreach ( $feeds as $index => $feed ) : ?>
+				<div class="thessnest-ical-feed">
+					<button type="button" class="btn-remove-ical">✕</button>
+					<input type="text" name="thessnest_ical_feeds[<?php echo $index; ?>][name]" placeholder="<?php esc_attr_e( 'Feed Name (e.g. Airbnb)', 'thessnest' ); ?>" value="<?php echo esc_attr( $feed['name'] ); ?>">
+					<input type="url" name="thessnest_ical_feeds[<?php echo $index; ?>][url]" placeholder="<?php esc_attr_e( 'https://...ical/...', 'thessnest' ); ?>" value="<?php echo esc_url( $feed['url'] ); ?>">
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<button type="button" id="thessnest-btn-add-ical-feed" class="button button-small" style="margin-top:4px;">+ <?php esc_html_e( 'Add Feed', 'thessnest' ); ?></button>
+
+		<!-- Last Sync -->
+		<div class="thessnest-ical-sync-status">
+			<?php esc_html_e( 'Last synced:', 'thessnest' ); ?>
+			<strong id="thessnest-last-sync-time">
+				<?php
+				if ( $last_sync ) {
+					echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $last_sync ) );
+				} else {
+					esc_html_e( 'Never', 'thessnest' );
+				}
+				?>
+			</strong>
+		</div>
+
+		<!-- Sync Now Button -->
+		<?php if ( $post->post_status === 'publish' ) : ?>
+		<button type="button" id="thessnest-btn-sync-now" class="button button-primary button-small" style="margin-top:4px;width:100%;">
+			🔄 <?php esc_html_e( 'Sync Now', 'thessnest' ); ?>
+		</button>
+		<div id="thessnest-sync-result"></div>
+		<?php endif; ?>
+
+		<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var container = document.getElementById('thessnest-ical-feeds-container');
+			var btnAdd = document.getElementById('thessnest-btn-add-ical-feed');
+			var feedIndex = <?php echo count( $feeds ); ?>;
+
+			// Add Feed
+			if (btnAdd) {
+				btnAdd.addEventListener('click', function(e) {
+					e.preventDefault();
+					var html = '<div class="thessnest-ical-feed">' +
+						'<button type="button" class="btn-remove-ical">✕</button>' +
+						'<input type="text" name="thessnest_ical_feeds[' + feedIndex + '][name]" placeholder="<?php echo esc_js( __( 'Feed Name (e.g. Airbnb)', 'thessnest' ) ); ?>">' +
+						'<input type="url" name="thessnest_ical_feeds[' + feedIndex + '][url]" placeholder="<?php echo esc_js( __( 'https://...ical/...', 'thessnest' ) ); ?>">' +
+						'</div>';
+					container.insertAdjacentHTML('beforeend', html);
+					feedIndex++;
+				});
+			}
+
+			// Remove Feed
+			container.addEventListener('click', function(e) {
+				if (e.target.classList.contains('btn-remove-ical')) {
+					e.target.closest('.thessnest-ical-feed').remove();
+				}
+			});
+
+			// Sync Now
+			var btnSync = document.getElementById('thessnest-btn-sync-now');
+			if (btnSync) {
+				btnSync.addEventListener('click', function(e) {
+					e.preventDefault();
+					var resultEl = document.getElementById('thessnest-sync-result');
+					btnSync.disabled = true;
+					btnSync.textContent = '⏳ <?php echo esc_js( __( 'Syncing...', 'thessnest' ) ); ?>';
+					resultEl.style.display = 'none';
+
+					var formData = new FormData();
+					formData.append('action', 'thessnest_ical_sync_now');
+					formData.append('property_id', '<?php echo intval( $post->ID ); ?>');
+					formData.append('security', '<?php echo wp_create_nonce( 'thessnest_ical_sync_nonce' ); ?>');
+
+					fetch(ajaxurl, { method: 'POST', body: formData })
+						.then(function(r) { return r.json(); })
+						.then(function(resp) {
+							if (resp.success) {
+								resultEl.style.display = 'block';
+								resultEl.style.background = '#ecfdf5';
+								resultEl.style.color = '#065f46';
+								resultEl.textContent = resp.data.message;
+								document.getElementById('thessnest-last-sync-time').textContent = resp.data.last_sync;
+							} else {
+								resultEl.style.display = 'block';
+								resultEl.style.background = '#fef2f2';
+								resultEl.style.color = '#991b1b';
+								resultEl.textContent = resp.data.message || 'Error';
+							}
+						})
+						.catch(function() {
+							resultEl.style.display = 'block';
+							resultEl.style.background = '#fef2f2';
+							resultEl.style.color = '#991b1b';
+							resultEl.textContent = 'Network error.';
+						})
+						.finally(function() {
+							btnSync.disabled = false;
+							btnSync.textContent = '🔄 <?php echo esc_js( __( 'Sync Now', 'thessnest' ) ); ?>';
+						});
+				});
+			}
+		});
+		</script>
+		<?php
+	}
+
+	/**
 	 * Save meta box data.
 	 */
 	public function save_property_meta_boxes( $post_id ) {
@@ -270,6 +429,26 @@ class ThessNest_Admin_Meta_Boxes {
 			}
 		}
 		update_post_meta( $post_id, '_thessnest_seasonal_rates', $seasonal_rates );
+
+		// Save iCal Feeds (if nonce present — separate meta box)
+		if ( isset( $_POST['thessnest_ical_feeds_nonce'] ) && wp_verify_nonce( $_POST['thessnest_ical_feeds_nonce'], 'thessnest_save_ical_feeds' ) ) {
+			$ical_feeds = array();
+			if ( isset( $_POST['thessnest_ical_feeds'] ) && is_array( $_POST['thessnest_ical_feeds'] ) ) {
+				foreach ( $_POST['thessnest_ical_feeds'] as $feed ) {
+					$url  = isset( $feed['url'] ) ? esc_url_raw( $feed['url'] ) : '';
+					$name = isset( $feed['name'] ) ? sanitize_text_field( $feed['name'] ) : '';
+					if ( ! empty( $url ) ) {
+						$ical_feeds[] = array( 'name' => $name, 'url' => $url );
+					}
+				}
+			}
+			update_post_meta( $post_id, '_thessnest_ical_feeds', $ical_feeds );
+
+			// Clean up legacy meta if new feeds are saved
+			if ( ! empty( $ical_feeds ) ) {
+				delete_post_meta( $post_id, '_thessnest_ical_import_url' );
+			}
+		}
 	}
 }
 

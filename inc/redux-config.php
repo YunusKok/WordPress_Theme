@@ -1915,3 +1915,54 @@ Redux::set_section( $opt_name, array(
 		),
 	),
 ) );
+
+
+// ═══════════════════════════════════════════════════
+//  SECTION: Tools
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Tools', 'thessnest' ),
+	'id'     => 'tools',
+	'icon'   => 'el el-wrench',
+) );
+
+// ── Tools → iCal Sync ──
+Redux::set_section( $opt_name, array(
+	'title'      => __( 'iCal Sync', 'thessnest' ),
+	'id'         => 'tools_ical_sync',
+	'subsection' => true,
+	'fields'     => array(
+		array(
+			'id'       => 'ical_sync_enabled',
+			'type'     => 'switch',
+			'title'    => __( 'Enable iCal Auto-Sync', 'thessnest' ),
+			'subtitle' => __( 'When enabled, ThessNest will periodically fetch external iCal feeds (Airbnb, Booking.com, etc.) for all properties and block imported dates on the availability calendar.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'ical_sync_interval',
+			'type'     => 'select',
+			'title'    => __( 'Sync Interval', 'thessnest' ),
+			'subtitle' => __( 'How often the system fetches external calendars. A shorter interval ensures faster updates but increases server load.', 'thessnest' ),
+			'options'  => array(
+				'1'  => __( 'Every 1 hour', 'thessnest' ),
+				'2'  => __( 'Every 2 hours', 'thessnest' ),
+				'4'  => __( 'Every 4 hours (Recommended)', 'thessnest' ),
+				'8'  => __( 'Every 8 hours', 'thessnest' ),
+				'12' => __( 'Every 12 hours', 'thessnest' ),
+				'24' => __( 'Every 24 hours', 'thessnest' ),
+			),
+			'default'  => '4',
+			'required' => array( 'ical_sync_enabled', '=', true ),
+		),
+		array(
+			'id'       => 'ical_sync_info',
+			'type'     => 'info',
+			'style'    => 'info',
+			'title'    => __( 'How iCal Sync Works', 'thessnest' ),
+			'desc'     => __( '<strong>Export:</strong> Each property gets an iCal feed URL at <code>/property/{slug}/ical/</code> — paste this into Airbnb, Booking.com, or HousingAnywhere to push your ThessNest bookings outward.<br><br><strong>Import:</strong> Landlords can add external .ics URLs (from Airbnb, etc.) on each property. The system fetches these feeds and blocks the booked dates on the ThessNest calendar, preventing double bookings.<br><br><strong>Cron Job:</strong> The auto-sync runs via WP-Cron at the interval you select above. You can also manually trigger a sync from the property edit screen in wp-admin.', 'thessnest' ),
+			'required' => array( 'ical_sync_enabled', '=', true ),
+		),
+	),
+) );
