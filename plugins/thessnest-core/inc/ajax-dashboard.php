@@ -109,3 +109,50 @@ function thessnest_delete_property() {
 }
 add_action( 'wp_ajax_thessnest_delete_property', 'thessnest_delete_property' );
 // No nopriv, action requires login
+
+/**
+ * Save iCal Feeds from Frontend Dashboard
+ */
+function thessnest_save_ical_feeds_frontend() {
+	check_ajax_referer( 'thessnest_dashboard_nonce', 'security' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => __( 'You must be logged in.', 'thessnest' ) ) );
+	}
+
+	$property_id = isset( $_POST['property_id'] ) ? intval( $_POST['property_id'] ) : 0;
+	if ( ! $property_id || 'property' !== get_post_type( $property_id ) ) {
+		wp_send_json_error( array( 'message' => __( 'Invalid property.', 'thessnest' ) ) );
+	}
+
+	// Ownership check
+	$post = get_post( $property_id );
+	if ( (int) $post->post_author !== get_current_user_id() && ! current_user_can( 'administrator' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Permission denied.', 'thessnest' ) ) );
+	}
+
+	$feeds = array();
+	if ( isset( $_POST['feeds'] ) && is_array( $_POST['feeds'] ) ) {
+		foreach ( $_POST['feeds'] as $feed ) {
+			$url  = isset( $feed['url'] ) ? esc_url_raw( $feed['url'] ) : '';
+			$name = isset( $feed['name'] ) ? sanitize_text_field( $feed['name'] ) : '';
+			if ( ! empty( $url ) ) {
+				$feeds[] = array( 'name' => $name, 'url' => $url );
+			}
+		}
+	}
+
+	update_post_meta( $property_id, '_thessnest_ical_feeds', $feeds );
+
+	// Clean up legacy meta
+	if ( ! empty( $feeds ) ) {
+		delete_post_meta( $property_id, '_thessnest_ical_import_url' );
+	}
+
+	wp_send_json_success( array(
+		'message'    => sprintf( __( '%d feed(s) saved successfully.', 'thessnest' ), count( $feeds ) ),
+		'feed_count' => count( $feeds ),
+	) );
+}
+add_action( 'wp_ajax_thessnest_save_ical_feeds_frontend', 'thessnest_save_ical_feeds_frontend' );
+
