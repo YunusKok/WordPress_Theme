@@ -193,7 +193,7 @@ Alternatively, open `languages/thessnest.pot` in [Poedit](https://poedit.net/) t
 ThessNest is licensed under the **GNU General Public License v2.0 or later**.
 
 ```
-Copyright (C) 2026 ThessNest Team <hello@thessnest.com>
+Copyright (C) 2026 ThessNest Team <helo@thessnest.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

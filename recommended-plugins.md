@@ -13,25 +13,30 @@ This document contains a list of essential plugins recommended to get the best o
 *   **Cost:** Free
 *   **Priority:** Critical (Required to localize/customize standard theme text)
 
-### 2. Contact Form 7 (or WPForms)
+### 3. Contact Form 7 (or WPForms)
 *   **Purpose:** Provides a form builder to add functional contact forms to your "Contact Us" or property inquiry pages.
 *   **Cost:** Free
 *   **Priority:** High (Necessary for communication with landlords and tenants)
 
-### 3. Classic Editor - *Optional*
-*   **Purpose:** Replaces the new block-based Gutenberg editor with the traditional, word-processor-like classic editor for pages and posts.
-*   **Cost:** Free
-*   **Priority:** Optional (Only if you prefer the old editor interface)
+### 4. CookieYes (GDPR/KVKK Compliance)
+*   **Purpose:** Essential for handling user consent for cookies. Ensures your site complies with GDPR and KVKK regulations by displaying a customizable cookie banner and managing script blocking until consent is given.
+*   **Cost:** Free (Premium versions available)
+*   **Priority:** High (Crucial for legal compliance in the EU/Turkey)
 
-### 4. Rank Math SEO (or Yoast SEO)
-*   **Purpose:** The most modern, lightweight, and powerful SEO tool. Replaces problematic plugins (like SureRank) without crashing servers. Provides tools and settings to optimize pages, properties, and the overall website for better visibility on search engines (Google).
+### 5. Rank Math SEO (or Yoast SEO)
+*   **Purpose:** The most modern, lightweight, and powerful SEO tool. Provides tools and settings to optimize pages, properties, and the overall website for better visibility on search engines (Google).
 *   **Cost:** Free (Premium version available)
-*   **Priority:** Medium (Highly recommended for project visibility and speed)
+*   **Priority:** Medium (Highly recommended for project visibility and organic traffic)
 
-### 5. WP Super Cache (or LiteSpeed Cache/W3 Total Cache)
+### 6. WP Super Cache (or LiteSpeed Cache/W3 Total Cache)
 *   **Purpose:** Generates static HTML files from your dynamic WordPress blog. This significantly improves page load times and prevents heavy elements like the map view from overloading your server.
 *   **Cost:** Free
 *   **Priority:** High (Crucial for speed and performance)
+
+### 7. Classic Editor - *Optional*
+*   **Purpose:** Replaces the new block-based Gutenberg editor with the traditional, word-processor-like classic editor for pages and posts.
+*   **Cost:** Free
+*   **Priority:** Optional (Only if you prefer the old editor interface)
 
 ---
 *Note: This list may be updated as new features or requirements arise.*
