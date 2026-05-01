@@ -151,4 +151,34 @@ Warm regards,<br>
 
 ---
 
+## 5. New Reservation Sent By Admin (Notification to Guest)
+
+**Subject:**
+```text
+Reservation Confirmation: Your Booking Request at {site_title}
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+Great news! Our administrative team has successfully placed a reservation request on your behalf for a property on <strong>{site_title}</strong>.<br><br>
+
+<strong>Your Message to the Host:</strong><br>
+<em>"{guest_message}"</em><br>
+<a href="{message_link}" style="color: #1b2a4a; font-weight: bold;">Click here to send another message or view the conversation</a><br><br>
+
+<strong>What Happens Next?</strong><br>
+The property host will review your request and confirm availability shortly. Once confirmed, you will receive an update regarding the next steps for payment and check-in.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">View Your Reservation Details</a><br><br>
+
+Thank you for choosing ThessNest to find your perfect home.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
 *(Please provide the original text of the next email templates you want to update, and they will be added here!)*
