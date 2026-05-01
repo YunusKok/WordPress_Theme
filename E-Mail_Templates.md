@@ -241,4 +241,188 @@ Warm regards,<br>
 
 ---
 
+## 8. Confirm Reservation (Notification to Guest for Payment)
+
+**Subject:**
+```text
+Good News! Your Reservation on {site_title} is Confirmed
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+Great news! The host has successfully confirmed availability for your reservation on <strong>{site_title}</strong>.<br><br>
+
+<strong>Next Steps: Secure Your Booking</strong><br>
+To finalize your reservation and secure your selected dates, please complete the required payment. <em>Please note that your booking is not fully secured until the payment process is successfully completed.</em><br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 12px 25px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px; font-size: 16px;">Complete Payment Now</a><br><br>
+
+If you have any questions or need further assistance, feel free to contact the host through our platform.<br><br>
+
+We are thrilled to host you!<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
+## 9. Reservation Booked (Notification to Guest upon Payment)
+
+**Subject:**
+```text
+Booking Confirmed! Your Stay at {site_title} is Locked In
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+Congratulations! We have successfully received your payment, and your reservation on <strong>{site_title}</strong> is now fully confirmed.<br><br>
+
+<strong>Get Ready for Your Trip!</strong><br>
+Your selected dates are locked in, and the host is looking forward to welcoming you. You can review all the important details regarding your check-in, property rules, and the host's contact information via the link below.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 12px 25px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px; font-size: 16px;">View Booking Details & Itinerary</a><br><br>
+
+If you have any specific requests or questions before your arrival, please feel free to message your host directly through the platform.<br><br>
+
+Thank you for booking with ThessNest. We wish you a wonderful stay!<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
+## 10. Reservation Booked (Notification to Admin upon Payment)
+
+**Subject:**
+```text
+[Admin Alert] Booking Successfully Completed on {site_title}
+```
+
+**Message:**
+```html
+Hello Admin,<br><br>
+
+Great news! A reservation has just been successfully booked and paid for on <strong>{site_title}</strong>.<br><br>
+
+<strong>Transaction Complete:</strong><br>
+The payment has been processed, and the selected dates are now officially locked in for the guest. You can review the full transaction and booking details in your administrative dashboard.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">Review Booking in Dashboard</a><br><br>
+
+Best regards,<br>
+<strong>{site_title} System Notifier</strong>
+```
+
+---
+
+## 11. Reservation Declined (Notification to Guest)
+
+**Subject:**
+```text
+Update on Your Reservation Request at {site_title}
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+We are writing to inform you that the host was unfortunately unable to accept your reservation request for their property on <strong>{site_title}</strong> at this time.<br><br>
+
+<strong>Don't Worry, We Have Other Options!</strong><br>
+While this specific request couldn't be accommodated, Thessaloniki has many other beautiful homes waiting for you. We encourage you to explore other available properties that match your dates.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #f8f9fa; color: #1b2a4a; text-decoration: none; border: 1px solid #1b2a4a; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">View Request Details</a><br><br>
+
+If you need any assistance finding a new place to stay, our support team is always here to help you.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
+## 12. Reservation Cancelled
+
+**Subject:**
+```text
+Cancellation Notice: Reservation at {site_title}
+```
+
+**Message:**
+```html
+Hello,<br><br>
+
+This is an automated notification to inform you that a reservation on <strong>{site_title}</strong> has been officially cancelled.<br><br>
+
+<strong>What Does This Mean?</strong><br>
+The dates for this booking have been released, and the reservation is no longer active. If any payments were processed, applicable refunds will be handled according to our standard cancellation policy.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #f8f9fa; color: #1b2a4a; text-decoration: none; border: 1px solid #1b2a4a; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">View Cancellation Details</a><br><br>
+
+If you believe this cancellation was made in error or if you need assistance with rebooking, please contact our support team immediately.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
+## 13. Local Payment Received (Notification to Host / Admin)
+
+**Subject:**
+```text
+Action Required: Verify Local Payment Received - {site_title}
+```
+
+**Message:**
+```html
+Hello,<br><br>
+
+A guest has submitted a reservation request on <strong>{site_title}</strong> and selected "Local Payment / Bank Transfer" as their payment method.<br><br>
+
+<strong>Action Required:</strong><br>
+Please verify your bank account to confirm receipt of the funds. Once the payment has cleared, you must manually mark this reservation as "Booked" in your dashboard to finalize the guest's booking.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">Verify & Update Reservation Status</a><br><br>
+
+Best regards,<br>
+<strong>{site_title} System Notifier</strong>
+```
+
+---
+
+## 14. Local Payment Sent (Notification to Guest)
+
+**Subject:**
+```text
+Payment Processing: Your Reservation at {site_title}
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+Thank you for choosing to proceed with your booking on <strong>{site_title}</strong>. We have received your request to pay via "Local Payment / Bank Transfer".<br><br>
+
+<strong>What's Next?</strong><br>
+Our administrative team is currently waiting to receive and verify your payment. Once the funds have successfully cleared into our account, your reservation will be officially marked as "Booked", and your dates will be locked in.<br><br>
+
+<em>Please ensure you have completed the bank transfer according to the provided instructions to avoid any delays or cancellation of your request.</em><br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">Review Payment Details</a><br><br>
+
+If you have already sent the payment, no further action is required. We will notify you as soon as it is verified.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
 *(Please provide the original text of the next email templates you want to update, and they will be added here!)*
