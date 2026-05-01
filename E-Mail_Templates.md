@@ -181,4 +181,34 @@ Warm regards,<br>
 
 ---
 
+## 6. New Reservation Received (Standard Notification to Host)
+
+**Subject:**
+```text
+Action Required: New Reservation Request on {site_title}
+```
+
+**Message:**
+```html
+Dear Host,<br><br>
+
+Great news! A guest has just submitted a new reservation request for your property on <strong>{site_title}</strong>.<br><br>
+
+<strong>Message from the Guest:</strong><br>
+<em>"{guest_message}"</em><br>
+<a href="{message_link}" style="color: #1b2a4a; font-weight: bold;">Click here to reply to the guest</a><br><br>
+
+<strong>Next Steps:</strong><br>
+Please review the booking details and confirm your availability as soon as possible to secure this reservation. Fast response times help boost your property ranking and provide an excellent experience for our community.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">Review and Confirm Reservation</a><br><br>
+
+Thank you for hosting with ThessNest.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
 *(Please provide the original text of the next email templates you want to update, and they will be added here!)*
