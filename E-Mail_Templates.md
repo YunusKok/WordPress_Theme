@@ -211,4 +211,34 @@ Warm regards,<br>
 
 ---
 
+## 7. New Reservation Sent (Standard Notification to Guest)
+
+**Subject:**
+```text
+Reservation Received: Your Booking Request at {site_title}
+```
+
+**Message:**
+```html
+Dear Guest,<br><br>
+
+Thank you for choosing <strong>ThessNest</strong>! We have successfully received your reservation request.<br><br>
+
+<strong>Your Message to the Host:</strong><br>
+<em>"{guest_message}"</em><br>
+<a href="{message_link}" style="color: #1b2a4a; font-weight: bold;">Click here to send another message or view the conversation</a><br><br>
+
+<strong>What Happens Next?</strong><br>
+Your request has been forwarded to the host for review. Once the host confirms their availability, you will receive an update regarding the next steps to secure your booking.<br><br>
+
+<a href="{reservation_detail_url}" style="display: inline-block; padding: 10px 20px; background-color: #1b2a4a; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; margin-bottom: 10px;">View Your Reservation Details</a><br><br>
+
+We look forward to helping you find your perfect home.<br><br>
+
+Warm regards,<br>
+<strong>The ThessNest Team</strong>
+```
+
+---
+
 *(Please provide the original text of the next email templates you want to update, and they will be added here!)*
