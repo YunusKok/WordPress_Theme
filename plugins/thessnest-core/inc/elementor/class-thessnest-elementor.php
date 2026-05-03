@@ -79,10 +79,14 @@ class ThessNest_Elementor_Extension {
 		require_once( __DIR__ . '/widgets/widget-hero-search.php' );
 		require_once( __DIR__ . '/widgets/widget-property-grid.php' );
 		require_once( __DIR__ . '/widgets/widget-how-it-works.php' );
+		require_once( __DIR__ . '/widgets/widget-blog-posts.php' );
+		require_once( __DIR__ . '/widgets/widget-blog-posts-carousel.php' );
 
 		$widgets_manager->register( new \ThessNest_Hero_Search_Widget() );
 		$widgets_manager->register( new \ThessNest_Property_Grid_Widget() );
 		$widgets_manager->register( new \ThessNest_How_It_Works_Widget() );
+		$widgets_manager->register( new \ThessNest_Blog_Posts_Widget() );
+		$widgets_manager->register( new \ThessNest_Blog_Posts_Carousel_Widget() );
 	}
 }
 
