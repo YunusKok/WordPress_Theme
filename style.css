@@ -3338,3 +3338,84 @@ select {
   font-weight: 500;
   text-align: center;
 }
+
+
+/* ==========================================================================
+   WISHLIST — Heart / Save Button (Frosted Glass)
+   ========================================================================== */
+
+.card-save-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.card-save-btn svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text);
+  fill: none;
+  transition: all var(--transition-base);
+}
+
+/* Hover */
+.card-save-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.card-save-btn:hover svg {
+  color: var(--color-error);
+}
+
+/* Active / Saved State */
+.card-save-btn.saved svg {
+  color: var(--color-error);
+  fill: var(--color-error);
+}
+
+/* Pop animation on save */
+.card-save-btn.heart-pop {
+  animation: heartPop 400ms var(--spring-bounce);
+}
+
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.3); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Loading state (subtle pulse) */
+.card-save-btn.is-loading {
+  pointer-events: none;
+  opacity: 0.6;
+  animation: wishlistPulse 800ms ease-in-out infinite;
+}
+
+@keyframes wishlistPulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.3; }
+}
+
+/* Make card-carousel a positioning context */
+.card-carousel {
+  position: relative;
+}

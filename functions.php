@@ -188,6 +188,22 @@ function thessnest_enqueue_assets() {
 		'loggedIn' => is_user_logged_in() ? '1' : '0'
 	) );
 
+	/* === Wishlist AJAX === */
+	wp_enqueue_script(
+		'thessnest-wishlist',
+		THESSNEST_URI . '/js/wishlist-ajax.js',
+		array(),
+		THESSNEST_VERSION,
+		true
+	);
+
+	wp_localize_script( 'thessnest-wishlist', 'thessnestWishlist', array(
+		'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'thessnest_wishlist_nonce' ),
+		'loggedIn' => is_user_logged_in() ? '1' : '0',
+		'loginMsg' => esc_html__( 'Please sign in to save properties.', 'thessnest' ),
+	) );
+
 	/* === Leaflet CSS & JS for Property Archives (Map) === */
 	if ( is_post_type_archive( 'property' ) || is_tax( 'neighborhood' ) || is_tax( 'amenity' ) || is_tax( 'target_group' ) ) {
 		wp_enqueue_style( 'leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4' );
