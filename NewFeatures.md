@@ -13,7 +13,7 @@ ThemeForest'ta kazanan tema:
 ---
 
 ## ✅ 1. Kritik Özellikler (Olmazsa Olmaz)
-- [ ] **Advanced Search:** Dinamik filtreler, fiyat slider'ı ve lokasyon bazlı arama.
+- [x] **Advanced Search:** Dinamik filtreler, fiyat slider'ı ve lokasyon bazlı arama. ✅
 - [ ] **Listing Sistemi:** Frontend üzerinden ilan ekleme/yönetme.
 - [ ] **Booking Sistemi:** Gelişmiş takvim, doluluk kontrolü ve iCal senkronizasyonu.
 - [ ] **User Dashboard:** Kiracı ve ev sahibi için ayrı, modern kontrol panelleri.

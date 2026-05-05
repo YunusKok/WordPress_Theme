@@ -1825,6 +1825,112 @@ Redux::set_section( $opt_name, array(
 ) );
 
 // ═══════════════════════════════════════════════════
+//  SECTION: Search & Filtering
+// ═══════════════════════════════════════════════════
+
+Redux::set_section( $opt_name, array(
+	'title'  => __( 'Search & Filtering', 'thessnest' ),
+	'id'     => 'search_filtering',
+	'icon'   => 'el el-search',
+	'fields' => array(
+		array(
+			'id'       => 'search_price_min',
+			'type'     => 'text',
+			'title'    => __( 'Price Slider — Minimum (€)', 'thessnest' ),
+			'subtitle' => __( 'The lowest value on the price range slider.', 'thessnest' ),
+			'default'  => '100',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'search_price_max',
+			'type'     => 'text',
+			'title'    => __( 'Price Slider — Maximum (€)', 'thessnest' ),
+			'subtitle' => __( 'The highest value on the price range slider.', 'thessnest' ),
+			'default'  => '2000',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'search_price_step',
+			'type'     => 'text',
+			'title'    => __( 'Price Slider — Step', 'thessnest' ),
+			'subtitle' => __( 'Increment value for the price slider handles.', 'thessnest' ),
+			'default'  => '50',
+			'validate' => 'numeric',
+		),
+		array(
+			'id'       => 'search_radius_default',
+			'type'     => 'select',
+			'title'    => __( 'Default Search Radius (km)', 'thessnest' ),
+			'subtitle' => __( 'Default radius for location-based search when the user does not specify.', 'thessnest' ),
+			'options'  => array(
+				'1'  => '1 km',
+				'2'  => '2 km',
+				'5'  => '5 km (Recommended)',
+				'10' => '10 km',
+				'20' => '20 km',
+				'50' => '50 km',
+			),
+			'default'  => '5',
+		),
+		array(
+			'id'       => 'enable_map_search',
+			'type'     => 'switch',
+			'title'    => __( 'Enable Map-Based Search', 'thessnest' ),
+			'subtitle' => __( 'Show a Leaflet map alongside search results. Users can click the map to set a search center.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'listings_per_page',
+			'type'     => 'spinner',
+			'title'    => __( 'Results Per Page', 'thessnest' ),
+			'subtitle' => __( 'Number of property cards to show before "Load More".', 'thessnest' ),
+			'min'      => 4,
+			'max'      => 48,
+			'step'     => 4,
+			'default'  => 12,
+		),
+		array(
+			'id'       => 'search_show_neighborhood',
+			'type'     => 'switch',
+			'title'    => __( 'Show Neighborhood Filter', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'search_show_amenities',
+			'type'     => 'switch',
+			'title'    => __( 'Show Amenities Filter', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'search_show_target_group',
+			'type'     => 'switch',
+			'title'    => __( 'Show Target Group Filter', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'search_show_dates',
+			'type'     => 'switch',
+			'title'    => __( 'Show Date Availability Filter', 'thessnest' ),
+			'subtitle' => __( 'Check-in / Check-out pickers to exclude booked properties.', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'search_show_instant_book',
+			'type'     => 'switch',
+			'title'    => __( 'Show "Instant Book" Toggle', 'thessnest' ),
+			'default'  => true,
+		),
+		array(
+			'id'       => 'search_show_wifi',
+			'type'     => 'switch',
+			'title'    => __( 'Show Minimum WiFi Speed Filter', 'thessnest' ),
+			'default'  => true,
+		),
+	),
+) );
+
+
+// ═══════════════════════════════════════════════════
 //  SECTION: Payment Gateways
 // ═══════════════════════════════════════════════════
 

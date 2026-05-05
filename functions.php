@@ -205,9 +205,46 @@ function thessnest_enqueue_assets() {
 	) );
 
 	/* === Leaflet CSS & JS for Property Archives (Map) === */
-	if ( is_post_type_archive( 'property' ) || is_tax( 'neighborhood' ) || is_tax( 'amenity' ) || is_tax( 'target_group' ) ) {
+	if ( is_post_type_archive( 'property' ) || is_tax( 'neighborhood' ) || is_tax( 'amenity' ) || is_tax( 'target_group' ) || is_page_template( 'template-search.php' ) ) {
 		wp_enqueue_style( 'leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4' );
 		wp_enqueue_script( 'leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), '1.9.4', true );
+	}
+
+	/* === Advanced Search (noUiSlider + Controller) === */
+	if ( is_post_type_archive( 'property' ) || is_page_template( 'template-search.php' ) || is_tax() ) {
+
+		// noUiSlider CSS & JS (CDN)
+		wp_enqueue_style( 'nouislider', 'https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css', array(), '15.7.1' );
+		wp_enqueue_script( 'nouislider', 'https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js', array(), '15.7.1', true );
+
+		// Advanced Search JS
+		wp_enqueue_script(
+			'thessnest-advanced-search',
+			THESSNEST_URI . '/js/advanced-search.js',
+			array( 'nouislider', 'flatpickr' ),
+			THESSNEST_VERSION,
+			true
+		);
+
+		// Price defaults from Redux
+		$price_min  = function_exists( 'thessnest_opt' ) ? intval( thessnest_opt( 'search_price_min', 100 ) )  : 100;
+		$price_max  = function_exists( 'thessnest_opt' ) ? intval( thessnest_opt( 'search_price_max', 2000 ) ) : 2000;
+		$price_step = function_exists( 'thessnest_opt' ) ? intval( thessnest_opt( 'search_price_step', 50 ) )  : 50;
+		$per_page   = function_exists( 'thessnest_opt' ) ? intval( thessnest_opt( 'listings_per_page', 12 ) )  : 12;
+		$currency   = function_exists( 'thessnest_opt' ) ? thessnest_opt( 'currency_symbol', '€' )            : '€';
+
+		wp_localize_script( 'thessnest-advanced-search', 'thessnestSearch', array(
+			'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+			'nonce'     => wp_create_nonce( 'thessnest-nonce' ),
+			'emptyMsg'  => esc_html__( 'No properties match your filters.', 'thessnest' ),
+			'defaults'  => array(
+				'price_min'  => $price_min,
+				'price_max'  => $price_max,
+				'price_step' => $price_step,
+				'per_page'   => $per_page,
+				'currency'   => $currency,
+			),
+		) );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'thessnest_enqueue_assets' );
